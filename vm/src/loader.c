@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:31:59 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/18 12:58:49 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 16:57:38 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,6 @@ void           dump_mem(t_vm *vm)
 		i++;
 	}
 	write(1, "\n", 1);
-	// printf("\nOWNER MAP: \n");
-	// i ^= i;
-	// while (i < MEM_SIZE) // < MEM_SIZE
-	// {
-	// 	if (i % siz == 0)
-	// 	{
-	// 		if (i)
-	// 			printf("\n");
-	// 		printf("%#06x : ", i);
-	// 	}
-	// 	if (vm->owner[i] != 7)
-	// 		printf("%02d", vm->owner[i]);
-	// 	else
-	// 		printf("__");
-	// 	printf(" ");
-	// 	i++;
-	// }
-	// printf("\n");
 }
 
 void    print_mem(t_vm *vm, t_gui *gui)

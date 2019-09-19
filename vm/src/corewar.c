@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 15:35:16 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 16:57:50 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,53 @@
 #include "vm.h"
 
 t_byte	*g_base;
+
+/*
+** Declares a winner.
+** @param {t_vm} vm - vm struct
+*/
+
+static void			player_winner(t_vm *vm)
+{
+	int			i;
+	uint32_t	winner;
+	int			winner_id;
+	t_champ		curr_ch;
+
+	i = -1;
+	winner = vm->corewar.cycle;
+	while (++i < vm->corewar.nplayers)
+	{
+		curr_ch = vm->corewar.champions[i];
+		if (vm->corewar.cycle - curr_ch.last_live < winner)
+		{
+			winner_id = curr_ch.id;
+			winner = vm->corewar.cycle - curr_ch.last_live;
+		}
+	}
+	curr_ch = vm->corewar.champions[winner_id];
+	printf("Contestant %d, \"%s\", has won ! All HAIL THE KING!\n", curr_ch.id, curr_ch.name);
+}
+
+/*
+** Introduce all the players to the arena.
+** @param {t_vm} vm - vm struct
+*/
+
+static void			player_intro(t_vm *vm)
+{
+	int		i;
+	t_champ	curr_ch;
+
+	i = -1;
+	write(1, "Introducing contestants...\n", 27);
+	while (++i < vm->corewar.nplayers)
+	{
+		curr_ch = vm->corewar.champions[i];
+		printf("* Player %d, weighing %u bytes, \"%s\" (\"%s\") !\n",\
+		curr_ch.id, curr_ch.prog_size, curr_ch.name, curr_ch.comment);
+	}
+}
 
 /*
 ** Removes a process from the list of processes in t_process struct.
@@ -33,7 +80,7 @@ static void			process_kill(t_vm *vm, int nprocess)
 	head = kp;
 	while (++i < nprocess - 1) // special condition for first process ?
 		kp = kp->next;
-	if (nprocess + 2 > vm->nprocess)
+	if (i + 2 > vm->nprocess)
 		kp->next = NULL;
 	else
 		kp = kp->next->next;
@@ -84,13 +131,15 @@ static int			cycle_check(t_vm *vm)
 	if (vm->corewar.cycle == (uint32_t)vm->corewar.dump_cycle)
 	{
 		dump_mem(vm);
+		exit(0);
 	}
 	return (0);
 }
 
 /*
-**  run corewar game && initialize GUI if flag (-v | -gui) enabled.
-**  @param {t_vm} vm - vm struct 
+** run corewar game && initialize GUI if flag (-v | -gui) enabled.
+** checks for end of game.
+** @param {t_vm} vm - vm struct 
 */
 
 void    cw_run(t_vm *vm)
@@ -100,6 +149,8 @@ void    cw_run(t_vm *vm)
 	gui.speed = 1;
 	if (vm->flag &= FL_GUI)
 		init_gui(&gui);
+	else
+		player_intro(vm);
 	while (1)
 	{
 		if (vm->flag & FL_GUI)
@@ -107,8 +158,8 @@ void    cw_run(t_vm *vm)
 		vm->corewar.cycle += gui.speed * 2;
 		p_process_loop(vm);
 		cycle_check(vm);
-		if (!vm->nprocess)
-			ERROR("some one win!");
+		if (!vm->nprocess && !(vm->flag & FL_GUI))
+			player_winner(vm);
 	}
 	if (vm->flag & FL_GUI)
 		end_screen();

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:02:14 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/16 15:47:14 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 16:29:08 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void    ch_parse_champ_header(t_hdr *hdr, int fd)
  *  the process, but when displaying to the terminal
  *  we need to +2 to the value (pid start at -1, but
  *  it's also the 1st process aka "player 1")
- * 
  *  the acutal byte codes of the champion will be copied 
  *  into the arena (vm.memory), and the corresponding
  *  process will be initialized, as you know, 
@@ -103,7 +102,7 @@ void    ch_load_champ(t_vm *vm, int fd)
     champ = &(vm->corewar.champions[index]);
 	memcpy_(champ->name, hdr.prog_name, PROG_NAME_LENGTH);
 	memcpy_(champ->comment, hdr.comment, COMMENT_LENGTH);
-    champ->id = index - 1;
+    champ->id = index;
 	pc = &vm->memory[(MEM_SIZE / vm->corewar.nplayers) * index];
 	if (read(fd, pc, hdr.prog_size) != hdr.prog_size)
 		PERROR("read");
