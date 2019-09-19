@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 02:39:18 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/17 17:31:02 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 15:21:22 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void    instruction_cycle(t_vm *vm, t_process *cp)
     }
     g_cur_process = cp;
     (instr_funptr[i.instr - 1])(vm, &i);
-    //print_mem(vm);
+    cp->live_call = (i.instr - 1 == 0) ? 1 : 0;
 }
 
 
@@ -206,13 +206,7 @@ void    p_process_loop(t_vm   *vm)
             r_cycles[curr_p->pid + 1]--;
             if (!r_cycles[curr_p->pid + 1])
             {
-                if (vm->debug_mode)
-                    //h_print_register(curr_p);
                 instruction_cycle(vm, curr_p);
-                 if (vm->debug_mode)
-                    //h_print_register(curr_p);
-                //printf("%p %x\n", curr_p->pc, *(curr_p->pc));
-                //printf("---------------\n");
                 r_cycles[curr_p->pid + 1] ^= r_cycles[curr_p->pid + 1];
             }
         }

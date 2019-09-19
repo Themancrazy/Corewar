@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/18 12:53:51 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 15:32:04 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,22 @@ t_byte	*g_base;
 ** @param {t_vm} vm - vm struct
 */
 
-static void			process_kill(t_vm *vm, int i)
+static void			process_kill(t_vm *vm, int nprocess)
 {
-	(void)vm;
-	(void)i;
+	int 		i;
+	t_process	*kp;
+	t_process	*head;
+
+	i = -1;
+	kp = vm->process_list;
+	head = kp;
+	while (++i < nprocess - 1) // special condition for first process ?
+		kp = kp->next;
+	if (nprocess + 2 > vm->nprocess)
+		kp->next = NULL;
+	else
+		kp = kp->next->next;
+	vm->process_list = head;
 }
 
 /*
@@ -35,13 +47,18 @@ static void			process_kill(t_vm *vm, int i)
 
 static void			process_check(t_vm *vm)
 {
-	int 	i;
+	int 		i;
+	t_process	*cp;
 
 	i = -1;
+	cp = vm->process_list;
 	while (++i < vm->nprocess)
 	{
-		if (vm->corewar.call_live == 0) //THIS IS WRONG, NEEDS TO CHECK IF EACH PROCESS CALLED A LIVE
+		if (cp->live_call == 0)
 			process_kill(vm, i);
+		else
+			cp->live_call = 0;
+		cp = cp->next;
 	}
 }
 

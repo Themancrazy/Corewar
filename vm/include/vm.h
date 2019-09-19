@@ -135,6 +135,7 @@ typedef struct      	s_process
 	t_byte 				*cpc;
     int32_t         	pid;
 	t_champ				*champion;
+	unsigned char		live_call;
 	struct s_process	*next;
 	t_bool				carry;
 }                   	t_process;
