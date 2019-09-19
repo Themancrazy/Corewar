@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 15:32:04 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 15:35:16 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_byte	*g_base;
 /*
 ** Removes a process from the list of processes in t_process struct.
 ** @param {t_vm} vm - vm struct
+** @param {int} nprocess - pos of node of the process that needs to be terminated. 
 */
 
 static void			process_kill(t_vm *vm, int nprocess)
