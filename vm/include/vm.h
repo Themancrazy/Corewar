@@ -21,6 +21,7 @@
 
 #define FL_GUI 0x01
 #define FL_DUMP 0x02
+#define FL_NUM 0x02
 
 #define ITERATOR -1
 #define INC(num) (++num)

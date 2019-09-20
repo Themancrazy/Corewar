@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:31:59 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 16:57:38 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 17:27:15 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void    save_flag(t_vm *vm, char *filename)
 	if (!scmp_(filename, "gui") || !scmp_(filename, "v"))
 		vm->flag |= FL_GUI;
 	else if (!scmp_(filename, "d") || !scmp_(filename, "dump"))
+		vm->flag |= FL_NUM;
+	else if (!scmp_(filename, "n"))
 		vm->flag |= FL_DUMP;
 	else
 		ERROR(RED BOLD"Error: flag invalid.\n"RESET);
@@ -32,7 +34,7 @@ void           dump_mem(t_vm *vm)
 
 	i = 0;
 	siz = (unsigned)sqrt(MEM_SIZE);
-	while (i < MEM_SIZE) // < MEM_SIZE
+	while (i < MEM_SIZE)
 	{
 		if (i % siz == 0)
 		{
@@ -92,6 +94,7 @@ void    loader(t_vm *vm, char *arg)
 	{
 		if ((fd = open(arg, O_RDONLY)) == -1)
 			PERROR("open"); 
+		vm->corewar.nplayers++;
 		ch_load_champ(vm, fd);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 16:57:50 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 17:26:35 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,11 +215,11 @@ void    cw_cleanup(t_vm *vm)
 **  @param {t_vm} vm - vm struct 
 */
 
-void    cw_env_init(t_vm *vm, int nplayers)
+void    cw_env_init(t_vm *vm)
 {
 	bzero_(vm, sizeof(t_vm));
 	vm->debug_mode = 1;
-	vm->corewar.nplayers = nplayers;
+	vm->corewar.nplayers = 0;
 	g_base = vm->memory;
 	vm->corewar.dump_cycle = -1;
 	MAP_START = vm->memory;
@@ -247,7 +247,7 @@ void    cw_start(int ac, char **av)
 		printf("usage: ./vm <champ1, ...>\n");
 		exit(EXIT_SUCCESS);
 	}
-	cw_env_init(&vm, ac - 1);
+	cw_env_init(&vm);
 	cw_read_args(&vm, ac, av);
 	cw_run(&vm);
 	cw_cleanup(&vm);
