@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:02:14 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 17:27:10 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 17:30:53 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void    ch_load_champ(t_vm *vm, int fd)
     champ = &(vm->corewar.champions[index]);
 	memcpy_(champ->name, hdr.prog_name, PROG_NAME_LENGTH);
 	memcpy_(champ->comment, hdr.comment, COMMENT_LENGTH);
-    champ->id = index;
+    champ->id = index + 1;
 	pc = &vm->memory[(MEM_SIZE / vm->corewar.nplayers) * index];
 	if (read(fd, pc, hdr.prog_size) != hdr.prog_size)
 		PERROR("read");

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:31:59 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 17:27:15 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 17:36:56 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void           dump_mem(t_vm *vm)
 		{
 			if (i)
 				printf("\n");
-			printf("%#06x : ", i);
+			if (i == 0)
+				write(1, "0x0000 : ", 9);
+			else
+				printf("%#06x : ", i);
 		}
 		h_puthex(vm->memory[i]);
 		printf(" ");
