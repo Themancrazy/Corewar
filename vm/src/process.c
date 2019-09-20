@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 02:39:18 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 15:21:22 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/19 18:27:01 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void    p_fork_process(t_vm *vm, t_process *parent, int32_t offset, t_bool is_lo
     if (vm->process_list)
         process->next = vm->process_list;
     vm->process_list = process;
-    vm->nprocess++;
+    ++vm->nprocess;
 }
 
 /**
@@ -213,10 +213,3 @@ void    p_process_loop(t_vm   *vm)
         curr_p = curr_p->next;
     }
 }
-// .name "zork"
-// .comment "just a basic living prog"
-		
-// l2:	sti	r1,%:live,%0
-// 	and	r1,%0,r1
-// live:	live	%1
-// 	zjmp	%:live

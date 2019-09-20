@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 17:26:35 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/20 12:27:46 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,14 @@ static void			process_check(t_vm *vm)
 	cp = vm->process_list;
 	while (++i < vm->nprocess)
 	{
+		printf("pid :%d -> ", cp->pid);
 		if (cp->live_call == 0)
 			process_kill(vm, i);
 		else
 			cp->live_call = 0;
 		cp = cp->next;
 	}
+	write(1, "\n", 1);
 }
 
 /*
@@ -158,11 +160,14 @@ void    cw_run(t_vm *vm)
 		vm->corewar.cycle += gui.speed * 2;
 		p_process_loop(vm);
 		cycle_check(vm);
-		if (!vm->nprocess && !(vm->flag & FL_GUI))
-			player_winner(vm);
+		if (!vm->nprocess)
+			break ;
 	}
 	if (vm->flag & FL_GUI)
 		end_screen();
+	else
+		player_winner(vm);
+	
 }
 
 /*

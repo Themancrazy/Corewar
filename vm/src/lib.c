@@ -89,7 +89,7 @@ void		*memset_(void *b, int c, size_t len)
 
 int			scmp_(char *s1, char *s2)
 {
-	while (*s1 == *s2 && *s1 && *s2)
+	while (*s1 == *s2 && *s1)
 	{
 		++s1;
 		++s2;
