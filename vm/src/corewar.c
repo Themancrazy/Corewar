@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/20 12:27:46 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/20 13:29:47 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,21 @@ static void			player_intro(t_vm *vm)
 
 static void			process_kill(t_vm *vm, int nprocess)
 {
-	int 		i;
-	t_process	*kp;
-	t_process	*head;
+	nprocess = vm->flag;
+	// int 		i;
+	// t_process	*kp;
+	// t_process	*head;
 
-	i = -1;
-	kp = vm->process_list;
-	head = kp;
-	while (++i < nprocess - 1) // special condition for first process ?
-		kp = kp->next;
-	if (i + 2 > vm->nprocess)
-		kp->next = NULL;
-	else
-		kp = kp->next->next;
-	vm->process_list = head;
+	// i = -1;
+	// kp = vm->process_list;
+	// head = kp;
+	// while (++i < nprocess - 1) // special condition for first process ?
+	// 	kp = kp->next;
+	// if (i + 2 > vm->nprocess)
+	// 	kp->next = NULL;
+	// else
+	// 	kp = kp->next->next;
+	// vm->process_list = head;
 }
 
 /*
