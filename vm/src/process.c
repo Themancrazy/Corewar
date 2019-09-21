@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 02:39:18 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/20 13:40:58 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/21 15:30:52 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static t_instr_hdlr instr_funptr[] = {
  * @param {t_vm} vm - current vm structure
  * @param {void *} pc - current program counter
  * 
- */
+*/
+
 void    p_init_process(t_vm *vm, void * pc, t_champ *champ)
 {
     t_process           *process;
@@ -101,6 +102,7 @@ void    p_init_process(t_vm *vm, void * pc, t_champ *champ)
  * @param {int32_t} offset - offset of the pc 
  * @param {t_bool} is_long - whather it's a fork or lfork
  */
+
 void    p_fork_process(t_vm *vm, t_process *parent, int32_t offset, t_bool is_long)
 {
     t_process           *process;
@@ -117,7 +119,7 @@ void    p_fork_process(t_vm *vm, t_process *parent, int32_t offset, t_bool is_lo
     ++vm->nprocess;
 }
 
-/**
+/*
  *   advance the pc by offset, check if the 
  *  destination exceeds the size of the map, if yes 
  *  then the exceeded part will be added to the beginning of the 
@@ -127,7 +129,8 @@ void    p_fork_process(t_vm *vm, t_process *parent, int32_t offset, t_bool is_lo
  * @param {t_process *} parent - the parent process that's copying from
  * @param {int32_t} offset - offset of the pc 
  * @param {t_bool} is_long - whather it's a fork or lfork
- */
+*/
+
 t_byte  *advance_pc(t_byte **cur, int32_t offset)
 {
     t_byte          *end;

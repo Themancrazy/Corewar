@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/20 13:29:47 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/21 15:25:59 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,26 @@ static void			player_winner(t_vm *vm)
 {
 	int			i;
 	uint32_t	winner;
+	char		*winner_name;
 	int			winner_id;
 	t_champ		curr_ch;
 
 	i = -1;
 	winner = vm->corewar.cycle;
+	winner_id = 42;
+	winner_name = "Average Jo";
 	while (++i < vm->corewar.nplayers)
 	{
 		curr_ch = vm->corewar.champions[i];
 		if (vm->corewar.cycle - curr_ch.last_live < winner)
 		{
 			winner_id = curr_ch.id;
+			winner_name = curr_ch.name;
 			winner = vm->corewar.cycle - curr_ch.last_live;
 		}
 	}
-	curr_ch = vm->corewar.champions[winner_id];
-	printf("Contestant %d, \"%s\", has won ! All HAIL THE KING!\n", curr_ch.id, curr_ch.name);
+	// curr_ch = vm->corewar.champions[winner_id];
+	printf("Contestant %d, \"%s\", has won ! All HAIL THE KING!\n", winner_id, winner_name);
 }
 
 /*
@@ -71,21 +75,21 @@ static void			player_intro(t_vm *vm)
 
 static void			process_kill(t_vm *vm, int nprocess)
 {
-	nprocess = vm->flag;
-	// int 		i;
-	// t_process	*kp;
-	// t_process	*head;
+	// nprocess = vm->flag;
+	int 		i;
+	t_process	*kp;
+	t_process	*head;
 
-	// i = -1;
-	// kp = vm->process_list;
-	// head = kp;
-	// while (++i < nprocess - 1) // special condition for first process ?
-	// 	kp = kp->next;
-	// if (i + 2 > vm->nprocess)
-	// 	kp->next = NULL;
-	// else
-	// 	kp = kp->next->next;
-	// vm->process_list = head;
+	i = -1;
+	kp = vm->process_list;
+	head = kp;
+	while (++i < nprocess - 1) // special condition for first process ?
+		kp = kp->next;
+	if (i + 2 > vm->nprocess)
+		kp->next = NULL;
+	else
+		kp = kp->next->next;
+	vm->process_list = head;
 }
 
 /*
@@ -103,14 +107,14 @@ static void			process_check(t_vm *vm)
 	cp = vm->process_list;
 	while (++i < vm->nprocess)
 	{
-		printf("pid :%d -> ", cp->pid);
+		// printf("pid :%d -> ", cp->pid);
 		if (cp->live_call == 0)
 			process_kill(vm, i);
 		else
 			cp->live_call = 0;
 		cp = cp->next;
 	}
-	write(1, "\n", 1);
+	// write(1, "\n", 1);
 }
 
 /*
@@ -161,7 +165,7 @@ void    cw_run(t_vm *vm)
 		vm->corewar.cycle += gui.speed * 2;
 		p_process_loop(vm);
 		cycle_check(vm);
-		if (!vm->nprocess)
+		if (!vm->nprocess || vm->corewar.kill_cycle > CYCLE_TO_DIE)
 			break ;
 	}
 	if (vm->flag & FL_GUI)
