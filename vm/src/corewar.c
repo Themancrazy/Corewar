@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/22 17:38:30 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:46:37 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 t_byte	*g_base;
 
 /*
+** -----------------------------------------------------------------------------
 ** Declares a winner.
 ** @param {t_vm} vm - vm struct
+** -----------------------------------------------------------------------------
 */
 
 static void			player_winner(t_vm *vm)
@@ -48,8 +50,10 @@ static void			player_winner(t_vm *vm)
 }
 
 /*
+** -----------------------------------------------------------------------------
 ** Introduce all the players to the arena.
 ** @param {t_vm} vm - vm struct
+** -----------------------------------------------------------------------------
 */
 
 static void			player_intro(t_vm *vm)
@@ -68,9 +72,11 @@ static void			player_intro(t_vm *vm)
 }
 
 /*
+** -----------------------------------------------------------------------------
 ** Removes a process from the list of processes in t_process struct.
 ** @param {t_vm} vm - vm struct
 ** @param {int} nprocess - pos of node of the process that needs to be terminated. 
+** -----------------------------------------------------------------------------
 */
 
 static void			process_kill(t_vm *vm, int nprocess)
@@ -93,9 +99,11 @@ static void			process_kill(t_vm *vm, int nprocess)
 }
 
 /*
+** -----------------------------------------------------------------------------
 ** Checks if each process has indeed made a live call during it's turn.
 ** if not, calls the "process_kill" function.
 ** @param {t_vm} vm - vm struct
+** -----------------------------------------------------------------------------
 */
 
 static void			process_check(t_vm *vm)
@@ -118,8 +126,10 @@ static void			process_check(t_vm *vm)
 }
 
 /*
+** -----------------------------------------------------------------------------
 ** Check for cycle_to die and decrements it if needed.
 ** @param {t_vm} vm - vm struct 
+** -----------------------------------------------------------------------------
 */
 
 static int			cycle_check(t_vm *vm)
@@ -144,9 +154,11 @@ static int			cycle_check(t_vm *vm)
 }
 
 /*
+** -----------------------------------------------------------------------------
 ** run corewar game && initialize GUI if flag (-v | -gui) enabled.
 ** checks for end of game.
 ** @param {t_vm} vm - vm struct 
+** -----------------------------------------------------------------------------
 */
 
 void    		cw_run(t_vm *vm)
@@ -175,12 +187,14 @@ void    		cw_run(t_vm *vm)
 }
 
 /*
+** -----------------------------------------------------------------------------
 **  read flags and if it's champion file 
 **  run loader to load it into corewar
 ** 
 **  @param {t_vm} vm - vm struct 
 **  @param {int} ac - number of arguments
 **  @param {char **} av - argument vector
+** -----------------------------------------------------------------------------
 */
 
 void    cw_read_args(t_vm *vm, int ac, char **av)
@@ -198,10 +212,12 @@ void    cw_read_args(t_vm *vm, int ac, char **av)
 }
 
 /*
+** -----------------------------------------------------------------------------
 **  clean up stage
 **  deallocates all the resouces back
 ** 
 **  @param {t_vm} vm - vm struct 
+** -----------------------------------------------------------------------------
 */
 
 void    cw_cleanup(t_vm *vm)
@@ -218,10 +234,12 @@ void    cw_cleanup(t_vm *vm)
 }
 
 /*
+** -----------------------------------------------------------------------------
 **  init all the env
 **  set g_base as the beginning of memory 
 ** 
 **  @param {t_vm} vm - vm struct 
+** -----------------------------------------------------------------------------
 */
 
 void    cw_env_init(t_vm *vm)
@@ -240,11 +258,13 @@ void    cw_env_init(t_vm *vm)
 }
 
 /*
+** -----------------------------------------------------------------------------
 **  start the corewar game, set up (initialize all the envs)
 **  read all the args and run processes
 ** 
 **  @param {int} ac - number of arguments
 **  @param {char **} av - argument vector
+** -----------------------------------------------------------------------------
 */
 
 void    cw_start(int ac, char **av)

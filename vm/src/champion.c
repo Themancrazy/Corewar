@@ -6,19 +6,21 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:02:14 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/22 17:28:11 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:46:55 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
 /**
+** -----------------------------------------------------------------------------
  *  search through process list, find 
  *  the champion with the specific id and return 
  *  it 
  * 
  * @param {t_vm} vm - current vm structure
  * @param {int32_t} id - targeted champion's id
+** -----------------------------------------------------------------------------
  */
 t_champ *ch_search_champion(t_vm *vm, int32_t id)
 {
@@ -31,6 +33,7 @@ t_champ *ch_search_champion(t_vm *vm, int32_t id)
 }
 
 /**
+** -----------------------------------------------------------------------------
  *  parse the champion header into t_hdr
  *  the magic is in little endianess format
  * 
@@ -38,6 +41,7 @@ t_champ *ch_search_champion(t_vm *vm, int32_t id)
  * @param {int} fd - file descriptor of the file where the
  *      champion is stored
  * 
+** -----------------------------------------------------------------------------
  */
 void    ch_parse_champ_header(t_hdr *hdr, int fd)
 {
@@ -70,6 +74,7 @@ void    ch_parse_champ_header(t_hdr *hdr, int fd)
 }
 
 /**
+** -----------------------------------------------------------------------------
  *  read .cor from command line, parse the info and load it
  *  into the memory
  *  
@@ -90,7 +95,9 @@ void    ch_parse_champ_header(t_hdr *hdr, int fd)
  * @param {int} fd - file descriptor of the file where the
  *      champion is stored
  * 
+** -----------------------------------------------------------------------------
  */
+
 void    ch_load_champ(t_vm *vm, int fd)
 {
     t_hdr               hdr;

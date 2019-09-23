@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:31:59 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/22 17:40:20 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:42:47 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int8_t     *g_ownerbase;
 
 /*
+** -----------------------------------------------------------------------------
 ** Handles dump cycle and number of champion and saves it to vm struct.
 **
 ** @param {t_vm} vm - current vm structure
 ** @param {char *} arg - argv given.
+** -----------------------------------------------------------------------------
 */
 
 static void		handle_dump_num(t_vm *vm, char *arg)
@@ -31,11 +33,13 @@ static void		handle_dump_num(t_vm *vm, char *arg)
 }
 
 /*
+** -----------------------------------------------------------------------------
 ** Function used to save all flags to vm->flag and check which flag
 ** has been called at all time.
 **
 ** @param {t_vm} vm - current vm structure
 ** @param {char *} filename - flag given.
+** -----------------------------------------------------------------------------
 */
 
 static void    save_flag(t_vm *vm, char *filename)
@@ -57,10 +61,12 @@ static void    save_flag(t_vm *vm, char *filename)
 }
 
 /*
+** -----------------------------------------------------------------------------
 ** Analyse args given, loads champions, handles flags and returns parsing errors
 **
 ** @param {t_vm} vm - current vm structure
 ** @param {char *} arg - argv given.
+** -----------------------------------------------------------------------------
 */
 
 void    loader(t_vm *vm, char *arg)
