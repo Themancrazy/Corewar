@@ -6,11 +6,81 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 20:01:05 by qpeng             #+#    #+#             */
-/*   Updated: 2019/08/05 13:01:53 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:39:27 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+
+/*
+** Dumps memory to STDOUT at n cycle if requested.
+**
+** @param {t_vm} vm - current vm structure
+*/
+
+void           memory_dump(t_vm *vm)
+{
+	int                 i;
+	unsigned            siz;
+
+	i = 0;
+	siz = (unsigned)sqrt(MEM_SIZE);
+	while (i < MEM_SIZE)
+	{
+		if (i % siz == 0)
+		{
+			if (i)
+				printf("\n");
+			if (i == 0)
+				write(1, "0x0000 : ", 9);
+			else
+				printf("%#06x : ", i);
+		}
+		h_puthex(vm->memory[i]);
+		printf(" ");
+		i++;
+	}
+	write(1, "\n", 1);
+}
+
+/*
+** Prints memory to the GUI for each cycle.
+**
+** @param {t_vm} vm - current vm structure
+** @param {t_gui} gui - gui struct that contains all ncurses infos.
+*/
+
+void    memory_gui_update(t_vm *vm, t_gui *gui)
+{
+	if (vm->flag &= FL_GUI)
+	{
+		int                 i;
+		int                 x;
+		int                 y;
+
+		i = 0;
+		x = -2;
+		y = 1;
+		int color[4] = {COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_MAGENTA};
+		while (i < MEM_SIZE)
+		{
+			if (x == MAX_X - 2)
+			{
+				x = -2;
+				++y;
+			}
+			x += 3;
+			if (vm->owner[i] != 7)
+			{
+				init_pair(vm->owner[i] + 2, color[vm->owner[i] + 1], COLOR_BLACK);
+				wattron(gui->win, COLOR_PAIR(vm->owner[i] + 2));
+				mvwprintw(gui->win, y, x, "%02x", vm->memory[i]);
+				wattroff(gui->win, COLOR_PAIR(vm->owner[i] + 2));
+			}
+			++i;
+		}
+	}
+}
 
 /**
  *  check if the pointer exceeds the end of the map
@@ -21,6 +91,7 @@
  * @param {t_byte} pos - the memory position 
  *      that will be evaluated
  */
+
  t_byte *mem_pos(t_byte *pos)
 {
     if (pos > MAP_END)

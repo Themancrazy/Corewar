@@ -19,9 +19,10 @@
 #include "op.h"
 #include "handler.h"
 
-#define FL_GUI 0x01
-#define FL_DUMP 0x02
-#define FL_NUM 0x02
+#define FL_GUI 		0x01
+#define FL_DUMP 	0x02
+#define FL_NUM 		0x04
+#define EXPECT_ARG 	0x08
 
 #define ITERATOR -1
 #define INC(num) (++num)
@@ -204,7 +205,7 @@ void			ch_parse_champ_header(t_hdr *hdr, int fd);
 void    		h_rev_bytes(void *ptr, size_t n);
 void			h_puthex(unsigned char c);
 void    		h_print_register(t_process *cp);
-void    		print_mem(t_vm *vm, t_gui *gui);
+void    		memory_gui_update(t_vm *vm, t_gui *gui);
 void			bzero_(void *rsi, size_t rcx);
 void			*memset_(void *b, int c, size_t len);
 //loader
@@ -225,7 +226,7 @@ void 			mem_oper(t_mem_op op, t_byte *dst, t_byte *src, uint8_t cnt);
 void    		read_m(void *fd, void *buff, unsigned int size);
 void    		write_m(void *fd, void *buff, unsigned int size);
 void    		read_arg(t_arg *arg, int32_t *buff, t_bool addressing, t_bool far);
-void			dump_mem(t_vm *vm);
+void			memory_dump(t_vm *vm);
 
 /* GRAPHIC USER INTERFACE FUNCTIONS */
 

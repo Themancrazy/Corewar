@@ -72,7 +72,7 @@ void			update_gui(t_vm *vm, t_gui *gui)
 	if (update_screen(gui->win) == SPACE || update_screen(gui->win_info) == SPACE)
 		gui->speed = (gui->speed == 5) ? 1 : gui->speed + 1;
 	print_info(gui, vm);	
-    print_mem(vm, gui);
+    memory_gui_update(vm, gui);
 }
 
 /* Initialise a new window */

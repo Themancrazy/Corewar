@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/21 15:25:59 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:38:30 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ static int			cycle_check(t_vm *vm)
 	}
 	if (vm->corewar.cycle == (uint32_t)vm->corewar.dump_cycle)
 	{
-		dump_mem(vm);
+		memory_dump(vm);
 		exit(0);
 	}
 	return (0);
@@ -149,7 +149,7 @@ static int			cycle_check(t_vm *vm)
 ** @param {t_vm} vm - vm struct 
 */
 
-void    cw_run(t_vm *vm)
+void    		cw_run(t_vm *vm)
 {
 	t_gui       gui;
 
@@ -172,7 +172,6 @@ void    cw_run(t_vm *vm)
 		end_screen();
 	else
 		player_winner(vm);
-	
 }
 
 /*

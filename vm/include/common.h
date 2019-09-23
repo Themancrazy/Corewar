@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 22:01:36 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/13 11:23:16 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:40:27 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <curses.h>
+#include <math.h>
+
 // #include "../libft/includes/libft.h"
 
 #define REVERSE_BIT reverseBits

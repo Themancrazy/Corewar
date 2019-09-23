@@ -7,14 +7,16 @@ void    ft_live(t_vm *vm, t_instr *cinstr)
 	t_champ     *champ;
 	int32_t     id;
 
+	// printf("arg[0] = %u\n", cinstr->arg[0].argv);
 	READ_(cinstr->arg[0].argv, &id, 4);
+	// printf("id: %d\n", id);
 	champ = ch_search_champion(vm, id);
 	if (!champ)
 		return ;
 	champ->lives++; 
 	vm->corewar.call_live++;
 	champ->last_live = vm->corewar.cycle;
-	printf("un processus dit que le joueur %s est en vie.\n", champ->name);
+	// printf("un processus dit que le joueur %s est en vie.\n", champ->name);
 }
 
 void    ft_st(t_vm *vm, t_instr *cinstr)
@@ -91,7 +93,7 @@ void    ft_zjmp(t_vm *vm, t_instr *cinstr)
 		READ_(cinstr->arg[0].argv, &offset, 4);
 		CP->pc = REL(CP->pc, offset);
 	}
-  //  printf("zjmp trigger!\n");
+//    printf("zjmp trigger!\n");
 }
 
 void    ft_ldi(t_vm *vm, t_instr *cinstr)

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 02:39:18 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/21 15:30:52 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:25:39 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void    decode_with_acb(t_byte **pc, t_arg *arg, t_op *op)
     uint8_t        i;
 
     i = ITERATOR;
-    acb = *(advance_pc(pc, 1));             //printf("%x\n", acb);
+    acb = *(advance_pc(pc, 1));
     advance_pc(pc, 1);  
     while (INC(i) < op->argc)
     {
@@ -176,6 +176,7 @@ void    instruction_cycle(t_vm *vm, t_process *cp)
     t_op                *op;
     static t_instr      i;
     
+    // printf("INSTRUCTION\n");
     i.instr = *cp->pc;
     cp->cpc = i.pc = cp->pc;
     op = &INSTR[i.instr - 1];
@@ -189,10 +190,10 @@ void    instruction_cycle(t_vm *vm, t_process *cp)
         advance_pc(&cp->pc, 4);
     }
     g_cur_process = cp;
+    // printf("OP = %d\n", i.instr - 1);
     (instr_funptr[i.instr - 1])(vm, &i);
     cp->live_call = (i.instr - 1 == 0) ? 1 : 0;
 }
-
 
 void    p_process_loop(t_vm   *vm)
 {
@@ -202,6 +203,7 @@ void    p_process_loop(t_vm   *vm)
     curr_p = vm->process_list;
     while (curr_p)
     {
+        // printf("pid: %d -> ", curr_p->pid);
         if (*(curr_p->pc) && *(curr_p->pc) <= 16)
         {
             if (!r_cycles[curr_p->pid + 1])
@@ -215,4 +217,5 @@ void    p_process_loop(t_vm   *vm)
         }
         curr_p = curr_p->next;
     }
+    // write(1, "\n", 1);
 }

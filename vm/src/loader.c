@@ -6,105 +6,86 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:31:59 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/19 17:36:56 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:40:20 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include "vm.h"
 
 int8_t     *g_ownerbase;
 
+/*
+** Handles dump cycle and number of champion and saves it to vm struct.
+**
+** @param {t_vm} vm - current vm structure
+** @param {char *} arg - argv given.
+*/
+
+static void		handle_dump_num(t_vm *vm, char *arg)
+{
+	if (vm->flag & FL_NUM)
+		(void)vm; //need implementation
+	else if (vm->flag & FL_DUMP)
+		vm->corewar.dump_cycle = ft_atoi(arg);
+	vm->flag &= 0b00000011;
+}
+
+/*
+** Function used to save all flags to vm->flag and check which flag
+** has been called at all time.
+**
+** @param {t_vm} vm - current vm structure
+** @param {char *} filename - flag given.
+*/
+
 static void    save_flag(t_vm *vm, char *filename)
 {
-	if (!scmp_(filename, "gui") || !scmp_(filename, "v"))
+	if ((!scmp_(filename, "gui") || !scmp_(filename, "v")) && !(vm->flag & FL_GUI) && !(vm->flag & FL_DUMP))
 		vm->flag |= FL_GUI;
-	else if (!scmp_(filename, "d") || !scmp_(filename, "dump"))
-		vm->flag |= FL_NUM;
-	else if (!scmp_(filename, "n"))
+	else if ((!scmp_(filename, "d") || !scmp_(filename, "-dump")) && !(vm->flag & FL_DUMP) && !(vm->flag & FL_GUI))
+	{
 		vm->flag |= FL_DUMP;
+		vm->flag |= EXPECT_ARG;
+	}
+	else if (!scmp_(filename, "n"))
+	{
+		vm->flag |= FL_NUM;
+		vm->flag |= EXPECT_ARG;
+	}
 	else
 		ERROR(RED BOLD"Error: flag invalid.\n"RESET);
 }
 
-void           dump_mem(t_vm *vm)
-{
-	int                 i;
-	unsigned            siz;
-
-	i = 0;
-	siz = (unsigned)sqrt(MEM_SIZE);
-	while (i < MEM_SIZE)
-	{
-		if (i % siz == 0)
-		{
-			if (i)
-				printf("\n");
-			if (i == 0)
-				write(1, "0x0000 : ", 9);
-			else
-				printf("%#06x : ", i);
-		}
-		h_puthex(vm->memory[i]);
-		printf(" ");
-		i++;
-	}
-	write(1, "\n", 1);
-}
-
-void    print_mem(t_vm *vm, t_gui *gui)
-{
-	if (vm->flag &= FL_GUI)
-	{
-		int                 i;
-		int                 x;
-		int                 y;
-
-		i = 0;
-		x = -2;
-		y = 1;
-		int color[4] = {COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_MAGENTA};
-		while (i < MEM_SIZE)
-		{
-			if (x == MAX_X - 2)
-			{
-				x = -2;
-				++y;
-			}
-			x += 3;
-			if (vm->owner[i] != 7)
-			{
-				init_pair(vm->owner[i] + 2, color[vm->owner[i] + 1], COLOR_BLACK);
-				wattron(gui->win, COLOR_PAIR(vm->owner[i] + 2));
-				mvwprintw(gui->win, y, x, "%02x", vm->memory[i]);
-				wattroff(gui->win, COLOR_PAIR(vm->owner[i] + 2));
-			}
-			++i;
-		}
-	}
-}
+/*
+** Analyse args given, loads champions, handles flags and returns parsing errors
+**
+** @param {t_vm} vm - current vm structure
+** @param {char *} arg - argv given.
+*/
 
 void    loader(t_vm *vm, char *arg)
 {
 	int fd;
 
-	if (*arg == '-')
+	if (*arg == '-' && !(vm->flag & EXPECT_ARG))
 	{
 		save_flag(vm, &(arg[1]));
 		return ;
 	}
-	else if (ft_strstr(arg, ".cor"))
+	else if (ft_strstr(arg, ".cor") && !(vm->flag & EXPECT_ARG))
 	{
 		if ((fd = open(arg, O_RDONLY)) == -1)
-			PERROR("open"); 
-		vm->corewar.nplayers++;
+			ERROR(RED BOLD"Error: File doesn't exist.\n"RESET); 
+		if (vm->corewar.nplayers + 1 > MAX_PLAYERS)
+			ERROR(RED BOLD"Error: max number of players reached.\n"RESET);
+		++vm->corewar.nplayers;
 		ch_load_champ(vm, fd);
 	}
 	else
 	{
-		if (sverif_(arg, "0123456789") && vm->flag & FL_DUMP)
-			vm->corewar.dump_cycle = ft_atoi(arg);
+		if (sverif_(arg, "0123456789") && vm->flag & EXPECT_ARG)
+			handle_dump_num(vm, arg);
 		else
-			ERROR(RED BOLD"Error: Invalid element as argument.\n"RESET);
+			ERROR(RED BOLD"Error: usage -> \n\n./corewar (-v/-gui) (-d/--dump CYCLE) [(-n ID_CHAMP) champs.cor]\n"RESET);
 	}
 }
