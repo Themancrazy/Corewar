@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:02:14 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/22 17:46:55 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/23 11:22:03 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,19 @@ void    ch_load_champ(t_vm *vm, int fd)
 {
     t_hdr               hdr;
     t_champ             *champ;
-    static uint8_t      index;
+    static uint8_t      index = 0;
     t_byte              *pc;
 
     ch_parse_champ_header(&hdr, fd);
     champ = &(vm->corewar.champions[index]);
 	memcpy_(champ->name, hdr.prog_name, PROG_NAME_LENGTH);
 	memcpy_(champ->comment, hdr.comment, COMMENT_LENGTH);
-    champ->id = index + 1;
+    if (vm->corewar.next_player_id > 0)
+    {
+        vm->corewar.champs_id[index] = vm->corewar.next_player_id;
+        vm->corewar.champs_id[vm->corewar.next_player_id - 1] = index + 1;
+    }
+    // champ->id = index + 1;
 	pc = &vm->memory[(MEM_SIZE / vm->corewar.nplayers) * index];
 	if (read(fd, pc, hdr.prog_size) != hdr.prog_size)
 		PERROR("read");
@@ -117,6 +122,7 @@ void    ch_load_champ(t_vm *vm, int fd)
     champ->prog_size = hdr.prog_size;
     vm->corewar.call_live = 0;
     p_init_process(vm, pc, champ);
+    vm->corewar.next_player_id = 0;
     index++;
     close(fd);
 }

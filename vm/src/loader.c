@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:31:59 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/22 17:42:47 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/23 11:15:24 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,20 @@ int8_t     *g_ownerbase;
 
 static void		handle_dump_num(t_vm *vm, char *arg)
 {
+	int64_t		n;
+
+	n = ft_atoi(arg);
+	if (n < 0)
+		ERROR("Number can't be negative.\n");
 	if (vm->flag & FL_NUM)
-		(void)vm; //need implementation
+	{
+		n = (uint8_t)n;
+		if (n > MAX_PLAYERS)
+			ERROR("number is too big to be assigned to a player (0 < n < MAX_PLAYERS).\n");
+		vm->corewar.next_player_id = n;
+	}
 	else if (vm->flag & FL_DUMP)
-		vm->corewar.dump_cycle = ft_atoi(arg);
+		vm->corewar.dump_cycle = n;
 	vm->flag &= 0b00000011;
 }
 
@@ -44,7 +54,7 @@ static void		handle_dump_num(t_vm *vm, char *arg)
 
 static void    save_flag(t_vm *vm, char *filename)
 {
-	if ((!scmp_(filename, "gui") || !scmp_(filename, "v")) && !(vm->flag & FL_GUI) && !(vm->flag & FL_DUMP))
+	if ((!scmp_(filename, "-gui") || !scmp_(filename, "v")) && !(vm->flag & FL_GUI) && !(vm->flag & FL_DUMP))
 		vm->flag |= FL_GUI;
 	else if ((!scmp_(filename, "d") || !scmp_(filename, "-dump")) && !(vm->flag & FL_DUMP) && !(vm->flag & FL_GUI))
 	{
@@ -92,6 +102,6 @@ void    loader(t_vm *vm, char *arg)
 		if (sverif_(arg, "0123456789") && vm->flag & EXPECT_ARG)
 			handle_dump_num(vm, arg);
 		else
-			ERROR(RED BOLD"Error: usage -> \n\n./corewar (-v/-gui) (-d/--dump CYCLE) [(-n ID_CHAMP) champs.cor]\n"RESET);
+			ERROR(RED BOLD"Error\n\n"RESET"usage: ./corewar [-v | --gui] [-d | --dump <cycle>] [[-n <n>] champs.cor]\n");
 	}
 }

@@ -152,6 +152,8 @@ typedef struct      s_cw
 	int64_t			dump_cycle;
 	uint32_t 		kill_cycle;
 	int				kill_turn;
+	uint8_t			next_player_id;
+	uint8_t			champs_id[MAX_PLAYERS + 1];
 }                   t_cw;
 
 typedef struct      s_vm

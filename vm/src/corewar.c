@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 02:32:01 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/22 17:46:37 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/23 11:28:39 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,13 @@ void    cw_read_args(t_vm *vm, int ac, char **av)
 		loader(vm, av[i]);
 		i++;
 	}
-	if (vm->flag & FL_DUMP && vm->corewar.dump_cycle == -1)
-		ERROR(RED BOLD"Error: no dump cycle has been given as arg.\n"RESET);
+	i = -1;
+	// printf("array[0] = %d\n", vm->corewar.champs_id[0]);
+	// printf("array[1] = %d\n", vm->corewar.champs_id[1]);
+	// printf("array[2] = %d\n", vm->corewar.champs_id[2]);
+	// printf("array[3] = %d\n", vm->corewar.champs_id[3]);
+	while (++i < MAX_PLAYERS)
+		vm->corewar.champions[i].id = vm->corewar.champs_id[i];
 }
 
 /*
@@ -242,6 +247,15 @@ void    cw_cleanup(t_vm *vm)
 ** -----------------------------------------------------------------------------
 */
 
+static void     fill_array(uint8_t *array)
+{
+    int     i;
+
+    i = -1;
+    while (++i < MAX_PLAYERS + 1)
+        array[i] = i + 1;
+}
+
 void    cw_env_init(t_vm *vm)
 {
 	bzero_(vm, sizeof(t_vm));
@@ -253,6 +267,7 @@ void    cw_env_init(t_vm *vm)
 	OWNER_START = vm->owner;
 	vm->corewar.kill_cycle = CYCLE_TO_DIE;
 	vm->corewar.call_live = 0;
+    fill_array(vm->corewar.champs_id);
 	memset_(OWNER_START, 7, MEM_SIZE);
 	setbuf(stdout, NULL);
 }
