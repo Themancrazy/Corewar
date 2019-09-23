@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 02:39:18 by qpeng             #+#    #+#             */
-/*   Updated: 2019/09/22 17:47:19 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/09/22 17:54:37 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ static t_instr_hdlr instr_funptr[] = {
     ft_aff
 };
 
-/**
+/*
 ** -----------------------------------------------------------------------------
- *  init a process and insert it at the beginning of the 
- *  process list.
- * 
- *  pid started at -1, the byte code is ffff ffff.
- * 
- *  need to assign the pid to the first register of the 
- *  process, so that the champion can call live with 
- *  the right value indicating that the process/champion
- *  with this pid is alive.
- * 
- * @param {t_vm} vm - current vm structure
- * @param {void *} pc - current program counter
- * 
+**  init a process and insert it at the beginning of the 
+**  process list.
+** 
+**  pid started at -1, the byte code is ffff ffff.
+** 
+**  need to assign the pid to the first register of the 
+**  process, so that the champion can call live with 
+**  the right value indicating that the process/champion
+**  with this pid is alive.
+** 
+** @param {t_vm} vm - current vm structure
+** @param {void *} pc - current program counter
+** 
 ** -----------------------------------------------------------------------------
 */
 
@@ -92,20 +92,20 @@ void    p_init_process(t_vm *vm, void * pc, t_champ *champ)
 //     }
 // }
 
-/**
+/*
 ** -----------------------------------------------------------------------------
- *  a sys call for lfork
- *  fork a process and append it to the process list
- *  the pc of the forked process will have its pc 
- *  at pc + (offset % IDX_MOD), if this is a long fork
- *  then the offset is not mod by IDX_MOD
- * 
- * @param {t_vm} vm - current vm structure
- * @param {t_process *} parent - the parent process that's copying from
- * @param {int32_t} offset - offset of the pc 
- * @param {t_bool} is_long - whather it's a fork or lfork
+**  a sys call for lfork
+**  fork a process and append it to the process list
+**  the pc of the forked process will have its pc 
+**  at pc + (offset % IDX_MOD), if this is a long fork
+**  then the offset is not mod by IDX_MOD
+** 
+** @param {t_vm} vm - current vm structure
+** @param {t_process *} parent - the parent process that's copying from
+** @param {int32_t} offset - offset of the pc 
+** @param {t_bool} is_long - whather it's a fork or lfork
 ** -----------------------------------------------------------------------------
- */
+*/
 
 void    p_fork_process(t_vm *vm, t_process *parent, int32_t offset, t_bool is_long)
 {
@@ -125,15 +125,15 @@ void    p_fork_process(t_vm *vm, t_process *parent, int32_t offset, t_bool is_lo
 
 /*
 ** -----------------------------------------------------------------------------
- *   advance the pc by offset, check if the 
- *  destination exceeds the size of the map, if yes 
- *  then the exceeded part will be added to the beginning of the 
- *  map
- * 
- * @param {t_vm} vm - current vm structure
- * @param {t_process *} parent - the parent process that's copying from
- * @param {int32_t} offset - offset of the pc 
- * @param {t_bool} is_long - whather it's a fork or lfork
+**   advance the pc by offset, check if the 
+**  destination exceeds the size of the map, if yes 
+**  then the exceeded part will be added to the beginning of the 
+**  map
+** 
+** @param {t_vm} vm - current vm structure
+** @param {t_process *} parent - the parent process that's copying from
+** @param {int32_t} offset - offset of the pc 
+** @param {t_bool} is_long - whather it's a fork or lfork
 ** -----------------------------------------------------------------------------
 */
 
