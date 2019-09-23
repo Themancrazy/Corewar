@@ -13,10 +13,10 @@ void    ft_live(t_vm *vm, t_instr *cinstr)
 	champ = ch_search_champion(vm, id);
 	if (!champ)
 		return ;
+	LOG("Player %d (%s) is said to be alive\n", champ->id + 2, champ->name);
 	champ->lives++; 
 	vm->corewar.call_live++;
 	champ->last_live = vm->corewar.cycle;
-	printf("un processus dit que le joueur %s est en vie.\n", champ->name);
 }
 
 void    ft_st(t_vm *vm, t_instr *cinstr)
