@@ -6,18 +6,17 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/09/13 10:41:43 by anjansse         ###   ########.fr        #
+#    Updated: 2019/10/01 23:24:39 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	corewar
 
-GENERAL		= 	champion.c corewar.c graphic.c handler.c helper.c lib.c loader.c\
-				main.c memory.c op.c process.c\
+GENERAL		=	main.c
 
 SRCS		=	$(addprefix src/, $(GENERAL))
 
-INCLUDES	=	-I include/
+INCLUDES	=	-I inc/
 
 CC			=	gcc
 

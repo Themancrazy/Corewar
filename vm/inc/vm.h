@@ -1,22 +1,37 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/01 23:27:12 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/02 00:18:26 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#ifndef VM_H
+# define VM_H
 
-int             main(int ac, char **av)
+# include <stdint.h>
+
+/*
+** ----------------------------------------------------------------------------
+** Macros used for paser (flags).
+**
+** @macro {FL_DUMP} - Macro for defining dump flag.
+** ----------------------------------------------------------------------------
+*/
+
+# define FL_DUMP (1 << 0) 
+# define FL_PLAYER (1 << 1) 
+# define FL_GUI (1 << 2) 
+# define EXPECT_NUM (1 << 3) 
+
+
+typedef struct      s_corewar
 {
-	if (ac == 1)
-		send_error("usage\n");
-	corewar(--ac, ++av);
-	return (0);
-}
+    int32_t         flag;
+}                   t_corewar;
+
+#endif
