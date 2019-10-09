@@ -6,21 +6,21 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/10/01 23:24:39 by anjansse         ###   ########.fr        #
+#    Updated: 2019/10/08 20:06:06 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	corewar
 
-GENERAL		=	main.c
+GENERAL		=	main.c parser.c run.c champion.c
 
 SRCS		=	$(addprefix src/, $(GENERAL))
 
-INCLUDES	=	-I inc/
+INCLUDES	=	-I inc/ -I libft/includes/
 
 CC			=	gcc
 
-NCURSES		=	-lcurses	
+NCURSES		=	-lcurses
 
 DEBUG		=	-g -fsanitize=undefined -fsanitize=address
 

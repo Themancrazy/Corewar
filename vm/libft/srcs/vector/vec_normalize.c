@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_file.c                                        :+:      :+:    :+:   */
+/*   vec_normalize.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/13 15:54:05 by anjansse          #+#    #+#             */
-/*   Updated: 2019/09/10 20:02:17 by anjansse         ###   ########.fr       */
+/*   Created: 2019/09/11 12:12:49 by anjansse          #+#    #+#             */
+/*   Updated: 2019/10/05 11:47:55 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "vec.h"
 
-int			read_file(char *filename, char **content)
+t_vec			vec_normalize(t_vec vec)
 {
-	int				fd;
-	struct stat		st;
+	t_vec		vector;
+    double      magnitude;
 
-	if (!(fd = open(filename, O_RDONLY)))
-		return (0);
-	*content = NULL;
-	stat(filename, &st);
-	if (mmap(*content, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0) == MAP_FAILED)
-		return (0);
-	*content = (char *)mmap(*content, st.st_size, PROT_READ, MAP_PRIVATE,\
-			fd, 0);
-	return (1);
+	vector = vec;
+    magnitude = vec_magnitude(vector);
+    vector.x /= magnitude;
+    vector.y /= magnitude;
+    vector.z /= magnitude;
+	return (vector);
 }

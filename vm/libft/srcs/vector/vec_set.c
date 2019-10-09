@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_file.c                                        :+:      :+:    :+:   */
+/*   vec_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/13 15:54:05 by anjansse          #+#    #+#             */
-/*   Updated: 2019/09/10 20:02:17 by anjansse         ###   ########.fr       */
+/*   Created: 2019/09/24 18:01:02 by anjansse          #+#    #+#             */
+/*   Updated: 2019/09/28 19:46:58 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "vec.h"
 
-int			read_file(char *filename, char **content)
+void		vec_set(t_vec *v, double x, double y, double z)
 {
-	int				fd;
-	struct stat		st;
-
-	if (!(fd = open(filename, O_RDONLY)))
-		return (0);
-	*content = NULL;
-	stat(filename, &st);
-	if (mmap(*content, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0) == MAP_FAILED)
-		return (0);
-	*content = (char *)mmap(*content, st.st_size, PROT_READ, MAP_PRIVATE,\
-			fd, 0);
-	return (1);
+	v->x = x;
+	v->y = y;
+	v->z = z;
 }

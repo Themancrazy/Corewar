@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 22:16:13 by anjansse          #+#    #+#             */
-/*   Updated: 2019/08/08 19:47:26 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/08 14:02:39 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 # include <fcntl.h>
+# include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <pthread.h>
 # include "get_next_line.h"
+# include "vec.h"
 # include "ft_printf.h"
 
 # define BOLD	"\x1b[1m"
@@ -41,7 +44,11 @@ typedef struct		s_list
 }					t_list;
 
 int					get_next_line(int fd, char **line);
+int					ft_array_len(char **array);
+int					ft_verifstr(char *str, char *allowed);
+uint32_t			ft_rgb(unsigned char r, unsigned char g, unsigned char b);
 int					read_file(char *filename, char **content);
+void				send_error(char *error);
 char				*ft_capitalize(char *s);
 char				*skip_ws(char *str);
 int					*ft_range(int start, int end);
@@ -75,6 +82,7 @@ void				ft_putendl_fd(const char *s, int fd);
 void				ft_putstr(char const *s);
 void				ft_putstr_fd(char const *s, int fd);
 
+int					ft_stoi(char *n);
 char				*ft_strappend(char *s1, char c);
 char				*ft_strcat(char *s1, char *s2);
 char				*ft_strchr(const char *s1, int c);
@@ -111,6 +119,8 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);
+
+void				ft_free_db_tab(char **av);
 
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
