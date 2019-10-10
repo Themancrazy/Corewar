@@ -13,11 +13,27 @@
 
 #include "vm.h"
 
-static void			corewar_env(t_cw *cw)
+static void			get_nplayers(t_cw *cw)
+{
+	int i;
+
+	i = -1;
+	cw->n_players = 0;
+	while (++i < cw->parsing.ac)
+	{
+		if (ft_strstr(cw->parsing.av[i], ".cor"))
+			cw->n_players++;
+	}
+}
+
+static void			corewar_env(t_cw *cw, int ac, char **av)
 {
 	int 	i;
 
 	i = -1;
+	cw->parsing.ac = ac;
+	cw->parsing.av = av;
+	get_nplayers(cw);
 	while (++i < MAX_PLAYERS)
 	{
 		cw->champions[i].manual_assign = 0;
@@ -25,14 +41,17 @@ static void			corewar_env(t_cw *cw)
 		cw->champions[i].prog_number = -1;
 		cw->tmp_champ[i].name = "";
 	}
+	i = -1;
+	while (++i < MEM_SIZE)
+		cw->memory[i] = 0;
 }
 
 static void			corewar(int ac, char **av)
 {
 	t_cw	cw;
 
-	corewar_env(&cw);
-	corewar_parser(&cw, ac, av);
+	corewar_env(&cw, ac, av);
+	corewar_parser(&cw);
 	corewar_run(&cw);
 }
 

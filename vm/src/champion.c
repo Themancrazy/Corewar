@@ -19,25 +19,21 @@ static void    h_rev_bytes(void *ptr, size_t n)
 	}
 }
 
-static void			champ_read_instr(t_cw *cw, header_t *hdr, int champ_num, int fd)
+static void			champ_init(t_cw *cw, header_t *hdr, int champ_num)
 {
-	(void)cw;
-	(void)hdr;
-	(void)champ_num;
-	(void)fd;
 	t_champ		*new_champ;
 
 	if (cw->champions[champ_num].manual_assign == 1)
-		new_champ = &cw->champions[champ_num];
+		new_champ = &(cw->champions[champ_num]);
 	else
-		new_champ = &cw->tmp_champ[champ_num];
+		new_champ = &(cw->tmp_champ[champ_num]);
 	new_champ->name = ft_strdup(hdr->prog_name);
+	new_champ->comment = ft_strdup(hdr->comment);
 	new_champ->prog_number = champ_num + 1;
 }
 
-static void			champ_read_header(t_cw *cw, header_t *hdr, int fd)
+static void			champ_read_header(header_t *hdr, int fd)
 {
-	(void)cw;
 	off_t	file_size;
 
 	if (!(file_size = lseek(fd, 0, SEEK_END)))
@@ -78,8 +74,9 @@ void				champ_load(t_cw *cw, char *filename, int champ_num)
 	int			fd;
 	header_t	hdr;
 
+	cw->n_players++;
 	champ_check_file(filename, &fd);
-	champ_read_header(cw, &hdr, fd);
-	champ_read_instr(cw, &hdr, champ_num, fd);
+	champ_read_header(&hdr, fd);
+	champ_init(cw, &hdr, champ_num);
 	close(fd);
 }

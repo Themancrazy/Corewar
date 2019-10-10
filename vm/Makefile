@@ -6,13 +6,13 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/10/08 20:06:06 by anjansse         ###   ########.fr        #
+#    Updated: 2019/10/09 18:59:11 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	corewar
 
-GENERAL		=	main.c parser.c run.c champion.c
+GENERAL		=	main.c parser.c run.c champion.c process.c
 
 SRCS		=	$(addprefix src/, $(GENERAL))
 

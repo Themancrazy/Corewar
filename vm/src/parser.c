@@ -5,7 +5,7 @@ static void			apply_dump(t_cw *cw, char **arg, int dump_arg)
 	if (dump_arg <= cw->parsing.ac)
 	{
 		FLAG |= FL_DUMP;
-		DUMP_CYCLE = ft_stoi(arg[dump_arg]);
+		DUMP_CYCLE = ft_atoi(arg[dump_arg]);
 	}
 	else
 		send_error("Missing dump cycle number.\n");
@@ -18,7 +18,7 @@ static void			apply_number(t_cw *cw, char **arg, int num, int champ_arg)
 	if (num <= cw->parsing.ac)
 	{
 		prog_num = ft_atoi(arg[num]);
-		if ((prog_num - 1) > MAX_PLAYERS)
+		if ((prog_num - 1) >= MAX_PLAYERS || (prog_num - 1) < 0)
 			send_error("Assigning program number must be between 1 and MAX_PLAYERS.\n");
 		if (cw->champions[prog_num - 1].manual_assign == 1)
 			send_error("Player has already been assigned to this number.\n");
@@ -43,33 +43,36 @@ static void        parse_flag(t_cw *cw, char **arg, int *curr_arg)
 static void		champ_assign(t_cw *cw)
 {
 	int 		i;
-	static int	tmp_i = 0;
+	int			tmp_i;
+	void		*pc;
 
 	i = -1;
-	while (++i < MAX_PLAYERS)
+	tmp_i = 0;
+	while (++i < cw->n_players)
 	{
 		if (cw->champions[i].manual_assign == 0)
 		{
 			cw->champions[i] = cw->tmp_champ[tmp_i];
+			pc = &cw->memory[(MEM_SIZE / cw->n_players) * i];
+			process_init(cw, pc);
 			++tmp_i;
 		}
 	}
 }
 
-void			corewar_parser(t_cw *cw, int ac, char **av)
+void			corewar_parser(t_cw *cw)
 {
 	int32_t		i;
 	static int	champ_num = 0;
 
 	i = -1;
-	cw->parsing.ac = ac;
-	while (++i < ac)
+	while (++i < cw->parsing.ac)
 	{
-		if (av[i][0] == '-')
-			parse_flag(cw, av, &i);
+		if (cw->parsing.av[i][0] == '-')
+			parse_flag(cw, cw->parsing.av, &i);
 		else
 		{
-			champ_load(cw, av[i], champ_num);
+			champ_load(cw, cw->parsing.av[i], champ_num);
 			champ_num++;
 		}
 	}
