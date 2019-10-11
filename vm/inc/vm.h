@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/09 19:09:38 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/10 16:03:09 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define FL_DUMP (1 << 0) 
 # define FL_GUI (1 << 1)
 
+
 typedef struct      s_parser
 {
 	int             flag;
@@ -44,10 +45,13 @@ typedef struct		s_cycle
 {
 	int				cycle;
 	int				dump_cycle;
+	int				kill_cycle;
+	int				kc_check;
 }					t_cycle;
 
 typedef struct		s_champ
 {
+	int				fd;
 	char			manual_assign;
 	int				prog_number;
 	char			*name;
@@ -57,17 +61,29 @@ typedef struct		s_champ
 
 typedef struct		s_process
 {
+	int				carry;
 	void			*pc;
+	void			*registers[REG_NUMBER + 1];
 	t_champ			*id;
 	struct s_process *next;
 }					t_process;
 
+typedef struct		s_hdr
+{
+	unsigned int	magic;
+	char			prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int	prog_size;
+	char			comment[COMMENT_LENGTH + 1];
+}					t_hdr;
+
 typedef struct      s_cw
 {
+	t_hdr			header;
 	t_parser        parsing;
 	t_champ			champions[MAX_PLAYERS];
 	t_champ			tmp_champ[MAX_PLAYERS];
 	int				n_players;
+	int				n_process;
 	t_process		*process_list;
 	uint8_t			memory[MEM_SIZE];
 	t_cycle			cycle;
@@ -75,7 +91,8 @@ typedef struct      s_cw
 
 void				champ_load(t_cw *cw, char *filename, int champ_num);
 
-void				process_init(t_cw *cw, void *pc);
+void				process_init(t_cw *cw, t_champ *id, void *pc);
+void				process_update(t_cw *cw);
 
 void				corewar_parser(t_cw *cw);
 void				corewar_run(t_cw *cw);

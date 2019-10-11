@@ -19,11 +19,16 @@ static void			get_nplayers(t_cw *cw)
 
 	i = -1;
 	cw->n_players = 0;
+	cw->process_list = NULL;
+	cw->cycle.kill_cycle = CYCLE_TO_DIE;
+	cw->cycle.cycle = 1;
 	while (++i < cw->parsing.ac)
 	{
 		if (ft_strstr(cw->parsing.av[i], ".cor"))
 			cw->n_players++;
 	}
+	if (cw->n_players > MAX_PLAYERS)
+		send_error("Too many champions.\n");
 }
 
 static void			corewar_env(t_cw *cw, int ac, char **av)

@@ -1,12 +1,37 @@
 #include "vm.h"
 
+static void         corewar_end(t_cw *cw)
+{
+	printf("Champion wins (%d).\n", cw->cycle.kill_cycle);
+	exit(0);
+}
+
+static void         cycle_check(t_cw *cw)
+{
+	if (cw->cycle.cycle % cw->cycle.kill_cycle == 0)
+	{
+		//if decrement
+			//cw->cycle.kc_cycle = 0;
+		++cw->cycle.kc_check;
+		if (cw->cycle.kc_check == MAX_CHECKS)
+		{
+			cw->cycle.kill_cycle -= CYCLE_DELTA;
+			cw->cycle.kc_check = 0;
+		}
+	}
+	if (cw->cycle.kill_cycle <= 0)
+		corewar_end(cw);
+}
+
 void        corewar_run(t_cw *cw)
 {
-    (void)cw;
-    int i = -1;
-    while (++i < MAX_PLAYERS)
-    {
-        // printf("%d. OFF: %s\tnum: %d\n", i, cw->champions[i].name, cw->champions[i].prog_number);
-        // printf("%d. TMP: %s\n", i, cw->tmp_champ[i].name);
-    }
+	while (1)
+	{
+		if (cw->cycle.cycle == cw->cycle.dump_cycle)
+			printf("Dump memory!\n");
+		process_update(cw);
+		cycle_check(cw);
+		// printf("cycle: %d\n", cw->cycle.cycle);
+		++cw->cycle.cycle;
+	}
 }

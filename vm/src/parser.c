@@ -5,7 +5,7 @@ static void			apply_dump(t_cw *cw, char **arg, int dump_arg)
 	if (dump_arg <= cw->parsing.ac)
 	{
 		FLAG |= FL_DUMP;
-		DUMP_CYCLE = ft_atoi(arg[dump_arg]);
+		DUMP_CYCLE = ft_stoi(arg[dump_arg]);
 	}
 	else
 		send_error("Missing dump cycle number.\n");
@@ -17,7 +17,7 @@ static void			apply_number(t_cw *cw, char **arg, int num, int champ_arg)
 
 	if (num <= cw->parsing.ac)
 	{
-		prog_num = ft_atoi(arg[num]);
+		prog_num = ft_stoi(arg[num]);
 		if ((prog_num - 1) >= MAX_PLAYERS || (prog_num - 1) < 0)
 			send_error("Assigning program number must be between 1 and MAX_PLAYERS.\n");
 		if (cw->champions[prog_num - 1].manual_assign == 1)
@@ -51,12 +51,19 @@ static void		champ_assign(t_cw *cw)
 	while (++i < cw->n_players)
 	{
 		if (cw->champions[i].manual_assign == 0)
-		{
-			cw->champions[i] = cw->tmp_champ[tmp_i];
-			pc = &cw->memory[(MEM_SIZE / cw->n_players) * i];
-			process_init(cw, pc);
-			++tmp_i;
-		}
+			cw->champions[i] = cw->tmp_champ[tmp_i++];
+		printf("name: %s\tsize: %d\tnplayer: %d\ti: %d\n", cw->champions[i].name, cw->champions[i].prog_size, cw->n_players, i);
+		pc = &cw->memory[(MEM_SIZE / cw->n_players) * i];
+		read(cw->champions[i].fd, pc, cw->champions[i].prog_size);
+		process_init(cw, &cw->champions[i], pc);
+		close(cw->champions[i].fd);
+	}
+	int j = -1;
+	while (++j < MEM_SIZE)
+	{
+		printf("%02x ", cw->memory[j]);
+		// if (j % 62 == 0)
+			// write(1, "\n", 1);
 	}
 }
 

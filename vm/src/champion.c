@@ -19,7 +19,7 @@ static void    h_rev_bytes(void *ptr, size_t n)
 	}
 }
 
-static void			champ_init(t_cw *cw, header_t *hdr, int champ_num)
+static void			champ_init(t_cw *cw, t_hdr *hdr, int fd, int champ_num)
 {
 	t_champ		*new_champ;
 
@@ -30,19 +30,21 @@ static void			champ_init(t_cw *cw, header_t *hdr, int champ_num)
 	new_champ->name = ft_strdup(hdr->prog_name);
 	new_champ->comment = ft_strdup(hdr->comment);
 	new_champ->prog_number = champ_num + 1;
+	new_champ->prog_size = hdr->prog_size;
+	new_champ->fd = fd;
 }
 
-static void			champ_read_header(header_t *hdr, int fd)
+static void			champ_read_header(t_hdr *hdr, int fd)
 {
 	off_t	file_size;
 
 	if (!(file_size = lseek(fd, 0, SEEK_END)))
 		send_error("Couldn't get size of file.\n");
-	if ((size_t)file_size < sizeof(header_t))
+	if ((size_t)file_size < sizeof(t_hdr))
 		send_error("Invalid header size.\n");
 	if (lseek(fd, 0, SEEK_SET) == -1)
 		send_error("Couldnt set offset to 0.\n");
-	if (read(fd, hdr, sizeof(header_t)) != sizeof(header_t))
+	if (read(fd, hdr, sizeof(t_hdr)) != sizeof(t_hdr))
 		send_error("Error while reading the file.\n");
 	h_rev_bytes(&hdr->magic, sizeof(hdr->magic));
 	if (hdr->magic != COREWAR_EXEC_MAGIC)
@@ -72,11 +74,10 @@ static int			champ_check_file(char *filename, int *fd)
 void				champ_load(t_cw *cw, char *filename, int champ_num)
 {
 	int			fd;
-	header_t	hdr;
+	t_hdr		hdr;
 
-	cw->n_players++;
+	hdr = cw->header;
 	champ_check_file(filename, &fd);
 	champ_read_header(&hdr, fd);
-	champ_init(cw, &hdr, champ_num);
-	close(fd);
+	champ_init(cw, &  hdr, fd, champ_num);
 }
