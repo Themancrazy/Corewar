@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/12 18:43:37 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/13 13:03:51 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ typedef struct      s_cw
 	t_cycle			cycle;
 }                   t_cw;
 
+typedef void(*t_instr_hdlr)(t_cw *, t_process **);
+
+void				instruction_init(t_cw *cw, t_process **cp, uint8_t ocp);
+
 void				champ_load(t_cw *cw, char *filename, int champ_num);
 
 void				print_memory(t_cw *cw);
@@ -99,5 +103,22 @@ void				process_update(t_cw *cw);
 
 void				corewar_parser(t_cw *cw);
 void				corewar_run(t_cw *cw);
+
+void				ft_live(t_cw *cw, t_process **cp);
+void				ft_ld(t_cw *cw, t_process **cp);
+void				ft_st(t_cw *cw, t_process **cp);
+void				ft_add(t_cw *cw, t_process **cp);
+void				ft_sub(t_cw *cw, t_process **cp);
+void				ft_and(t_cw *cw, t_process **cp);
+void				ft_or(t_cw *cw, t_process **cp);
+void				ft_xor(t_cw *cw, t_process **cp);
+void				ft_zjump(t_cw *cw, t_process **cp);
+void				ft_ldi(t_cw *cw, t_process **cp);
+void				ft_sti(t_cw *cw, t_process **cp);
+void				ft_fork(t_cw *cw, t_process **cp);
+void				ft_lld(t_cw *cw, t_process **cp);
+void				ft_lldi(t_cw *cw, t_process **cp);
+void				ft_lfork(t_cw *cw, t_process **cp);
+void				ft_aff(t_cw *cw, t_process **cp);
 
 #endif

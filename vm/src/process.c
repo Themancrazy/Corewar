@@ -1,15 +1,17 @@
 #include "vm.h"
 
-
-
 void        process_update(t_cw *cw)
 {
 	t_process   *cp;
+	uint8_t		ocp;
 
 	cp = cw->process_list;
 	while (cp)
 	{
-		printf("name: %s\tOPC: %x\n", cp->id->name, (unsigned int)cp->pc);
+		ocp = *(uint8_t *)(cp->pc);
+		// printf("name: %s\tOPC: %d\n", cp->id->name, ocp);
+		if (cw->cycle.cycle - cp->init_cycle == g_op_tab[ocp].n_cycle)
+			instruction_init(cw, &cp, ocp - 1);
 		cp = cp->next;
 	}
 }
@@ -27,6 +29,7 @@ void        process_init(t_cw *cw, t_champ *id, void *pc)
 	cp->id = id;
 	cp->registers[1] = (void*)&id->prog_number;
 	cw->n_process++;
+	cp->init_cycle = 1;
 	cp->next = *list;
 	*list = cp;
 }

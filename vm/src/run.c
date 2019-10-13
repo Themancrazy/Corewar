@@ -25,6 +25,7 @@ static void         cycle_check(t_cw *cw)
 
 void        corewar_run(t_cw *cw)
 {
+	print_memory(cw);
 	while (1)
 	{
 		if (cw->cycle.cycle == cw->cycle.dump_cycle)
