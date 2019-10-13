@@ -25,8 +25,8 @@ static void		pc_next(t_cw *cw, t_process **cp)
 	(void)cp;
 }
 
-void			instruction_init(t_cw *cw, t_process **cp, uint8_t ocp)
+void			instruction_init(t_cw *cw, t_process **cp, uint8_t opc)
 {
-	instr[ocp](cw, cp);
+	instr[opc](cw, cp);
 	pc_next(cw, cp);
 }

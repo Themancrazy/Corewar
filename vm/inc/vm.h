@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/13 13:03:51 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/13 15:08:58 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct      s_cw
 
 typedef void(*t_instr_hdlr)(t_cw *, t_process **);
 
-void				instruction_init(t_cw *cw, t_process **cp, uint8_t ocp);
+void				instruction_init(t_cw *cw, t_process **cp, uint8_t opc);
 
 void				champ_load(t_cw *cw, char *filename, int champ_num);
 
