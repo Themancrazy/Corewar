@@ -58,13 +58,6 @@ static void		champ_assign(t_cw *cw)
 		process_init(cw, &cw->champions[i], pc);
 		close(cw->champions[i].fd);
 	}
-	int j = -1;
-	while (++j < MEM_SIZE)
-	{
-		printf("%02x ", cw->memory[j]);
-		// if (j % 62 == 0)
-			// write(1, "\n", 1);
-	}
 }
 
 void			corewar_parser(t_cw *cw)

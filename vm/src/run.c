@@ -28,10 +28,12 @@ void        corewar_run(t_cw *cw)
 	while (1)
 	{
 		if (cw->cycle.cycle == cw->cycle.dump_cycle)
-			printf("Dump memory!\n");
+		{
+			print_memory(cw);
+			exit(1);
+		}
 		process_update(cw);
 		cycle_check(cw);
-		// printf("cycle: %d\n", cw->cycle.cycle);
 		++cw->cycle.cycle;
 	}
 }

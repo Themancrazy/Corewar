@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/10 16:03:09 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/12 18:43:37 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct		s_champ
 
 typedef struct		s_process
 {
+	int				init_cycle;
 	int				carry;
 	void			*pc;
 	void			*registers[REG_NUMBER + 1];
@@ -90,6 +91,8 @@ typedef struct      s_cw
 }                   t_cw;
 
 void				champ_load(t_cw *cw, char *filename, int champ_num);
+
+void				print_memory(t_cw *cw);
 
 void				process_init(t_cw *cw, t_champ *id, void *pc);
 void				process_update(t_cw *cw);
