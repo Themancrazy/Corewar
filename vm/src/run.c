@@ -23,16 +23,41 @@ static void         cycle_check(t_cw *cw)
 		corewar_end(cw);
 }
 
+static void	player_intro(t_cw *cw)
+{
+	int 	i;
+	t_champ	cc;
+
+	i = -1;
+	write(1, "Introducing contestants...\n", 27);
+	while (++i < cw->n_players)
+	{
+		cc = cw->champions[i];
+		printf("* Player %d, weighing %u bytes, \"%s\" (\"%s\") !\n",\
+		cc.prog_number, cc.prog_size, cc.name, cc.comment);
+	}
+}
+
+static void	dump_memory(t_cw *cw)
+{
+	if (GUI)
+		endwin();
+	print_memory(cw);
+	exit(1);
+}
+
 void        corewar_run(t_cw *cw)
 {
-	print_memory(cw);
+	if (GUI)
+		gui_init(cw);
+	else
+		player_intro(cw);
 	while (1)
 	{
-		if (cw->cycle.cycle == cw->cycle.dump_cycle)
-		{
-			print_memory(cw);
-			exit(1);
-		}
+		if (GUI)
+			gui_update(cw);
+		if (DUMP && cw->cycle.cycle == cw->cycle.dump_cycle)
+			dump_memory(cw);
 		process_update(cw);
 		cycle_check(cw);
 		++cw->cycle.cycle;

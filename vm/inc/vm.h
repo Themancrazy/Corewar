@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/13 15:08:58 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/13 18:34:04 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VM_H
 
 # include <stdint.h>
+# include <curses.h>
 # include "libft.h"
 # include "op.h"
 
@@ -21,6 +22,12 @@
 
 # define CYCLE		cw->cycle.cycle
 # define DUMP_CYCLE	cw->cycle.dump_cycle
+
+# define MAX_X		192
+# define MAX_Y		64
+
+# define ESC		27
+# define SPACE		32
 
 /*
 ** ----------------------------------------------------------------------------
@@ -33,6 +40,8 @@
 # define FL_DUMP (1 << 0) 
 # define FL_GUI (1 << 1)
 
+# define GUI		cw->parsing.flag & FL_GUI
+# define DUMP		cw->parsing.flag & FL_DUMP
 
 typedef struct      s_parser
 {
@@ -77,16 +86,26 @@ typedef struct		s_hdr
 	char			comment[COMMENT_LENGTH + 1];
 }					t_hdr;
 
+typedef struct		s_gui
+{
+	WINDOW      	*win;
+	WINDOW			*win_info;
+	uint32_t		speed;
+}					t_gui;
+
 typedef struct      s_cw
 {
 	t_hdr			header;
 	t_parser        parsing;
 	t_champ			champions[MAX_PLAYERS];
 	t_champ			tmp_champ[MAX_PLAYERS];
+	t_champ			winner;
+	t_gui			gui;
 	int				n_players;
 	int				n_process;
 	t_process		*process_list;
 	uint8_t			memory[MEM_SIZE];
+	int8_t			owner[MEM_SIZE];
 	t_cycle			cycle;
 }                   t_cw;
 
@@ -103,6 +122,9 @@ void				process_update(t_cw *cw);
 
 void				corewar_parser(t_cw *cw);
 void				corewar_run(t_cw *cw);
+
+void				gui_init(t_cw *cw);
+void				gui_update(t_cw *cw);
 
 void				ft_live(t_cw *cw, t_process **cp);
 void				ft_ld(t_cw *cw, t_process **cp);

@@ -38,6 +38,18 @@ static void        parse_flag(t_cw *cw, char **arg, int *curr_arg)
 		FLAG |= FL_GUI;
 	else if (*arg[*curr_arg] == 'n')
 		apply_number(cw, arg, ++(*curr_arg), ++(*curr_arg));
+	else
+		send_error("Incorrect flag.\n");
+}
+
+void            *memset_(void *b, int c, size_t len)
+{
+        unsigned char   *ptr;
+
+        ptr = (unsigned char *)b;
+        while (len--)
+                *ptr++ = c;
+        return (b);
 }
 
 static void		champ_assign(t_cw *cw)
@@ -52,8 +64,8 @@ static void		champ_assign(t_cw *cw)
 	{
 		if (cw->champions[i].manual_assign == 0)
 			cw->champions[i] = cw->tmp_champ[tmp_i++];
-		printf("name: %s\tsize: %d\tnplayer: %d\ti: %d\n", cw->champions[i].name, cw->champions[i].prog_size, cw->n_players, i);
 		pc = &cw->memory[(MEM_SIZE / cw->n_players) * i];
+		memset_(&cw->owner[(MEM_SIZE / cw->n_players) * i], cw->champions[i].prog_number, cw->champions[i].prog_size);
 		read(cw->champions[i].fd, pc, cw->champions[i].prog_size);
 		process_init(cw, &cw->champions[i], pc);
 		close(cw->champions[i].fd);

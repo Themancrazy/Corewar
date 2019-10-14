@@ -26,20 +26,9 @@ void		print_memory(t_cw *cw)
 			else
 				printf("%#06x : ", i);
 		}
-		h_puthex(cw->memory[i]);
+		h_puthex(cw->owner[i]);
 		printf(" ");
 		i++;
 	}
 	printf("\n");
-	// int i;
-	// unsigned nl;
-
-	// i = -1;
-	// nl = (unsigned)sqrt(MEM_SIZE);
-	// while (++i < MEM_SIZE)
-	// {
-	// 	if (i % nl == 0)
-	// 		write(1, "\n", 1);
-	// 	printf("%02x", cw->memory[i]);
-	// }
 }

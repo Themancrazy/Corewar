@@ -1,6 +1,6 @@
 #include "vm.h"
 
-static t_instr_hdlr instr[] = {
+static t_instr_hdlr instruction[] = {
 	ft_live,
 	ft_ld,
 	ft_st,
@@ -27,6 +27,6 @@ static void		pc_next(t_cw *cw, t_process **cp)
 
 void			instruction_init(t_cw *cw, t_process **cp, uint8_t opc)
 {
-	instr[opc](cw, cp);
+	instruction[opc](cw, cp);
 	pc_next(cw, cp);
 }
