@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/13 18:34:04 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/13 20:41:15 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 # define FL_DUMP (1 << 0) 
 # define FL_GUI (1 << 1)
 
-# define GUI		cw->parsing.flag & FL_GUI
-# define DUMP		cw->parsing.flag & FL_DUMP
+# define GUI		((cw->parsing.flag) & FL_GUI)
+# define DUMP		((cw->parsing.flag) & FL_DUMP)
 
 typedef struct      s_parser
 {

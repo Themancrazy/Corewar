@@ -22,6 +22,7 @@ static void			get_nplayers(t_cw *cw)
 	cw->process_list = NULL;
 	cw->cycle.kill_cycle = CYCLE_TO_DIE;
 	cw->cycle.cycle = 1;
+	cw->parsing.flag = 0;
 	while (++i < cw->parsing.ac)
 	{
 		if (ft_strstr(cw->parsing.av[i], ".cor"))
@@ -48,7 +49,10 @@ static void			corewar_env(t_cw *cw, int ac, char **av)
 	}
 	i = -1;
 	while (++i < MEM_SIZE)
+	{
 		cw->memory[i] = 0;
+		cw->owner[i] = 0;
+	}
 }
 
 static void			corewar(int ac, char **av)

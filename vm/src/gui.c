@@ -84,10 +84,10 @@ static void    memory_gui_update(t_cw *cw, t_gui *gui)
 		x += 3;
 		if (cw->owner[i] != 7)
 		{
-			init_pair(cw->owner[i] + 2, color[cw->owner[i] + 1], COLOR_BLACK);
-			wattron(gui->win, COLOR_PAIR(cw->owner[i] + 2));
+			init_pair(cw->owner[i], color[cw->owner[i]], COLOR_BLACK);
+			wattron(gui->win, COLOR_PAIR(cw->owner[i]));
 			mvwprintw(gui->win, y, x, "%02x", cw->memory[i]);
-			wattroff(gui->win, COLOR_PAIR(cw->owner[i] + 2));
+			wattroff(gui->win, COLOR_PAIR(cw->owner[i]));
 		}
 		++i;
 	}
