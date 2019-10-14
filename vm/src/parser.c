@@ -2,7 +2,7 @@
 
 static void			apply_dump(t_cw *cw, char **arg, int dump_arg)
 {
-	if (dump_arg <= cw->parsing.ac)
+	if (dump_arg < cw->parsing.ac)
 	{
 		FLAG |= FL_DUMP;
 		DUMP_CYCLE = ft_stoi(arg[dump_arg]);
@@ -15,7 +15,7 @@ static void			apply_number(t_cw *cw, char **arg, int num, int champ_arg)
 {
 	int		prog_num;
 
-	if (num <= cw->parsing.ac)
+	if (num < cw->parsing.ac)
 	{
 		prog_num = ft_stoi(arg[num]);
 		if ((prog_num - 1) >= MAX_PLAYERS || (prog_num - 1) < 0)
@@ -25,6 +25,8 @@ static void			apply_number(t_cw *cw, char **arg, int num, int champ_arg)
 		cw->champions[prog_num - 1].manual_assign = 1;
 		champ_load(cw, arg[champ_arg], prog_num - 1);
 	}
+	else
+		send_error("Missing program number.\n");
 }
 
 static void        parse_flag(t_cw *cw, char **arg, int *curr_arg)
@@ -36,7 +38,7 @@ static void        parse_flag(t_cw *cw, char **arg, int *curr_arg)
 		apply_dump(cw, arg, ++(*curr_arg));
 	else if (*arg[*curr_arg] == 'g')
 		FLAG |= FL_GUI;
-	else if (*arg[*curr_arg] == 'n')
+	else if (*arg[*curr_arg] == 'n' && (*curr_arg) + 2 < cw->parsing.ac)
 		apply_number(cw, arg, ++(*curr_arg), ++(*curr_arg));
 	else
 		send_error("Incorrect flag.\n");
@@ -65,7 +67,7 @@ static void		champ_assign(t_cw *cw)
 		if (cw->champions[i].manual_assign == 0)
 			cw->champions[i] = cw->tmp_champ[tmp_i++];
 		pc = &cw->memory[(MEM_SIZE / cw->n_players) * i];
-		memset_(&cw->owner[(MEM_SIZE / cw->n_players) * i], cw->champions[i].prog_number, cw->champions[i].prog_size);
+		memset_(&cw->owner[(MEM_SIZE / cw->n_players) * i], i, cw->champions[i].prog_size);
 		read(cw->champions[i].fd, pc, cw->champions[i].prog_size);
 		process_init(cw, &cw->champions[i], pc);
 		close(cw->champions[i].fd);

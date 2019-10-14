@@ -19,7 +19,7 @@ static void         cycle_check(t_cw *cw)
 			cw->cycle.kc_check = 0;
 		}
 	}
-	if (cw->cycle.kill_cycle <= 0)
+	if (cw->cycle.kill_cycle <= 0) // not end BUT check every turn, so kill_cycle = 1;
 		corewar_end(cw);
 }
 

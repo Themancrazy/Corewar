@@ -51,7 +51,7 @@ static void			corewar_env(t_cw *cw, int ac, char **av)
 	while (++i < MEM_SIZE)
 	{
 		cw->memory[i] = 0;
-		cw->owner[i] = 0;
+		cw->owner[i] = -1;
 	}
 }
 
