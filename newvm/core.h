@@ -25,7 +25,6 @@ typedef struct s_cpu
 }               t_cpu;
 
 t_cpu           g_cpu;
-
 # define RAX g_cpu.registers.rax
 # define RCX g_cpu.registers.rcx
 # define RDX g_cpu.registers.rdx
