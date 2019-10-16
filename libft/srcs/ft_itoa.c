@@ -23,7 +23,7 @@ char	*ft_itoa(int n)
 	while (sign /= 10)
 		count++;
 	sign = n < 0 ? 1 : 0;
-	count = n < 0 ? count += 1 : count;
+	count = n < 0 ? count + 1 : count;
 	if (n == -2147483648)
 		return (str = ft_strdup("-2147483648"));
 	str = ft_strnew(count);
@@ -31,7 +31,7 @@ char	*ft_itoa(int n)
 		return (NULL);
 	if (sign == 1)
 		str[0] = '-';
-	n = n < 0 ? n *= -1 : n;
+	n = n < 0 ? -n : n;
 	while (--count >= sign)
 	{
 		str[count] = n >= 10 ? (n % 10) + 48 : n + 48;

@@ -1,0 +1,5 @@
+champs
+*.s
+*.cor 
+*.o
+libft.a

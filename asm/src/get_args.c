@@ -9,10 +9,8 @@
 
 static t_error		get_value(t_instruction *inst, char *elem, int n)
 {
-	int		i;
 	int		len;
 
-	i = 0;
 	if (inst->args[n].type == REG_CODE)
 		inst->args[n].value = ft_atoi(elem + 1);
 	else if (inst->args[n].type == DIR_CODE)
