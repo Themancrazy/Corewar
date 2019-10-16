@@ -11,6 +11,7 @@ void	debug_print_instructions(t_vector *v)
 		item = (t_instruction *)vector_get(v, i);
 		i++;
 	}
+	(void)item;
 }
 
 void	debug_print_labels(t_vector *v)
@@ -24,6 +25,7 @@ void	debug_print_labels(t_vector *v)
 		item = (t_label *)vector_get(v, i);
 		i++;
 	}
+	(void)item;
 }
 
 void	debug_print_darray(char **a)
