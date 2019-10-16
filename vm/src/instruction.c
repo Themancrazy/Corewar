@@ -19,14 +19,21 @@ static t_instr_hdlr instruction[] = {
 	ft_aff
 };
 
-static void		pc_next(t_cw *cw, t_process **cp)
+static void		pc_next(t_cw *cw, t_process **cp, uint8_t opc)
 {
 	(void)cw;
-	(void)cp;
+	int			jump;
+	t_process 	*test;
+
+	test = *cp;
+	jump = g_op_tab[opc].param[0];
+	jump += g_op_tab[opc].param[1];
+	jump += g_op_tab[opc].param[2];
+	printf("champ: %s\tpc: %d\tocp: %d\n", test->id->name, *(test->pc), *(test->pc + 1));
 }
 
 void			instruction_init(t_cw *cw, t_process **cp, uint8_t opc)
 {
 	instruction[opc](cw, cp);
-	pc_next(cw, cp);
+	pc_next(cw, cp, opc);
 }

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/13 20:41:15 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/16 12:09:50 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ typedef struct		s_process
 {
 	int				init_cycle;
 	int				carry;
-	void			*pc;
-	void			*registers[REG_NUMBER + 1];
+	int				live_call;
+	uint8_t			*pc;
+	uint32_t		registers[REG_NUMBER + 1];
 	t_champ			*id;
 	struct s_process *next;
 }					t_process;
@@ -99,7 +100,7 @@ typedef struct      s_cw
 	t_parser        parsing;
 	t_champ			champions[MAX_PLAYERS];
 	t_champ			tmp_champ[MAX_PLAYERS];
-	t_champ			winner;
+	t_champ			*winner;
 	t_gui			gui;
 	int				n_players;
 	int				n_process;
