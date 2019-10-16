@@ -26,7 +26,7 @@ void			manage_f(t_answer *ret, t_arg *key, va_list list, int width)
 
 void			manage_p(t_answer *ret, t_arg *key, va_list list)
 {
-	ret->res = pf_address((unsigned int)va_arg(list, void *), ret);
+	ret->res = pf_address((unsigned int)va_arg(list, unsigned int), ret);
 	if (key->width == 1 || key->flags == 1)
 		ret = add_width(ret, key);
 	key->tot += get_ps(ret->res);

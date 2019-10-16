@@ -14,10 +14,8 @@
 
 t_arg		*create_key(t_arg *key, char *str, int beg)
 {
-	int		index;
 
 	key->index = beg;
-	index = key->index;
 	if (check_flags(str[key->index]))
 		key = flags_key(key, str, key->index);
 	if (check_width(str[key->index]))

@@ -2,12 +2,14 @@
 
 # define CORE_H
 #include <stdint.h>
+#include "op.h"
 
-#define MEM_SIZE (4*1024)
+// #define MEM_SIZE (4*1024)
+// #define REG_NUMBER 16
 
 typedef struct s_cpu
 {
-    uint8_t     registers[16];
+    uint8_t     registers[REG_NUMBER + 1];
     uint8_t      rip;
     uint32_t     rflags;
     uint8_t      *mar;
@@ -16,33 +18,41 @@ typedef struct s_cpu
 
 typedef struct s_process
 {
-    uint8_t     registers[16];
+    uint8_t     registers[REG_NUMBER + 1];
     uint8_t     rip;
     int8_t      pid;
     int8_t      parent_pid;
 }               t_process;
+
+typedef struct s_champ
+{
+    int8_t      pid;
+
+
+}               t_champ;
 
 t_cpu           g_cpu;
 
 uint8_t			g_ram[MEM_SIZE];
 uint8_t         g_gram[MEM_SIZE];
 
-# define R0 g_cpu.registers[0];
-# define R1 g_cpu.registers[1];
-# define R2 g_cpu.registers[2];
-# define R3 g_cpu.registers[3];
-# define R4 g_cpu.registers[4];
-# define R5 g_cpu.registers[5];
-# define R6 g_cpu.registers[6];
-# define R7 g_cpu.registers[7];
-# define R8 g_cpu.registers[8];
-# define R9 g_cpu.registers[9];
-# define R10 g_cpu.registers[10];
-# define R11 g_cpu.registers[11];
-# define R12 g_cpu.registers[12];
-# define R13 g_cpu.registers[13];
-# define R14 g_cpu.registers[14];
-# define R15 g_cpu.registers[15];
+# define R0 g_cpu.registers[0]
+# define R1 g_cpu.registers[1]
+# define R2 g_cpu.registers[2]
+# define R3 g_cpu.registers[3]
+# define R4 g_cpu.registers[4]
+# define R5 g_cpu.registers[5]
+# define R6 g_cpu.registers[6]
+# define R7 g_cpu.registers[7]
+# define R8 g_cpu.registers[8]
+# define R9 g_cpu.registers[9]
+# define R10 g_cpu.registers[10]
+# define R11 g_cpu.registers[11]
+# define R12 g_cpu.registers[12]
+# define R13 g_cpu.registers[13]
+# define R14 g_cpu.registers[14]
+# define R15 g_cpu.registers[15]
+# define REG g_cpu.registers
 
 
 # define MDR g_cpu.mdr
