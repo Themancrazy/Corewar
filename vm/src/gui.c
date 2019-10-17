@@ -100,6 +100,8 @@ void                   gui_update(t_cw *cw)
 
 	key1 = update_screen(cw->gui.win);
 	key2 = update_screen(cw->gui.win_info);
+	(void)key1;
+	(void)key2;
 	print_info(cw, &cw->gui);
     memory_gui_update(cw, &cw->gui);
 }
