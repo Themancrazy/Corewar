@@ -37,6 +37,7 @@ static void		pc_next(t_process **cp, uint8_t op)
 	//uint8_t		jump_size;
 	t_process 	*tcp;
 
+	static uint8_t instr_size[] = { 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 1 };
 	tcp = *cp;
 	//jump_size = 0;
 	if (g_op_tab[op].n_param > 1)
@@ -45,7 +46,8 @@ static void		pc_next(t_process **cp, uint8_t op)
 		decode_ocp(&tcp->pc);
 	}
 	else
-		tcp->pc = (tcp->pc + g_op_tab[op].param[0]);
+		tcp->pc += instr_size[op];
+		//tcp->pc = (tcp->pc + g_op_tab[op].param[0]);
 }
 
 void			instruction_init(t_cw *cw, t_process **cp, uint8_t op)
