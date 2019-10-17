@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/16 21:34:11 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/17 10:18:36 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct		s_process
 	int				init_cycle;
 	int				carry;
 	int				live_call;
+	uint8_t			op;
 	uint8_t			*pc;
 	uint32_t		registers[REG_NUMBER + 1];
 	t_champ			*id;

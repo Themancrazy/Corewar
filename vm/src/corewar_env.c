@@ -24,7 +24,7 @@ static void			env_init_memory(t_cw *cw)
 /*
 ** ----------------------------------------------------------------------------
 ** Initialises all elements for the t_champ structure and get a temporary
-** estimation of the number of player given on command line.d
+** estimation of the number of player given on command line.
 **
 ** {t_cw *} cw - Main structure for corewar.
 ** ----------------------------------------------------------------------------
@@ -55,8 +55,8 @@ static void			env_init_champ(t_cw *cw)
 
 /*
 ** ----------------------------------------------------------------------------
-** Main function: launches the virtual machine bu calling 'corewar' and prints
-** usage if no argument are given.
+** Function that calls all sub functions to initialize all important elements
+** in main structure.
 **
 ** {t_cw *} cw - Main structure for corewar.
 ** {int} ac - Number of argument written on command line
