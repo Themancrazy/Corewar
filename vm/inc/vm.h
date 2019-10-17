@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/16 12:09:50 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/16 17:25:53 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,14 @@ typedef void(*t_instr_hdlr)(t_cw *, t_process **);
 void				instruction_init(t_cw *cw, t_process **cp, uint8_t opc);
 
 void				champ_load(t_cw *cw, char *filename, int champ_num);
+void				champ_assign(t_cw *cw);
 
 void				print_memory(t_cw *cw);
 
 void				process_init(t_cw *cw, t_champ *id, void *pc);
 void				process_update(t_cw *cw);
 
+void				corewar_env(t_cw *cw, int ac, char **av);
 void				corewar_parser(t_cw *cw);
 void				corewar_run(t_cw *cw);
 

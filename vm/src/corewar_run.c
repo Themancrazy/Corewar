@@ -46,6 +46,17 @@ static void	dump_memory(t_cw *cw)
 	exit(1);
 }
 
+/*
+** ----------------------------------------------------------------------------
+** Function that runs the vm, and end it at an appropriate time. Can init
+** the GUI if requested and update the content at each cycle. This function
+** calls all function required to manipulate virtual memory and handle end of
+** game.
+**
+** {t_cw *} cw - Main structure for corewar.
+** ----------------------------------------------------------------------------
+*/
+
 void        corewar_run(t_cw *cw)
 {
 	if (GUI)
