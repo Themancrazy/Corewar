@@ -19,21 +19,37 @@ static t_instr_hdlr instruction[] = {
 	ft_aff
 };
 
-static void		pc_next(t_cw *cw, t_process **cp, uint8_t opc)
+static void		decode_ocp(uint8_t *cpc, uint8_t *ret)
 {
-	(void)cw;
-	int			jump;
-	t_process 	*test;
+	static uint8_t	arg_length[4] = {0, T_REG, T_DIR, T_IND};
+	uint8_t acb;
 
-	test = *cp;
-	jump = g_op_tab[opc].param[0];
-	jump += g_op_tab[opc].param[1];
-	jump += g_op_tab[opc].param[2];
-	printf("champ: %s\tpc: %d\tocp: %d\n", test->id->name, *(test->pc), *(test->pc + 1));
+	acb = *cpc;
+	while (acb)
+	{
+		*ret += arg_length[acb & 0b00000011];
+		acb >>= 2;		
+	}
 }
 
-void			instruction_init(t_cw *cw, t_process **cp, uint8_t opc)
+static void		pc_next(t_process **cp, uint8_t op)
 {
-	instruction[opc](cw, cp);
-	pc_next(cw, cp, opc);
+	uint8_t		jump_size;
+	t_process 	*tcp;
+
+	tcp = *cp;
+	jump_size = 0;
+	if (g_op_tab[op].n_param > 1)
+	{
+		decode_ocp(++(tcp->pc), &jump_size);
+		tcp->pc = (tcp->pc + jump_size);
+	}
+	else
+		tcp->pc = (tcp->pc + g_op_tab[op].param[0]);
+}
+
+void			instruction_init(t_cw *cw, t_process **cp, uint8_t op)
+{
+	instruction[op](cw, cp);
+	pc_next(cp, op);
 }

@@ -3,15 +3,14 @@
 void        process_update(t_cw *cw)
 {
 	t_process   *cp;
-	uint8_t		opc;
+	uint8_t		op;
 
 	cp = cw->process_list;
 	while (cp)
 	{
-		opc = *(uint8_t *)(cp->pc);
-		// printf("name: %s\tOPC: %d\n", cp->id->name, opc);
-		if (cw->cycle.cycle - cp->init_cycle == g_op_tab[opc].n_cycle)
-			instruction_init(cw, &cp, opc - 1);
+		op = *(cp->pc);
+		if (cw->cycle.cycle - cp->init_cycle == g_op_tab[op].n_cycle)
+			instruction_init(cw, &cp, op - 1);
 		cp = cp->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/05/25 13:14:35 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/16 21:20:54 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ typedef struct		s_op
 	int		opcode;
 	int		n_cycle;
 	char		*description;
-	int		what;
-	int		thefuck;
+	int		cbyte;
+	int		trunc;
 }			t_op;
 
 t_op			g_op_tab[17];
