@@ -19,30 +19,30 @@ static t_instr_hdlr instruction[] = {
 	ft_aff
 };
 
-static void		decode_ocp(uint8_t *cpc, uint8_t *ret)
+static void		decode_ocp(uint8_t **cpc)
 {
 	static uint8_t	arg_length[4] = {0, T_REG, T_DIR, T_IND};
 	uint8_t acb;
 
-	acb = *cpc;
+	acb = **cpc;
 	while (acb)
 	{
-		*ret += arg_length[acb & 0b00000011];
+		*cpc += arg_length[acb & 0b00000011];
 		acb >>= 2;		
 	}
 }
 
 static void		pc_next(t_process **cp, uint8_t op)
 {
-	uint8_t		jump_size;
+	//uint8_t		jump_size;
 	t_process 	*tcp;
 
 	tcp = *cp;
-	jump_size = 0;
+	//jump_size = 0;
 	if (g_op_tab[op].n_param > 1)
 	{
-		decode_ocp(++(tcp->pc), &jump_size);
-		tcp->pc = (tcp->pc + jump_size);
+		++tcp->pc;
+		decode_ocp(&tcp->pc);
 	}
 	else
 		tcp->pc = (tcp->pc + g_op_tab[op].param[0]);

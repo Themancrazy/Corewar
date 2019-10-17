@@ -66,9 +66,9 @@ static void			env_init_champ(t_cw *cw)
 
 void			corewar_env(t_cw *cw, int ac, char **av)
 {
-	int 	i;
+	//int 	i;
 
-	i = -1;
+	//i = -1;
 	cw->parsing.ac = ac;
 	cw->parsing.av = av;
 	cw->process_list = NULL;

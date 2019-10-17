@@ -27,9 +27,36 @@ typedef struct s_process
 typedef struct s_champ
 {
     int8_t      pid;
-
-
+    char        name[PROG_NAME_LENGTH + 1];
+	char        comment[COMMENT_LENGTH + 1];
+	uint32_t    prog_size;
+	uint32_t    lives;
+	uint32_t    last_live;
 }               t_champ;
+
+
+typedef struct		s_hdr
+{
+	uint32_t		magic;
+	char			prog_name[PROG_NAME_LENGTH + 1];
+	uint32_t		prog_size;
+	char			comment[COMMENT_LENGTH + 1];
+}					t_hdr;
+
+
+typedef struct      s_cw
+{
+	uint32_t		cycle;
+	t_champ			champions[MAX_PLAYERS];
+	uint8_t			ownership[MEM_SIZE];
+    uint8_t         nplayers;
+	uint32_t		dump_cycle;
+	uint32_t 		kill_cycle;
+	int32_t			ctd;
+	uint32_t		nbr_live_called;
+	uint32_t		checks;
+}                   t_cw;
+
 
 t_cpu           g_cpu;
 

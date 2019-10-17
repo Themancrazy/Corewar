@@ -26,7 +26,7 @@ void        process_init(t_cw *cw, t_champ *id, void *pc)
 	cp->carry = 0;
 	cp->pc = pc;
 	cp->id = id;
-	cp->registers[1] = (uint32_t)(&id->prog_number);
+	cp->registers[1] = (uint32_t)(id->prog_number);
 	cw->n_process++;
 	cp->init_cycle = 1;
 	cp->next = *list;

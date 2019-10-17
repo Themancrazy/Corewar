@@ -33,7 +33,7 @@ SDL			=	-I SDL2/include/ -L SDL2/lib -l SDL2-2.0.0
 
 DEBUG		=	-g -fsanitize=undefined -fsanitize=address
 
-CFLAGS		=	-Wall -Wextra -Werror $(NCURSES) $(DEBUG)
+CFLAGS		=	 $(NCURSES) $(DEBUG)
 
 LLIB		=	libft.a
 

@@ -84,9 +84,7 @@ void			manage_s(t_answer *ret, t_arg *key, va_list list)
 void			manage_c(t_answer *ret, t_arg *key, va_list list)
 {
 	int			size;
-	int			i;
 
-	i = 0;
 	if (key->specs == 1)
 		ret->res = ft_cs(ret, va_arg(list, int));
 	if (key->prec == 1)
