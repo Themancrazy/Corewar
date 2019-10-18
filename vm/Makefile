@@ -6,7 +6,7 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/10/17 18:59:07 by anjansse         ###   ########.fr        #
+#    Updated: 2019/10/17 20:33:52 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,9 @@ lib:
 	@echo "\t\t\x1b[92m✓\x1b[0m\n"
 
 totall: lib all
+
+kura:
+	@apt-get install libncurses5-dev libncursesw5-dev
 
 git:
 	@git add .
