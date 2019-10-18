@@ -23,21 +23,55 @@ static void         corewar_end(t_cw *cw)
 ** ----------------------------------------------------------------------------
 */
 
+static void			process_kill(t_cw *cw, int kill_node)
+{
+	(void)cw;
+	(void)kill_node;
+	// 
+	// Function where we make the skip the 'kill_node' in process_list.
+	// Example:
+	//							BEFORE
+	//				{node 1}->{node 2}->{kill_node}->{node 4}
+	//
+	//				node2->next = node4;
+	//
+	//							AFTER
+	//				{node 1}->{node 2}->{node 4}
+}
+
+static void			process_check_live(t_cw *cw)
+{
+	t_process	*cp;
+	int			kill_node;
+
+	kill_node = 0;
+	cp = cw->process_list;
+	while (cp)
+	{
+		++kill_node;
+		if (cp->live_call >= (cw->cycle.cycle - cw->cycle.kill_cycle))
+			cp = cp->next;
+		else
+			process_kill(cw, kill_node);
+	}
+	cp = cw->process_list;
+	cw->process_list = cp;
+}
+
 static void         cycle_check(t_cw *cw)
 {
 	if (cw->cycle.cycle % cw->cycle.kill_cycle == 0)
 	{
-		//if decrement
-			//cw->cycle.kc_cycle = 0;
+		process_check_live(cw);
 		++cw->cycle.kc_check;
-		if (cw->cycle.kc_check == MAX_CHECKS)
+		if (cw->cycle.kc_check == MAX_CHECKS && cw->cycle.kill_cycle > 1)
 		{
 			cw->cycle.kill_cycle -= CYCLE_DELTA;
 			cw->cycle.kc_check = 0;
 		}
 	}
-	if (cw->cycle.kill_cycle <= 0) // not end BUT check every turn, so kill_cycle = 1;
-		corewar_end(cw);
+	if (cw->cycle.kill_cycle <= 0)
+		cw->cycle.kill_cycle = 1;
 }
 
 /*
