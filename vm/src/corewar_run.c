@@ -27,6 +27,7 @@ static void			process_kill(t_cw *cw, int kill_node)
 {
 	(void)cw;
 	(void)kill_node;
+	printf("kill process %d\n", kill_node);
 	// 
 	// Function where we make the skip the 'kill_node' in process_list.
 	// Example:
@@ -48,9 +49,11 @@ static void			process_check_live(t_cw *cw)
 	cp = cw->process_list;
 	while (cp)
 	{
-		++kill_node;
 		if (cp->live_call >= (cw->cycle.cycle - cw->cycle.kill_cycle))
+		{
+			++kill_node;
 			cp = cp->next;
+		}
 		else
 			process_kill(cw, kill_node);
 	}
