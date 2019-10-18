@@ -1,10 +1,27 @@
 #include "vm.h"
 
+/*
+** ----------------------------------------------------------------------------
+** Function used to end the game and print the winner on the stdout.
+**
+** {t_cw *} cw - Main structure for corewar.
+** ----------------------------------------------------------------------------
+*/
+
 static void         corewar_end(t_cw *cw)
 {
 	printf("Champion wins (%d).\n", cw->cycle.kill_cycle);
 	exit(0);
 }
+
+/*
+** ----------------------------------------------------------------------------
+** Function used to check all rules for the game to stay active. I'm too lazy to
+** list them all.. maybe later.
+**
+** {t_cw *} cw - Main structure for corewar.
+** ----------------------------------------------------------------------------
+*/
 
 static void         cycle_check(t_cw *cw)
 {
@@ -23,6 +40,14 @@ static void         cycle_check(t_cw *cw)
 		corewar_end(cw);
 }
 
+/*
+** ----------------------------------------------------------------------------
+** Function used to introduce all existing champions if there's no GUI.
+**
+** {t_cw *} cw - Main structure for corewar.
+** ----------------------------------------------------------------------------
+*/
+
 static void	player_intro(t_cw *cw)
 {
 	int 	i;
@@ -36,14 +61,6 @@ static void	player_intro(t_cw *cw)
 		printf("* Player %d, weighing %u bytes, \"%s\" (\"%s\") !\n",\
 		cc.prog_number, cc.prog_size, cc.name, cc.comment);
 	}
-}
-
-static void	dump_memory(t_cw *cw)
-{
-	if (GUI)
-		endwin();
-	print_memory(cw);
-	exit(1);
 }
 
 /*

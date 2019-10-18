@@ -1,14 +1,9 @@
 #include "vm.h"
 
-void				ft_live(t_cw *cw, t_process **cp)
+void				ft_live(t_cw *cw, t_process *cp)
 {
     (void)cw;
-    (void)cp;
-    t_process   *tcp;
-    
-    tcp = *cp;
-    tcp->init_cycle = cw->cycle.cycle;
-    tcp->live_call = cw->cycle.cycle;
-    cw->winner = tcp->id;
+    cp->live_call = cw->cycle.cycle;
+    cw->winner = cp->id;
     printf("live called\n");
 }

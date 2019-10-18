@@ -6,14 +6,15 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/10/16 17:24:47 by anjansse         ###   ########.fr        #
+#    Updated: 2019/10/17 18:59:07 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	corewar
 
 GENERAL		=	corewar.c corewar_parser.c corewar_run.c corewar_env.c\
-				champ_load.c process.c op.c print.c instruction.c gui.c
+				champ_load.c process.c op.c print.c instruction.c gui.c\
+				extra_functions.c
 
 INSTR		=	ft_live.c ft_ld.c ft_st.c ft_add.c ft_sub.c ft_and.c\
 				ft_or.c ft_xor.c ft_zjump.c ft_ldi.c ft_sti.c ft_fork.c\

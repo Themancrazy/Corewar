@@ -38,29 +38,52 @@ static void		decode_ocp(uint8_t *cpc, uint8_t *ret, int trunc)
 	}
 }
 
-static void		pc_next(t_process *cp, uint8_t op)
+/*
+** ----------------------------------------------------------------------------
+** Function used to chaneg the pc of this process and assign it to the next
+** op in memory. It will use the OCP if there's one for this instruction to
+** 'jump' the correct size (depanding of the size of parameters - reg, dir, ind).
+**
+** {t_process *} cp - Pointer to current process.
+** ----------------------------------------------------------------------------
+*/
+
+static void		pc_next(t_process *cp)
 {
 	uint8_t		jump_size;
 
 	jump_size = 0;
-	if (g_op_tab[op].n_param > 1 && g_op_tab[op].cbyte == 1)
+	if (g_op_tab[cp->op].n_param > 1 && g_op_tab[cp->op].cbyte == 1)
 	{
-		decode_ocp(++(cp->pc), &jump_size, g_op_tab[op].trunc);
+		decode_ocp(++(cp->pc), &jump_size, g_op_tab[cp->op].trunc);
 		cp->pc = (cp->pc + 1 + jump_size);
 	}
 	else
 	{
-		jump_size = (g_op_tab[op].trunc == 0 && g_op_tab[op].param[0] == T_DIR) ? T_IND : g_op_tab[op].param[0];
+		if (g_op_tab[cp->op].trunc == 0 && g_op_tab[cp->op].param[0] == T_DIR)
+			jump_size = T_IND;
+		else
+			jump_size = g_op_tab[cp->op].param[0];
 		cp->pc = (cp->pc + 1 + jump_size);
 	}
+	cp->op = *(cp->pc) - 1;
 }
 
-void			instruction_init(t_cw *cw, t_process **cp, uint8_t op)
-{
-	t_process *tmp;
+/*
+** ----------------------------------------------------------------------------
+** Function used to execute the instruction stored at the pc of this current
+** process, then jump the pc to the next op in memory.
+**
+** {t_cw *} cw - Main structure for corewar.
+** {t_process *} cp - Pointer to current process.
+** ----------------------------------------------------------------------------
+*/
 
-	tmp = *cp;
-	printf("%s:\t", tmp->id->name);
-	instruction[op](cw, cp);
-	pc_next(*cp, op);
+void			instruction_init(t_cw *cw, t_process *cp)
+{
+	ft_putstr(cp->id->name);
+	ft_putstr(":\t");
+	instruction[cp->op](cw, cp);
+	pc_next(cp);
+	cp->init_cycle = cw->cycle.cycle;
 }

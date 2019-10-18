@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/17 10:18:36 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/17 19:43:55 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ typedef struct      s_cw
 	t_cycle			cycle;
 }                   t_cw;
 
-typedef void(*t_instr_hdlr)(t_cw *, t_process **);
+typedef void(*t_instr_hdlr)(t_cw *, t_process *);
 
-void				instruction_init(t_cw *cw, t_process **cp, uint8_t op);
+void				instruction_init(t_cw *cw, t_process *cp);
 
 void				champ_load(t_cw *cw, char *filename, int champ_num);
 void				champ_assign(t_cw *cw);
@@ -130,21 +130,24 @@ void				corewar_run(t_cw *cw);
 void				gui_init(t_cw *cw);
 void				gui_update(t_cw *cw);
 
-void				ft_live(t_cw *cw, t_process **cp);
-void				ft_ld(t_cw *cw, t_process **cp);
-void				ft_st(t_cw *cw, t_process **cp);
-void				ft_add(t_cw *cw, t_process **cp);
-void				ft_sub(t_cw *cw, t_process **cp);
-void				ft_and(t_cw *cw, t_process **cp);
-void				ft_or(t_cw *cw, t_process **cp);
-void				ft_xor(t_cw *cw, t_process **cp);
-void				ft_zjump(t_cw *cw, t_process **cp);
-void				ft_ldi(t_cw *cw, t_process **cp);
-void				ft_sti(t_cw *cw, t_process **cp);
-void				ft_fork(t_cw *cw, t_process **cp);
-void				ft_lld(t_cw *cw, t_process **cp);
-void				ft_lldi(t_cw *cw, t_process **cp);
-void				ft_lfork(t_cw *cw, t_process **cp);
-void				ft_aff(t_cw *cw, t_process **cp);
+void				dump_memory(t_cw *cw);
+void    			h_rev_bytes(void *ptr, size_t n);
+
+void				ft_live(t_cw *cw, t_process *cp);
+void				ft_ld(t_cw *cw, t_process *cp);
+void				ft_st(t_cw *cw, t_process *cp);
+void				ft_add(t_cw *cw, t_process *cp);
+void				ft_sub(t_cw *cw, t_process *cp);
+void				ft_and(t_cw *cw, t_process *cp);
+void				ft_or(t_cw *cw, t_process *cp);
+void				ft_xor(t_cw *cw, t_process *cp);
+void				ft_zjump(t_cw *cw, t_process *cp);
+void				ft_ldi(t_cw *cw, t_process *cp);
+void				ft_sti(t_cw *cw, t_process *cp);
+void				ft_fork(t_cw *cw, t_process *cp);
+void				ft_lld(t_cw *cw, t_process *cp);
+void				ft_lldi(t_cw *cw, t_process *cp);
+void				ft_lfork(t_cw *cw, t_process *cp);
+void				ft_aff(t_cw *cw, t_process *cp);
 
 #endif
