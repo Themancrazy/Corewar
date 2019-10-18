@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/17 19:43:55 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/17 19:45:45 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct      s_cw
 	t_cycle			cycle;
 }                   t_cw;
 
-typedef void(*t_instr_hdlr)(t_cw *, t_process *);
+typedef void		(*t_instr_hdlr)(t_cw *, t_process *);
 
 void				instruction_init(t_cw *cw, t_process *cp);
 
