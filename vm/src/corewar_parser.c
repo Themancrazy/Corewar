@@ -12,10 +12,10 @@
 
 static void			parse_dump_number(t_cw *cw, int dump_arg)
 {
-	if (dump_arg < cw->parsing.ac)
+	if (dump_arg < AC)
 	{
 		FLAG |= FL_DUMP;
-		DUMP_CYCLE = ft_stoi(cw->parsing.av[dump_arg]);
+		DUMP_CYCLE = ft_stoi(AV[dump_arg]);
 	}
 	else
 		send_error("Missing dump cycle number.\n");
@@ -37,15 +37,15 @@ static void			parse_prog_number(t_cw *cw, int num, int champ_arg)
 {
 	int		prog_num;
 
-	if (num < cw->parsing.ac)
+	if (num < AC)
 	{
-		prog_num = ft_stoi(cw->parsing.av[num]);
+		prog_num = ft_stoi(AV[num]);
 		if ((prog_num - 1) >= MAX_PLAYERS || (prog_num - 1) < 0)
 			send_error("Assigning program number must be between 1 and MAX_PLAYERS.\n");
-		if (cw->champions[prog_num - 1].manual_assign == 1)
+		if (CHAMP(prog_num - 1).manual_assign == 1)
 			send_error("Player has already been assigned to this number.\n");
-		cw->champions[prog_num - 1].manual_assign = 1;
-		champ_load(cw, cw->parsing.av[champ_arg], prog_num - 1);
+		CHAMP(prog_num - 1).manual_assign = 1;
+		champ_load(cw, AV[champ_arg], prog_num - 1);
 	}
 	else
 		send_error("Missing program number.\n");
@@ -63,14 +63,14 @@ static void			parse_prog_number(t_cw *cw, int num, int champ_arg)
 
 static void        parse_flag(t_cw *cw, int *curr_arg)
 {
-	if (ft_strlen(cw->parsing.av[*curr_arg]) != 2)
+	if (ft_strlen(AV[*curr_arg]) != 2)
 		send_error("Incorrect flag.\n");
-	cw->parsing.av[*curr_arg]++;
-	if (*cw->parsing.av[*curr_arg] == 'd')
+	AV[*curr_arg]++;
+	if (*AV[*curr_arg] == 'd')
 		parse_dump_number(cw, ++(*curr_arg));
-	else if (*cw->parsing.av[*curr_arg] == 'g')
+	else if (*AV[*curr_arg] == 'g')
 		FLAG |= FL_GUI;
-	else if (*cw->parsing.av[*curr_arg] == 'n' && (*curr_arg) + 2 < cw->parsing.ac)
+	else if (*AV[*curr_arg] == 'n' && (*curr_arg) + 2 < AC)
 		parse_prog_number(cw, ++(*curr_arg), ++(*curr_arg));
 	else
 		send_error("Incorrect flag.\n");
@@ -92,13 +92,13 @@ void			corewar_parser(t_cw *cw)
 	static int	champ_num = 0;
 
 	i = -1;
-	while (++i < cw->parsing.ac)
+	while (++i < AC)
 	{
-		if (cw->parsing.av[i][0] == '-')
+		if (AV[i][0] == '-')
 			parse_flag(cw, &i);
 		else
 		{
-			champ_load(cw, cw->parsing.av[i], champ_num);
+			champ_load(cw, AV[i], champ_num);
 			champ_num++;
 		}
 	}

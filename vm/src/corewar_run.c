@@ -10,7 +10,7 @@
 
 static void         corewar_end(t_cw *cw)
 {
-	printf("Champion wins (%d).\n", cw->cycle.kill_cycle);
+	printf("Contestant %d, \"%s\", has won !\n", WINNER->prog_number, WINNER->name);
 	exit(0);
 }
 
@@ -27,7 +27,7 @@ static void			process_kill(t_cw *cw, int kill_node)
 {
 	(void)cw;
 	(void)kill_node;
-	printf("kill process %d\n", kill_node);
+	cw->n_live_call = 0;
 	// 
 	// Function where we make the skip the 'kill_node' in process_list.
 	// Example:
@@ -47,6 +47,8 @@ static void			process_check_live(t_cw *cw)
 
 	kill_node = 0;
 	cp = cw->process_list;
+	if (cp == NULL)
+		corewar_end(cw);
 	while (cp)
 	{
 		if (cp->live_call >= (cw->cycle.cycle - cw->cycle.kill_cycle))
@@ -57,24 +59,22 @@ static void			process_check_live(t_cw *cw)
 		else
 			process_kill(cw, kill_node);
 	}
-	cp = cw->process_list;
-	cw->process_list = cp;
 }
 
 static void         cycle_check(t_cw *cw)
 {
-	if (cw->cycle.cycle % cw->cycle.kill_cycle == 0)
+	if (CYCLE % KILL_CYCLE == 0)
 	{
 		process_check_live(cw);
-		++cw->cycle.kc_check;
-		if (cw->cycle.kc_check == MAX_CHECKS && cw->cycle.kill_cycle > 1)
+		++KC_CHECK;
+		if (KC_CHECK == MAX_CHECKS && KILL_CYCLE > 1)
 		{
-			cw->cycle.kill_cycle -= CYCLE_DELTA;
-			cw->cycle.kc_check = 0;
+			KILL_CYCLE -= CYCLE_DELTA;
+			KC_CHECK = 0;
 		}
 	}
-	if (cw->cycle.kill_cycle <= 0)
-		cw->cycle.kill_cycle = 1;
+	if (KILL_CYCLE <= 0)
+		KILL_CYCLE = 1;
 }
 
 /*
@@ -94,7 +94,7 @@ static void	player_intro(t_cw *cw)
 	write(1, "Introducing contestants...\n", 27);
 	while (++i < cw->n_players)
 	{
-		cc = cw->champions[i];
+		cc = CHAMP(i);
 		printf("* Player %d, weighing %u bytes, \"%s\" (\"%s\") !\n",\
 		cc.prog_number, cc.prog_size, cc.name, cc.comment);
 	}
@@ -121,10 +121,10 @@ void        corewar_run(t_cw *cw)
 	{
 		if (GUI)
 			gui_update(cw);
-		if (DUMP && cw->cycle.cycle == cw->cycle.dump_cycle)
+		if (DUMP && CYCLE == DUMP_CYCLE)
 			dump_memory(cw);
 		process_update(cw);
 		cycle_check(cw);
-		++cw->cycle.cycle;
+		++CYCLE;
 	}
 }

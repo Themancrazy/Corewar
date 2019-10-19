@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/17 19:45:45 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/18 23:39:58 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@
 
 # define CYCLE		cw->cycle.cycle
 # define DUMP_CYCLE	cw->cycle.dump_cycle
+# define KILL_CYCLE cw->cycle.kill_cycle
+# define KC_CHECK	cw->cycle.kc_check
+
+# define CHAMP(i)	cw->champions[i]
+
+# define WINNER		cw->winner
+
+# define AC			cw->parsing.ac
+# define AV			cw->parsing.av
 
 # define MAX_X		192
 # define MAX_Y		64
@@ -105,6 +114,7 @@ typedef struct      s_cw
 	t_gui			gui;
 	int				n_players;
 	int				n_process;
+	uint8_t			n_live_call;
 	t_process		*process_list;
 	uint8_t			memory[MEM_SIZE];
 	int8_t			owner[MEM_SIZE];
