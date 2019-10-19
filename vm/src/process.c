@@ -19,7 +19,7 @@ void        process_update(t_cw *cw)
 	{
 		if (cp->op <= REG_NUMBER)
 		{
-			if (cw->cycle.cycle - cp->init_cycle == g_op_tab[cp->op].n_cycle)
+			if (CYCLE - cp->init_cycle == g_op_tab[cp->op].n_cycle)
 				instruction_init(cw, cp);
 		}
 		if (cp)

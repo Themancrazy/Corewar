@@ -21,13 +21,13 @@ void		champ_assign(t_cw *cw)
 	tmp_i = 0;
 	while (++i < cw->n_players)
 	{
-		if (cw->champions[i].manual_assign == 0)
-			cw->champions[i] = cw->tmp_champ[tmp_i++];
+		if (CHAMP(i).manual_assign == 0)
+			CHAMP(i) = cw->tmp_champ[tmp_i++];
 		pc = &cw->memory[(MEM_SIZE / cw->n_players) * i];
-		ft_memset(&cw->owner[(MEM_SIZE / cw->n_players) * i], i, cw->champions[i].prog_size);
-		read(cw->champions[i].fd, pc, cw->champions[i].prog_size);
-		process_init(cw, &cw->champions[i], pc);
-		close(cw->champions[i].fd);
+		ft_memset(&cw->owner[(MEM_SIZE / cw->n_players) * i], i, CHAMP(i).prog_size);
+		read(CHAMP(i).fd, pc, CHAMP(i).prog_size);
+		process_init(cw, &CHAMP(i), pc);
+		close(CHAMP(i).fd);
 	}
 }
 

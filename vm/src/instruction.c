@@ -85,5 +85,5 @@ void			instruction_init(t_cw *cw, t_process *cp)
 	ft_putstr(":\t");
 	instruction[cp->op](cw, cp);
 	pc_next(cp);
-	cp->init_cycle = cw->cycle.cycle;
+	cp->init_cycle = CYCLE;
 }

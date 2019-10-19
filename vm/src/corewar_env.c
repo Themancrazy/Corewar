@@ -36,9 +36,9 @@ static void			env_init_champ(t_cw *cw)
 
 	i = -1;
 	cw->n_players = 0;
-	while (++i < cw->parsing.ac)
+	while (++i < AC)
 	{
-		if (ft_strstr(cw->parsing.av[i], ".cor"))
+		if (ft_strstr(AV[i], ".cor"))
 			cw->n_players++;
 	}
 	if (cw->n_players > MAX_PLAYERS)
@@ -46,9 +46,9 @@ static void			env_init_champ(t_cw *cw)
 	i = -1;
 	while (++i < MAX_PLAYERS)
 	{
-		cw->champions[i].manual_assign = 0;
-		cw->champions[i].name = "";
-		cw->champions[i].prog_number = -1;
+		CHAMP(i).manual_assign = 0;
+		CHAMP(i).name = "";
+		CHAMP(i).prog_number = -1;
 		cw->tmp_champ[i].name = "";
 	}
 }

@@ -51,7 +51,7 @@ static void			process_check_live(t_cw *cw)
 		corewar_end(cw);
 	while (cp)
 	{
-		if (cp->live_call >= (cw->cycle.cycle - cw->cycle.kill_cycle))
+		if (cp->live_call >= (CYCLE - KILL_CYCLE))
 		{
 			++kill_node;
 			cp = cp->next;
