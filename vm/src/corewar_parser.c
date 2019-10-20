@@ -40,7 +40,7 @@ static void			parse_prog_number(t_cw *cw, int num, int champ_arg)
 	if (num < AC)
 	{
 		prog_num = ft_stoi(AV[num]);
-		if ((prog_num - 1) >= MAX_PLAYERS || (prog_num - 1) < 0)
+		if ((prog_num - 1) >= cw->n_players || (prog_num - 1) >= MAX_PLAYERS || (prog_num - 1) < 0)
 			send_error("Assigning program number must be between 1 and MAX_PLAYERS.\n");
 		if (CHAMP(prog_num - 1).manual_assign == 1)
 			send_error("Player has already been assigned to this number.\n");

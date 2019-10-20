@@ -1,5 +1,45 @@
 #include "vm.h"
 
+static void			process_kill(t_cw *cw, int kill_node)
+{
+	int			i;
+	t_process	**kp;
+
+	i = -1;
+	kp = &(cw->process_list);
+	if (kill_node == 0 && cw->n_process <= 1)
+		*kp = NULL;
+	else if (kill_node == 0 && cw->n_process > 1)
+		*kp = (*kp)->next;
+	else
+	{
+		while (++i < kill_node - 1)
+			(*kp) = (*kp)->next;
+		(*kp)->next = (*kp)->next->next;
+	}
+	cw->n_process--;
+	cw->n_live_call = 0;
+}
+
+void			process_check_live(t_cw *cw)
+{
+	t_process	*cp;
+	int			kill_node;
+
+	kill_node = 0;
+	cp = cw->process_list;
+	if (cp == NULL)
+		corewar_end(cw);
+	while (cp)
+	{
+		if (cp->live_call >= (CYCLE - KILL_CYCLE))
+			++kill_node;
+		else
+			process_kill(cw, kill_node);
+		cp = cp->next;
+	}
+}
+
 /*
 ** ----------------------------------------------------------------------------
 ** Function used to go through all of the currently running programs, check
@@ -51,7 +91,7 @@ void        process_init(t_cw *cw, t_champ *id, void *pc)
 	cp->op = *(cp->pc) - 1;
 	cp->id = id;
 	cp->registers[1] = (uint32_t)(id->prog_number);
-	cw->n_process++;
+	++cw->n_process;
 	cp->init_cycle = 1;
 	cp->next = *list;
 	*list = cp;

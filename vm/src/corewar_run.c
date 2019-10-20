@@ -8,7 +8,7 @@
 ** ----------------------------------------------------------------------------
 */
 
-static void         corewar_end(t_cw *cw)
+void         corewar_end(t_cw *cw)
 {
 	printf("Contestant %d, \"%s\", has won !\n", WINNER->prog_number, WINNER->name);
 	exit(0);
@@ -23,50 +23,12 @@ static void         corewar_end(t_cw *cw)
 ** ----------------------------------------------------------------------------
 */
 
-static void			process_kill(t_cw *cw, int kill_node)
-{
-	(void)cw;
-	(void)kill_node;
-	cw->n_live_call = 0;
-	// 
-	// Function where we make the skip the 'kill_node' in process_list.
-	// Example:
-	//							BEFORE
-	//				{node 1}->{node 2}->{kill_node}->{node 4}
-	//
-	//				node2->next = node4;
-	//
-	//							AFTER
-	//				{node 1}->{node 2}->{node 4}
-}
-
-static void			process_check_live(t_cw *cw)
-{
-	t_process	*cp;
-	int			kill_node;
-
-	kill_node = 0;
-	cp = cw->process_list;
-	if (cp == NULL)
-		corewar_end(cw);
-	while (cp)
-	{
-		if (cp->live_call >= (CYCLE - KILL_CYCLE))
-		{
-			++kill_node;
-			cp = cp->next;
-		}
-		else
-			process_kill(cw, kill_node);
-	}
-}
-
 static void         cycle_check(t_cw *cw)
 {
 	if (CYCLE % KILL_CYCLE == 0)
 	{
-		process_check_live(cw);
 		++KC_CHECK;
+		process_check_live(cw);
 		if (KC_CHECK == MAX_CHECKS && KILL_CYCLE > 1)
 		{
 			KILL_CYCLE -= CYCLE_DELTA;

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/18 23:39:58 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/19 18:01:06 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 
 # define AC			cw->parsing.ac
 # define AV			cw->parsing.av
+
+# define OCP		(g_op_tab[cp->op].n_param > 1 &&\
+					g_op_tab[cp->op].cbyte == 1)
+# define TRUNC		(g_op_tab[cp->op].trunc == 0 &&\
+					g_op_tab[cp->op].param[0] == T_DIR)
 
 # define MAX_X		192
 # define MAX_Y		64
@@ -84,6 +89,7 @@ typedef struct		s_process
 	int				live_call;
 	uint8_t			op;
 	uint8_t			*pc;
+	uint32_t		param[3];
 	uint32_t		registers[REG_NUMBER + 1];
 	t_champ			*id;
 	struct s_process *next;
@@ -113,8 +119,8 @@ typedef struct      s_cw
 	t_champ			*winner;
 	t_gui			gui;
 	int				n_players;
-	int				n_process;
 	uint8_t			n_live_call;
+	uint32_t		n_process;
 	t_process		*process_list;
 	uint8_t			memory[MEM_SIZE];
 	int8_t			owner[MEM_SIZE];
@@ -132,16 +138,19 @@ void				print_memory(t_cw *cw);
 
 void				process_init(t_cw *cw, t_champ *id, void *pc);
 void				process_update(t_cw *cw);
+void				process_check_live(t_cw *cw);
 
 void				corewar_env(t_cw *cw, int ac, char **av);
 void				corewar_parser(t_cw *cw);
 void				corewar_run(t_cw *cw);
+void				corewar_end(t_cw *cw);
 
 void				gui_init(t_cw *cw);
 void				gui_update(t_cw *cw);
 
 void				dump_memory(t_cw *cw);
 void    			h_rev_bytes(void *ptr, size_t n);
+void				swap_32(uint32_t *x);
 
 void				ft_live(t_cw *cw, t_process *cp);
 void				ft_ld(t_cw *cw, t_process *cp);

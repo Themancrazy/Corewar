@@ -29,6 +29,7 @@ void		champ_assign(t_cw *cw)
 		process_init(cw, &CHAMP(i), pc);
 		close(CHAMP(i).fd);
 	}
+	cw->winner = &CHAMP(i);
 }
 
 /*
