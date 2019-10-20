@@ -15,7 +15,7 @@ void		champ_assign(t_cw *cw)
 {
 	int 		i;
 	int			tmp_i;
-	void		*pc;
+	uint16_t	pc;
 
 	i = -1;
 	tmp_i = 0;
@@ -23,14 +23,13 @@ void		champ_assign(t_cw *cw)
 	{
 		if (CHAMP(i).manual_assign == 0)
 			CHAMP(i) = cw->tmp_champ[tmp_i++];
-		// pc = &cw->memory[(MEM_SIZE / cw->n_players) * i];
 		pc = (MEM_SIZE / cw->n_players) * i;
 		ft_memset(&cw->owner[(MEM_SIZE / cw->n_players) * i], i, CHAMP(i).prog_size);
-		read(CHAMP(i).fd, pc, CHAMP(i).prog_size);
+		read(CHAMP(i).fd, &cw->memory[pc], CHAMP(i).prog_size);
 		process_init(cw, &CHAMP(i), pc);
 		close(CHAMP(i).fd);
 	}
-	cw->winner = &CHAMP(i);
+	cw->winner = &CHAMP(i - 1);
 }
 
 /*

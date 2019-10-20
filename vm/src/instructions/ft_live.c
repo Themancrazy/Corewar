@@ -13,7 +13,7 @@ void				ft_live(t_cw *cw, t_process *cp)
     }
     prog_num = cp->id->prog_number * (-1);
     swap_32(&prog_num);
-    ft_memcpy(cp->pc + 1, &prog_num, 4);
+    ft_memcpy(&cw->memory[cp->pc + 1], &prog_num, 4);
     cp->live_call = cw->cycle.cycle;
     cw->winner = cp->id;
     printf("live called\n");

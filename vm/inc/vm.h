@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/19 23:29:55 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/20 15:25:06 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void				champ_assign(t_cw *cw);
 
 void				print_memory(t_cw *cw);
 
-void				process_init(t_cw *cw, t_champ *id, void *pc);
+void				process_init(t_cw *cw, t_champ *id, uint16_t pc);
 void				process_update(t_cw *cw);
 void				process_check_live(t_cw *cw);
 

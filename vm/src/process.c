@@ -78,7 +78,7 @@ void        process_update(t_cw *cw)
 ** ----------------------------------------------------------------------------
 */
 
-void        process_init(t_cw *cw, t_champ *id, void *pc)
+void        process_init(t_cw *cw, t_champ *id, uint16_t pc)
 {
 	t_process   *cp;
 	t_process   **list;
@@ -87,7 +87,7 @@ void        process_init(t_cw *cw, t_champ *id, void *pc)
 	if (!(cp = (t_process*)ft_memalloc(sizeof(t_process))))
 		return ;
 	cp->pc = pc;
-	cp->op = *(cp->pc) - 1;
+	cp->op = cw->memory[pc];
 	cp->id = id;
 	cp->registers[1] = (uint32_t)(id->prog_number);
 	++cw->n_process;
