@@ -12,7 +12,6 @@ void				ft_live(t_cw *cw, t_process *cp)
         cw->cycle.kill_cycle -= CYCLE_DELTA;
     }
     prog_num = cp->id->prog_number * (-1);
-    ft_printf("program number is %u\n", prog_num);
     swap_32(&prog_num);
     ft_memcpy(cp->pc + 1, &prog_num, 4);
     cp->live_call = cw->cycle.cycle;

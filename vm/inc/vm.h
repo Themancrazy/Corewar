@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/19 18:01:06 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/19 23:29:55 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ typedef struct		s_process
 	int				carry;
 	int				live_call;
 	uint8_t			op;
-	uint8_t			*pc;
+	uint8_t			next_pc_distance;
+	uint16_t		pc;
 	uint32_t		param[3];
 	uint32_t		registers[REG_NUMBER + 1];
 	t_champ			*id;
@@ -151,6 +152,7 @@ void				gui_update(t_cw *cw);
 void				dump_memory(t_cw *cw);
 void    			h_rev_bytes(void *ptr, size_t n);
 void				swap_32(uint32_t *x);
+void				swap_8(uint8_t *x);
 
 void				ft_live(t_cw *cw, t_process *cp);
 void				ft_ld(t_cw *cw, t_process *cp);

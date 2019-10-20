@@ -84,9 +84,8 @@ void        process_init(t_cw *cw, t_champ *id, void *pc)
 	t_process   **list;
 
 	list = &cw->process_list;
-	if (!(cp = (t_process*)malloc(sizeof(t_process))))
+	if (!(cp = (t_process*)ft_memalloc(sizeof(t_process))))
 		return ;
-	cp->carry = 0;
 	cp->pc = pc;
 	cp->op = *(cp->pc) - 1;
 	cp->id = id;
