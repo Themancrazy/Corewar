@@ -28,6 +28,7 @@ t_error		get_label(t_label **new_label, char **elem)
 	char	*label_char;
 	size_t	len;
 	t_label	*new;
+	char	*name;
 
 	label_char = ft_strchr(elem[0], LABEL_CHAR);
 	if (!label_char)
@@ -41,6 +42,6 @@ t_error		get_label(t_label **new_label, char **elem)
 	len = label_char - elem[0];
 	ft_strncpy(new->name, elem[0], len);
 	if (is_invalid_label(new->name, len))
-		return (ft_strdup(RED"label name is invalid: "RESET));
+		return (ft_strjoin(RED"label name is invalid: "RESET, name));
 	return (NULL);
 }

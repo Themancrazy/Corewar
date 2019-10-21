@@ -6,7 +6,7 @@
 #    By: anjansse <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/07/12 12:44:59 by anjansse         ###   ########.fr        #
+#    Updated: 2019/10/21 07:09:00 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ LLIB		= libft.a
 all: $(NAME)
 
 $(NAME):
-	@echo ""
 	@echo -n 'Compiling Program...'
 	@cp ../libft/libft.a .
 	@$(CC) $(CFLAGS) $(SRCS) $(INCLUDES) $(LLIB) -o $(NAME)
