@@ -1,5 +1,13 @@
 #include "vm.h"
 
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {unsigned char} c - Number to print in base 16.
+** ----------------------------------------------------------------------------
+*/
+
 void	h_puthex(unsigned char c)
 {
     static char    *base = "0123456789abcdef";
@@ -7,6 +15,14 @@ void	h_puthex(unsigned char c)
 	printf("%c", base[c / 16]);
 	printf("%c", base[c % 16]);
 }
+
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_cw *} cw - 
+** ----------------------------------------------------------------------------
+*/
 
 void		print_memory(t_cw *cw)
 {
@@ -27,6 +43,7 @@ void		print_memory(t_cw *cw)
 				printf("%#06x : ", i);
 		}
 		h_puthex(cw->memory[i]);
+		//h_puthex(cw->owner[i]);
 		printf(" ");
 		i++;
 	}

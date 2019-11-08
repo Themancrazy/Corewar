@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   corewar_run.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/22 22:50:18 by hypark            #+#    #+#             */
+/*   Updated: 2019/10/26 20:58:19 by hypark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 /*
@@ -25,15 +37,17 @@ void         corewar_end(t_cw *cw)
 
 static void         cycle_check(t_cw *cw)
 {
-	if (CYCLE % KILL_CYCLE == 0)
+	if (CYCLE % KILL_CYCLE == 0 && CYCLE)
 	{
-		++KC_CHECK;
-		process_check_live(cw);
-		if (KC_CHECK == MAX_CHECKS && KILL_CYCLE > 1)
+		if ((cw->n_live_call >= NBR_LIVE) || (KC_CHECK == MAX_CHECKS))
 		{
 			KILL_CYCLE -= CYCLE_DELTA;
 			KC_CHECK = 0;
 		}
+		else
+			KC_CHECK += 1;
+		process_check_live(cw);
+		cw->n_live_call = 0;
 	}
 	if (KILL_CYCLE <= 0)
 		KILL_CYCLE = 1;
@@ -47,17 +61,17 @@ static void         cycle_check(t_cw *cw)
 ** ----------------------------------------------------------------------------
 */
 
-static void	player_intro(t_cw *cw)
+static void			player_intro(t_cw *cw)
 {
-	int 	i;
-	t_champ	cc;
+	int				i;
+	t_champ			cc;
 
 	i = -1;
 	write(1, "Introducing contestants...\n", 27);
 	while (++i < cw->n_players)
 	{
 		cc = CHAMP(i);
-		printf("* Player %d, weighing %u bytes, \"%s\" (\"%s\") !\n",\
+		ft_printf("* Player %d, weighing %u bytes, \"%s\" (\"%s\") !\n",\
 		cc.prog_number, cc.prog_size, cc.name, cc.comment);
 	}
 }
@@ -81,12 +95,12 @@ void        corewar_run(t_cw *cw)
 		player_intro(cw);
 	while (1)
 	{
+		process_update(cw);
+		cycle_check(cw);
 		if (GUI)
 			gui_update(cw);
 		if (DUMP && CYCLE == DUMP_CYCLE)
 			dump_memory(cw);
-		process_update(cw);
-		cycle_check(cw);
 		++CYCLE;
 	}
 }

@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   instruction.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/24 00:37:56 by hypark            #+#    #+#             */
+/*   Updated: 2019/11/06 22:14:44 by anjansse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
+#include "op.h"
 
 static t_instr_hdlr instruction[] = {
 	ft_live,
@@ -19,109 +32,133 @@ static t_instr_hdlr instruction[] = {
 	ft_aff
 };
 
-// static void		decode_ocp(t_process *cp, uint8_t *cpc, uint8_t *ret, int trunc)
-// {
-// 	static uint8_t	arg_length[4] = {0, T_REG, T_DIR, T_IND};
-// 	static uint8_t	arg_length2[4] = {0, T_REG, T_IND, T_IND};
-// 	uint8_t acb;
-// 	int		i;
-
-// 	i = -1;
-// 	acb = *cpc;
-// 	while (++i < 4)
-// 	{
-// 		if (trunc == 1)
-// 			*ret += arg_length[acb & 0b00000011];
-// 		else
-// 			*ret += arg_length2[acb & 0b00000011];
-// 		acb >>= 2;		
-// 	}
-// }
-
-// /*
-// ** ----------------------------------------------------------------------------
-// ** Function used to chaneg the pc of this process and assign it to the next
-// ** op in memory. It will use the OCP if there's one for this instruction to
-// ** 'jump' the correct size (depanding of the size of parameters - reg, dir, ind).
-// **
-// ** {t_process *} cp - Pointer to current process.
-// ** ----------------------------------------------------------------------------
-// */
-
-// static void		pc_next(t_process *cp)
-// {
-// 	uint8_t		jump_size;
-
-// 	jump_size = 0;
-// 	if (OCP)
-// 	{
-// 		decode_ocp(cp, ++(cp->pc), &jump_size, g_op_tab[cp->op].trunc);
-// 		cp->pc = (cp->pc + 1 + jump_size);
-// 	}
-// 	else
-// 	{
-// 		if (TRUNC)
-// 			jump_size = T_IND;
-// 		else
-// 		{
-// 			jump_size = g_op_tab[cp->op].param[0];
-// 			cp->pc = (cp->pc + 1 + jump_size);
-// 		}
-// 	}
-// 	cp->op = *(cp->pc) - 1;
-// }
-
 /*
 ** ----------------------------------------------------------------------------
-** Function used to execute the instruction stored at the pc of this current
-** process, then jump the pc to the next op in memory.
+** DESCRITPTION
 **
-** {t_cw *} cw - Main structure for corewar.
-** {t_process *} cp - Pointer to current process.
+** {int} value - 
 ** ----------------------------------------------------------------------------
 */
 
-// static void		instruction_get_info(t_cw *cw, t_process *cp)
-// {
-// 	static uint8_t	arg_length[4] = {0, T_REG, T_DIR, T_IND};
-// 	static uint8_t	arg_length2[4] = {0, T_REG, T_IND, T_IND};
-// 	uint8_t acb;
-// 	uint8_t	size;
-// 	uint8_t	tot_size;
-// 	int		i;
-
-// 	i = 0;
-// 	tot_size = 2;
-// 	acb = *(cp->pc + 1);
-// 	// printf("acb: %u\t", acb);
-// 	// printf("sizeof: %lu\n", sizeof(i));
-// 	while (acb)
-// 	{
-// 		if (g_op_tab[cp->op].trunc == 1)
-// 			size = arg_length[(acb & 0x3 << 6) >> 6];
-// 		else
-// 			size = arg_length2[(acb & 0x3 << 6) >> 6];
-// 		if (size != 0)
-// 		{
-// 			cp->param[i] = 0;
-// 			ft_memcpy(cp->param + i, cp->pc + tot_size, size);
-// 			// swap_32(cp->param + i);
-// 			// if (size == 2)
-// 			// 	cp->param[i] <<= 16;
-// 			printf("size of param[0] (reg): %u\tcontent of param[0] (01): %u\n", size, cp->param[i]);
-// 			++i;
-// 		}
-// 		tot_size += size;
-// 		acb <<= 2;
-// 	}
-// 	printf("tot_size: %u\n", tot_size);
-// 	cp->next_pc_distance = tot_size;
-// }
-
-void			instruction_init(t_cw *cw, t_process *cp)
+int8_t			modify_carry(int value)
 {
-	ft_putstr(cp->id->name);
-	ft_putstr(":\t");
-	instruction[cp->op](cw, cp);
+	if (value == 0)
+		return (1);
+	else
+		return (0);
+}
+
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_process *} cp - 
+** {int16_t} offset - 
+** ----------------------------------------------------------------------------
+*/
+
+int16_t			pc_relative(t_process *cp, int16_t offset)
+{
+	offset = cp->pc + offset;
+	if (offset < 0)
+		return (MEM_SIZE + offset);
+	return (offset % MEM_SIZE);
+}
+
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_process *} cp - 
+** {int16_t} offset - 
+** ----------------------------------------------------------------------------
+*/
+
+int16_t			pc_idx_mod(t_process *cp, int16_t offset)
+{
+	if (offset < 0)
+	{
+		offset = ((-1) * offset) % IDX_MOD;
+		offset *= -1;
+	}
+	else
+		offset %= IDX_MOD;
+	offset = cp->pc + offset;
+	if (offset < 0)
+		return (MEM_SIZE + offset);
+	return (offset % MEM_SIZE);
+}
+
+/*
+** -----------------------------------------------------------
+** Store the information based on the op.c
+** When storing the information based on ocp
+** check this is right or wrong and if not wrong return 0
+**
+** {t_cw *} cw -
+** {t_process *} cp -
+** -----------------------------------------------------------
+*/
+
+static int8_t	instruction_get_info(t_cw *cw, t_process *cp)
+{
+	int8_t		i;
+	int8_t		trunc;
+	int8_t		*param_byte;
+
+	trunc = g_op_tab[cp->op].trunc;
+	if (OCP)
+	{
+		if (process_ocp(cw, cp, trunc))
+			return (1);
+	}
+	else
+	{
+		cp->param_type[0] = T_DIR;
+		param_byte = (int8_t *)cp->param_value;
+		param_byte += 4 - (trunc ? 2 : 4);
+		i = -1;
+		while (++i < (trunc ? 2 : 4))
+		{
+			*param_byte = (int8_t)cw->memory[(cp->pc + 1 + i) % MEM_SIZE];
+			param_byte++;
+		}
+		swap_32((uint32_t *)cp->param_value);
+		cp->next_pc_distance += 1 + (trunc ? 2 : 4);
+	}
+	return (0);
+}
+
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_cw *} cw -
+** {t_process *} cp -  
+** ----------------------------------------------------------------------------
+*/
+
+void			instruction_proceed(t_cw *cw, t_process *cp)
+{
+	int8_t		error;
+	//ft_printf("%s : ", cp->id->name);
+
+	// store the information before doing instruction
+	error = instruction_get_info(cw, cp);
+	if (error == 0)
+		instruction[cp->op](cw, cp); // do the instruction if valid
+
+	// move the pc if it not a jump
+	if ((cp->op != 8) || cp->carry == 0 || error)
+		cp->pc = (cp->pc + cp->next_pc_distance) % MEM_SIZE;
+
+	// initialize the information
+	cp->next_pc_distance = 0;
+	bzero(cp->param_type, 3);
+	bzero(cp->param_size, 3);
+	bzero(cp->param_value, 12);
+
+	// initialize to next instruction
+	cp->op = cw->memory[cp->pc] - 1;
 	cp->init_cycle = CYCLE;
 }

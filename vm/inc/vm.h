@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/10/20 15:25:06 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/10/27 23:23:33 by hypark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define DUMP_CYCLE	cw->cycle.dump_cycle
 # define KILL_CYCLE cw->cycle.kill_cycle
 # define KC_CHECK	cw->cycle.kc_check
+
+# define P_I		 cp->process_number
 
 # define CHAMP(i)	cw->champions[i]
 
@@ -48,11 +50,25 @@
 ** Macros used for paser (flags).
 **
 ** @macro {FL_DUMP} - Macro for defining dump flag.
+** @macro {FL_GUI} - Graphic User Interface
+** @macro {FL_VER0} - Show only essential
+** @macro {FL_VER1} - Show lives
+** @macro {FL_VER2} - Show cycles
+** @macro {FL_VER4} - Show operations (Params are NOT literal ...)
+** @macro {FL_VER8} - Show deaths
+** @macro {FL_VER16} - Show PC movements (Except for jumps)
 ** ----------------------------------------------------------------------------
 */
 
 # define FL_DUMP (1 << 0) 
 # define FL_GUI (1 << 1)
+# define FL_A (1 << 2)
+# define FL_VER0 (1 << 3)
+# define FL_VER1 (1 << 4)
+# define FL_VER2 (1 << 5)
+# define FL_VER4 (1 << 6)
+# define FL_VER8 (1 << 7)
+# define FL_VER16 (1 << 8)
 
 # define GUI		((cw->parsing.flag) & FL_GUI)
 # define DUMP		((cw->parsing.flag) & FL_DUMP)
@@ -76,7 +92,7 @@ typedef struct		s_champ
 {
 	int				fd;
 	char			manual_assign;
-	int				prog_number;
+	uint32_t		prog_number;
 	char			*name;
 	char			*comment;
 	unsigned int	prog_size;
@@ -84,13 +100,18 @@ typedef struct		s_champ
 
 typedef struct		s_process
 {
+	int				process_number;
 	int				init_cycle;
 	int				carry;
 	int				live_call;
 	uint8_t			op;
-	uint8_t			next_pc_distance;
+	uint8_t			ocp;
+	uint8_t			param_num;
+	int32_t			param_value[3];
+	uint8_t			param_type[3];
+	uint8_t			param_size[3];
 	uint16_t		pc;
-	uint32_t		param[3];
+	uint8_t			next_pc_distance;
 	uint32_t		registers[REG_NUMBER + 1];
 	t_champ			*id;
 	struct s_process *next;
@@ -120,8 +141,8 @@ typedef struct      s_cw
 	t_champ			*winner;
 	t_gui			gui;
 	int				n_players;
-	uint8_t			n_live_call;
-	uint32_t		n_process;
+	uint32_t		n_live_call;
+	uint32_t		process_index;
 	t_process		*process_list;
 	uint8_t			memory[MEM_SIZE];
 	int8_t			owner[MEM_SIZE];
@@ -130,14 +151,20 @@ typedef struct      s_cw
 
 typedef void		(*t_instr_hdlr)(t_cw *, t_process *);
 
-void				instruction_init(t_cw *cw, t_process *cp);
+int8_t				modify_carry(int value);
+int16_t				pc_idx_mod(t_process *cp, int16_t offset);
+
+void				process_add(t_cw *cw, t_process *cp);
+int8_t				process_ocp(t_cw *cw, t_process *cp, int8_t trunc);
+
+void				instruction_proceed(t_cw *cw, t_process *cp);
 
 void				champ_load(t_cw *cw, char *filename, int champ_num);
 void				champ_assign(t_cw *cw);
 
 void				print_memory(t_cw *cw);
 
-void				process_init(t_cw *cw, t_champ *id, uint16_t pc);
+t_process			*process_init(t_cw *cw, t_champ *id, uint16_t pc);
 void				process_update(t_cw *cw);
 void				process_check_live(t_cw *cw);
 
@@ -151,6 +178,7 @@ void				gui_update(t_cw *cw);
 
 void				dump_memory(t_cw *cw);
 void    			h_rev_bytes(void *ptr, size_t n);
+void				swap_int32(int32_t *x);
 void				swap_32(uint32_t *x);
 void				swap_8(uint8_t *x);
 

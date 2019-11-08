@@ -1,97 +1,150 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/21 23:50:19 by hypark            #+#    #+#             */
+/*   Updated: 2019/11/06 22:05:19 by anjansse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
-static void			process_kill(t_cw *cw, int kill_node)
-{
-	int			i;
-	t_process	**kp;
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_cw *} cw - 
+** {t_process *} cp - 
+** ----------------------------------------------------------------------------
+*/
 
-	i = -1;
-	kp = &(cw->process_list);
-	if (kill_node == 0 && cw->n_process <= 1)
-		*kp = NULL;
-	else if (kill_node == 0 && cw->n_process > 1)
-		*kp = (*kp)->next;
+void				process_add(t_cw *cw, t_process *cp)
+{
+	t_process		*process;
+
+	process = cw->process_list;
+	if (process == NULL)
+		cw->process_list = cp;
 	else
 	{
-		while (++i < kill_node - 1)
-			(*kp) = (*kp)->next;
-		(*kp)->next = (*kp)->next->next;
+		cp->next = process;
+		cw->process_list = cp;
 	}
-	cw->n_process--;
-	cw->n_live_call = 0;
 }
+
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_cw *} cw - 
+** {t_process *} cp - 
+** ----------------------------------------------------------------------------
+*/
+
+static t_process	*process_kill(t_cw *cw, t_process *cp)
+{
+	t_process		*pre_node;
+
+	// if the deleting processor is the first one
+	if (cw->process_list == cp)
+	{
+		cw->process_list = cp->next;
+		free(cp);
+		return (cw->process_list);
+	}
+	else
+	{
+		// if the deleting processor is the not the first one
+		pre_node = cw->process_list;
+		while (pre_node->next != cp)
+			pre_node = pre_node->next;
+		pre_node->next = cp->next;
+		free(cp);
+		return (pre_node->next);
+	}
+}
+
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_cw *} cw - 
+** ----------------------------------------------------------------------------
+*/
 
 void			process_check_live(t_cw *cw)
 {
 	t_process	*cp;
-	int			kill_node;
 
-	kill_node = 0;
 	cp = cw->process_list;
-	if (cp == NULL)
-		corewar_end(cw);
 	while (cp)
 	{
-		if (cp->live_call >= (CYCLE - KILL_CYCLE))
-			++kill_node;
+		if ((cp->live_call >= (CYCLE - KILL_CYCLE)) == 0)
+			cp = process_kill(cw, cp);
 		else
-			process_kill(cw, kill_node);
+			cp = cp->next;
+	}
+	// if there is no processor live then end the corewar
+	if (cw->process_list == NULL)
+		corewar_end(cw);
+}
+
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_cw *} cw - 
+** ----------------------------------------------------------------------------
+*/
+
+void       		 process_update(t_cw *cw)
+{
+	t_process   *cp;
+
+	cp = cw->process_list;
+	while (cp)
+	{
+		if (cp->op <= 16 && cp->op >= 0)
+		{
+			if (CYCLE - cp->init_cycle == g_op_tab[cp->op].n_cycle)
+				instruction_proceed(cw, cp);
+		}
+		else
+		{
+			cp->pc = (cp->pc + 1) % MEM_SIZE;
+			cp->op = cw->memory[cp->pc] - 1;
+			cp->init_cycle = CYCLE;
+		}
 		cp = cp->next;
 	}
 }
 
 /*
 ** ----------------------------------------------------------------------------
-** Function used to go through all of the currently running programs, check
-** the ones who need to be executed at this cycle and jump their pc to the
-** next instruction's opcode in memory.
+** DESCRITPTION
 **
-** {t_cw *} cw - Main structure for corewar.
+** {t_cw *} cw - 
+** {t_champ *} id - 
+** {uint16_t} pc - 
 ** ----------------------------------------------------------------------------
 */
 
-void        process_update(t_cw *cw)
+t_process       *process_init(t_cw *cw, t_champ *id, uint16_t pc)
 {
 	t_process   *cp;
 
-	cp = cw->process_list;
-	while (cp)
-	{
-		if (cp->op <= REG_NUMBER)
-		{
-			if (CYCLE - cp->init_cycle == g_op_tab[cp->op].n_cycle)
-				instruction_init(cw, cp);
-		}
-		if (cp)
-			cp = cp->next;
-	}
-}
-
-/*
-** ----------------------------------------------------------------------------
-** Function used to check all rules for the game to stay active. I'm too lazy to
-** list them all.. maybe later.
-**
-** {t_cw *} cw - Main structure for corewar.
-** {t_champ *} id - Champion to whom this new process belongs to.
-** {void *} - Pointer to first begining of instruction in memory.
-** ----------------------------------------------------------------------------
-*/
-
-void        process_init(t_cw *cw, t_champ *id, uint16_t pc)
-{
-	t_process   *cp;
-	t_process   **list;
-
-	list = &cw->process_list;
 	if (!(cp = (t_process*)ft_memalloc(sizeof(t_process))))
-		return ;
+		send_error("Error occured at process initializing\n");
 	cp->pc = pc;
-	cp->op = cw->memory[pc];
+	cp->op = cw->memory[pc] - 1;
 	cp->id = id;
-	cp->registers[1] = (uint32_t)(id->prog_number);
-	++cw->n_process;
-	cp->init_cycle = 1;
-	cp->next = *list;
-	*list = cp;
+	cp->registers[1] = (uint32_t)(id->prog_number * -1);
+	cp->process_number = cw->process_index;
+	cw->process_index++;
+	cp->init_cycle = 0;
+	cp->next = NULL;
+	return (cp);
 }

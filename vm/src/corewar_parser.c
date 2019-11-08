@@ -35,12 +35,12 @@ static void			parse_dump_number(t_cw *cw, int dump_arg)
 
 static void			parse_prog_number(t_cw *cw, int num, int champ_arg)
 {
-	int		prog_num;
+	int				prog_num;
 
 	if (num < AC)
 	{
 		prog_num = ft_stoi(AV[num]);
-		if ((prog_num - 1) >= cw->n_players || (prog_num - 1) >= MAX_PLAYERS || (prog_num - 1) < 0)
+		if (prog_num > cw->n_players || prog_num <= 0)
 			send_error("Assigning program number must be between 1 and MAX_PLAYERS.\n");
 		if (CHAMP(prog_num - 1).manual_assign == 1)
 			send_error("Player has already been assigned to this number.\n");
@@ -61,6 +61,24 @@ static void			parse_prog_number(t_cw *cw, int num, int champ_arg)
 ** ----------------------------------------------------------------------------
 */
 
+static void			parse_verbose_number(t_cw *cw, int verbose_arg)
+{
+	int				verbose;
+
+	if (verbose_arg < AC)
+	{
+		verbose = ft_stoi(AV[verbose_arg]);
+		verbose == 0 ? FLAG |= FL_VER0 : 0;
+		verbose == 1 ? FLAG |= FL_VER1 : 0;
+		verbose == 2 ? FLAG |= FL_VER2 : 0;
+		verbose == 4 ? FLAG |= FL_VER4 : 0;
+		verbose == 8 ? FLAG |= FL_VER8 : 0;
+		verbose == 16 ? FLAG |= FL_VER16 : 0;
+	}
+	else
+		send_error("Missing verbose number.\n");
+}
+
 static void        parse_flag(t_cw *cw, int *curr_arg)
 {
 	if (ft_strlen(AV[*curr_arg]) != 2)
@@ -68,8 +86,12 @@ static void        parse_flag(t_cw *cw, int *curr_arg)
 	AV[*curr_arg]++;
 	if (*AV[*curr_arg] == 'd')
 		parse_dump_number(cw, ++(*curr_arg));
+	else if (*AV[*curr_arg] == 'v')
+		parse_verbose_number(cw, ++(*curr_arg));
 	else if (*AV[*curr_arg] == 'g')
 		FLAG |= FL_GUI;
+	else if (*AV[*curr_arg] == 'a')
+		FLAG |= FL_A;
 	else if (*AV[*curr_arg] == 'n' && (*curr_arg) + 2 < AC)
 		parse_prog_number(cw, ++(*curr_arg), ++(*curr_arg));
 	else
@@ -89,18 +111,20 @@ static void        parse_flag(t_cw *cw, int *curr_arg)
 void			corewar_parser(t_cw *cw)
 {
 	int32_t		i;
-	static int	champ_num = 0;
 
+	i = -1;
+	while (++i < cw->n_players)
+	{
+		CHAMP(i).manual_assign = 0;
+		cw->tmp_champ[i].manual_assign = 0;
+	}
 	i = -1;
 	while (++i < AC)
 	{
 		if (AV[i][0] == '-')
 			parse_flag(cw, &i);
 		else
-		{
-			champ_load(cw, AV[i], champ_num);
-			champ_num++;
-		}
+			champ_load(cw, AV[i], -1);
 	}
 	champ_assign(cw);
 }
