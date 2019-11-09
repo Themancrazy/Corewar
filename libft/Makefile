@@ -6,7 +6,7 @@
 #    By: anjansse <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/29 09:51:04 by anjansse          #+#    #+#              #
-#    Updated: 2019/05/07 18:52:59 by anjansse         ###   ########.fr        #
+#    Updated: 2019/11/08 19:53:18 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ MEMORY		= ft_bzero.c ft_memalloc.c ft_memccpy.c ft_memcpy.c ft_memcmp.c\
 			  ft_memchr.c ft_memdel.c ft_memmove.c ft_memset.c \
 			  ft_memtransform.c ft_realloc.c
 
-NUMBER		= ft_atoi.c ft_itoa.c
+NUMBER		= ft_atoi.c ft_itoa.c ft_stoi.c
 
 PRINT		= ft_putchar_fd.c ft_putchar.c ft_putendl_fd.c ft_putendl.c\
 			  ft_putnbr_fd.c ft_putnbr.c ft_putstr_fd.c ft_putstr.c\
@@ -40,7 +40,7 @@ STRING		= ft_strcat.c ft_strchr.c ft_strclr.c ft_strcmp.c ft_strcpy.c\
 			  ft_range.c ft_strclen.c ft_strappend.c ft_strjoinfree.c\
 			  ft_strjoinfree1.c ft_strjoinfree2.c
 
-CHAR		= ft_tolower.c ft_toupper.c
+CHAR		= ft_tolower.c ft_toupper.c send_error.c
 
 GNL			= get_next_line.c
 

@@ -6,7 +6,7 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/11/06 22:20:11 by anjansse         ###   ########.fr        #
+#    Updated: 2019/11/08 19:49:24 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ INSTR		=	ft_live.c ft_ld.c ft_st.c ft_add.c ft_sub.c ft_and.c\
 
 SRCS		=	$(addprefix src/, $(GENERAL) $(addprefix instructions/, $(INSTR)))
 
-INCLUDES	=	-I inc/ -I libft/includes/
+INCLUDES	=	-I inc/ -I ../libft/includes/
 
 OPTI		=	-O2
 
@@ -48,14 +48,14 @@ all: $(NAME)
 
 $(NAME):
 	@echo -n 'Compiling VM...'
-	@cp libft/libft.a .
+	@cp ../libft/libft.a .
 	@$(CC) $(CFLAGS) $(SRCS) $(INCLUDES) $(LLIB) -o $(NAME)
 	@echo "\t\x1b[92m✓✓\x1b[0m\n"
 
 lib:
 	@echo -n 'Compiling libft...'
-	@make -C libft/ re
-	@cp libft/libft.a .
+	@make -C ../libft/ re
+	@cp ../libft/libft.a .
 	@echo "\t\t\x1b[92m✓\x1b[0m\n"
 
 totall: lib all
@@ -78,7 +78,7 @@ fclean: clean
 	@echo "\t\n\x1b[96mVM \x1b[91mlibrary has been cleaned!\x1b[0m\n"
 
 totfclean: fclean
-	@make -C libft/ fclean
+	@make -C ../libft/ fclean
 	@echo "\x1b[96mLibft has been cleaned.\x1b[0m\t\x1b[91mDon't forget to\
 		recompile it...\n\x1b[0m"
 

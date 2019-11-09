@@ -6,7 +6,7 @@
 /*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 22:16:13 by anjansse          #+#    #+#             */
-/*   Updated: 2019/06/06 11:10:02 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/08 19:53:03 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+int					ft_stoi(char *n);
+void				send_error(char *error);
 int					get_next_line(int fd, char **line);
 char				*ft_capitalize(char *s);
 int					*ft_range(int start, int end);
