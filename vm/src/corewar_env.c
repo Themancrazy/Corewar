@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   corewar_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/09 00:17:30 by hypark            #+#    #+#             */
+/*   Updated: 2019/11/09 00:18:40 by hypark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 /*
@@ -9,16 +21,16 @@
 ** ----------------------------------------------------------------------------
 */
 
-static void			env_init_memory(t_cw *cw)
+static void		env_init_memory(t_cw *cw)
 {
-	int 	i;
+	int			i;
 
 	i = -1;
 	while (++i < MEM_SIZE)
 	{
 		cw->memory[i] = 0;
 		cw->owner[i] = -1;
-	}	
+	}
 }
 
 /*
@@ -30,9 +42,9 @@ static void			env_init_memory(t_cw *cw)
 ** ----------------------------------------------------------------------------
 */
 
-static void			env_init_champ(t_cw *cw)
+static void		env_init_champ(t_cw *cw)
 {
-	int		i;
+	int			i;
 
 	i = -1;
 	cw->n_players = 0;

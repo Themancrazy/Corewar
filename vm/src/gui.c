@@ -1,6 +1,6 @@
 #include "vm.h"
 
-static void     fill_map(WINDOW *win)
+static void			fill_map(WINDOW *win)
 {
     int x;
     int y;
@@ -20,7 +20,7 @@ static void     fill_map(WINDOW *win)
     }
 }
 
-static WINDOW            *init_screen(WINDOW *win, int max_x, int y, int x)
+static WINDOW		*init_screen(WINDOW *win, int max_x, int y, int x)
 {
     initscr();
     start_color();
@@ -36,9 +36,9 @@ static WINDOW            *init_screen(WINDOW *win, int max_x, int y, int x)
     return (win);
 }
 
-char                    update_screen(WINDOW *win)
+char				update_screen(WINDOW *win)
 {
-    char    key;
+    char			key;
     
     clear();
     wrefresh(win);
@@ -52,7 +52,7 @@ char                    update_screen(WINDOW *win)
     return (key);
 }
 
-static void            print_info(t_cw *cw, t_gui *gui)
+static void			print_info(t_cw *cw, t_gui *gui)
 {
     init_pair(9, COLOR_WHITE, COLOR_BLACK);
     wattron(gui->win, COLOR_PAIR(9));
@@ -62,7 +62,7 @@ static void            print_info(t_cw *cw, t_gui *gui)
     wattroff(gui->win, COLOR_PAIR(9));
 }
 
-static inline void  pc_highlight(t_cw *cw, t_gui *gui, int *color, int i, int x, int y)
+static inline void	pc_highlight(t_cw *cw, t_gui *gui, int *color, int i, int x, int y)
 {
     t_process *cp;
     cp = cw->process_list;
@@ -84,10 +84,11 @@ static void    memory_gui_update(t_cw *cw, t_gui *gui)
     int                 i;
     int                 x;
     int                 y;
+    int color[4] = {COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_MAGENTA};
+
     i = 0;
     x = -2;
     y = 1;
-    int color[4] = {COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_MAGENTA};
     while (i < MEM_SIZE)
     {
         if (x == MAX_X - 2)
@@ -108,7 +109,7 @@ static void    memory_gui_update(t_cw *cw, t_gui *gui)
     }
 }
 
-void                   gui_update(t_cw *cw)
+void			gui_update(t_cw *cw)
 {
     char key1;
     char key2;
@@ -120,7 +121,7 @@ void                   gui_update(t_cw *cw)
     memory_gui_update(cw, &cw->gui);
 }
 
-void            gui_init(t_cw *cw)
+void			gui_init(t_cw *cw)
 {
     cw->gui.win = init_screen(cw->gui.win, MAX_X + 1, 1, 1);
     cw->gui.win_info = init_screen(cw->gui.win_info, 30, 1, MAX_X + 2);

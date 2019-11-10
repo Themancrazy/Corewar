@@ -6,14 +6,14 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 00:37:56 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:14:44 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/09 12:08:27 by hypark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 #include "op.h"
 
-static t_instr_hdlr instruction[] = {
+static t_instr_hdlr g_instruction[] = {
 	ft_live,
 	ft_ld,
 	ft_st,
@@ -36,7 +36,7 @@ static t_instr_hdlr instruction[] = {
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {int} value - 
+** {int} value -
 ** ----------------------------------------------------------------------------
 */
 
@@ -52,8 +52,8 @@ int8_t			modify_carry(int value)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_process *} cp - 
-** {int16_t} offset - 
+** {t_process *} cp -
+** {int16_t} offset -
 ** ----------------------------------------------------------------------------
 */
 
@@ -69,8 +69,8 @@ int16_t			pc_relative(t_process *cp, int16_t offset)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_process *} cp - 
-** {int16_t} offset - 
+** {t_process *} cp -
+** {int16_t} offset -
 ** ----------------------------------------------------------------------------
 */
 
@@ -134,31 +134,23 @@ static int8_t	instruction_get_info(t_cw *cw, t_process *cp)
 ** DESCRITPTION
 **
 ** {t_cw *} cw -
-** {t_process *} cp -  
+** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
 
 void			instruction_proceed(t_cw *cw, t_process *cp)
 {
 	int8_t		error;
-	//ft_printf("%s : ", cp->id->name);
 
-	// store the information before doing instruction
 	error = instruction_get_info(cw, cp);
 	if (error == 0)
-		instruction[cp->op](cw, cp); // do the instruction if valid
-
-	// move the pc if it not a jump
+		instruction[cp->op](cw, cp);
 	if ((cp->op != 8) || cp->carry == 0 || error)
 		cp->pc = (cp->pc + cp->next_pc_distance) % MEM_SIZE;
-
-	// initialize the information
 	cp->next_pc_distance = 0;
 	bzero(cp->param_type, 3);
 	bzero(cp->param_size, 3);
 	bzero(cp->param_value, 12);
-
-	// initialize to next instruction
 	cp->op = cw->memory[cp->pc] - 1;
 	cp->init_cycle = CYCLE;
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   champ_load.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/09 00:27:39 by hypark            #+#    #+#             */
+/*   Updated: 2019/11/09 00:31:59 by hypark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 /*
@@ -11,11 +23,12 @@
 ** ----------------------------------------------------------------------------
 */
 
-void		champ_assign(t_cw *cw)
+void				champ_assign(t_cw *cw)
 {
-	uint16_t	pc;
-	int 		i;
-	int			tmp_i;
+	uint16_t		pc;
+	int				i;
+	int				tmp_i;
+	int				prog_size;
 
 	i = -1;
 	tmp_i = 0;
@@ -27,7 +40,8 @@ void		champ_assign(t_cw *cw)
 			CHAMP(i).prog_number = i + 1;
 		}
 		pc = (MEM_SIZE / cw->n_players) * i;
-		ft_memset(&cw->owner[(MEM_SIZE / cw->n_players) * i], i, CHAMP(i).prog_size);
+		prog_size = CHAMP(i).prog_size;
+		ft_memset(&cw->owner[(MEM_SIZE / cw->n_players) * i], i, prog_size);
 		read(CHAMP(i).fd, &cw->memory[pc], CHAMP(i).prog_size);
 		process_add(cw, process_init(cw, &CHAMP(i), pc));
 		close(CHAMP(i).fd);
@@ -67,7 +81,7 @@ static void			champ_init(t_cw *cw, t_hdr *hdr, int fd, int champ_num)
 	new_champ->name = ft_strdup(hdr->prog_name);
 	new_champ->comment = ft_strdup(hdr->comment);
 	if (champ_num == -1)
-		new_champ->prog_number = -1; 
+		new_champ->prog_number = -1;
 	else
 		new_champ->prog_number = champ_num + 1;
 	new_champ->prog_size = hdr->prog_size;
@@ -89,7 +103,7 @@ static void			champ_init(t_cw *cw, t_hdr *hdr, int fd, int champ_num)
 
 static void			champ_read_header(t_hdr *hdr, int fd)
 {
-	off_t	file_size;
+	off_t			file_size;
 
 	if (!(file_size = lseek(fd, 0, SEEK_END)))
 		send_error("Couldn't get size of file.\n");
@@ -109,7 +123,7 @@ static void			champ_read_header(t_hdr *hdr, int fd)
 
 /*
 ** ----------------------------------------------------------------------------
-** Function that analyses the filename for any potential syntax errors, 
+** Function that analyses the filename for any potential syntax errors,
 ** then tries to open it and store the result in the passed 'fd',
 ** to be used later. An error will be send if there's any error with the file.
 **
@@ -120,8 +134,8 @@ static void			champ_read_header(t_hdr *hdr, int fd)
 
 static int			champ_check_file(char *filename, int *fd)
 {
-	int		len;
-	char	*ext;
+	int				len;
+	char			*ext;
 
 	len = (int)ft_strlen(filename);
 	if (len < 4)
@@ -148,8 +162,8 @@ static int			champ_check_file(char *filename, int *fd)
 
 void				champ_load(t_cw *cw, char *filename, int champ_num)
 {
-	int			fd;
-	t_hdr		hdr;
+	int				fd;
+	t_hdr			hdr;
 
 	hdr = cw->header;
 	champ_check_file(filename, &fd);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/09 00:22:28 by hypark            #+#    #+#             */
+/*   Updated: 2019/11/09 00:27:18 by hypark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 /*
@@ -8,26 +20,26 @@
 ** ----------------------------------------------------------------------------
 */
 
-void	h_puthex(unsigned char c)
+void			h_puthex(unsigned char c)
 {
-    static char    *base = "0123456789abcdef";
+	static char	*base = "0123456789abcdef";
 
-	printf("%c", base[c / 16]);
-	printf("%c", base[c % 16]);
+	ft_printf("%c", base[c / 16]);
+	ft_printf("%c", base[c % 16]);
 }
 
 /*
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
+** {t_cw *} cw -
 ** ----------------------------------------------------------------------------
 */
 
-void		print_memory(t_cw *cw)
+void			print_memory(t_cw *cw)
 {
-	int                 i;
-	unsigned            siz;
+	int			i;
+	unsigned	siz;
 
 	i = 0;
 	siz = (unsigned)sqrt(MEM_SIZE);
@@ -36,16 +48,15 @@ void		print_memory(t_cw *cw)
 		if (i % siz == 0)
 		{
 			if (i)
-				printf("\n");
+				ft_printf("\n");
 			if (i == 0)
-				printf("0x0000 : ");
+				ft_printf("0x0000 : ");
 			else
-				printf("%#06x : ", i);
+				ft_printf("%#06x : ", i);
 		}
 		h_puthex(cw->memory[i]);
-		//h_puthex(cw->owner[i]);
-		printf(" ");
+		ft_printf(" ");
 		i++;
 	}
-	printf("\n");
+	ft_printf("\n");
 }

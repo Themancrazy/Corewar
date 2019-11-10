@@ -6,7 +6,7 @@
 /*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 22:50:18 by hypark            #+#    #+#             */
-/*   Updated: 2019/10/26 20:58:19 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/09 00:15:38 by hypark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@
 ** ----------------------------------------------------------------------------
 */
 
-void         corewar_end(t_cw *cw)
+void				corewar_end(t_cw *cw)
 {
-	printf("Contestant %d, \"%s\", has won !\n", WINNER->prog_number, WINNER->name);
+	ft_printf("Contestant %d", WINNER->prog_number);
+	ft_printf(", \"%s\", has won !\n", WINNER->name);
 	exit(0);
 }
 
@@ -35,7 +36,7 @@ void         corewar_end(t_cw *cw)
 ** ----------------------------------------------------------------------------
 */
 
-static void         cycle_check(t_cw *cw)
+static void			cycle_check(t_cw *cw)
 {
 	if (CYCLE % KILL_CYCLE == 0 && CYCLE)
 	{
@@ -87,7 +88,7 @@ static void			player_intro(t_cw *cw)
 ** ----------------------------------------------------------------------------
 */
 
-void        corewar_run(t_cw *cw)
+void				corewar_run(t_cw *cw)
 {
 	if (GUI)
 		gui_init(cw);

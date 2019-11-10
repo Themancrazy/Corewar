@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   corewar.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/09 00:16:35 by hypark            #+#    #+#             */
+/*   Updated: 2019/11/09 00:17:18 by hypark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 /*
@@ -10,7 +22,7 @@
 ** ----------------------------------------------------------------------------
 */
 
-static void			corewar(int ac, char **av)
+static void	corewar(int ac, char **av)
 {
 	t_cw	cw;
 
@@ -29,10 +41,13 @@ static void			corewar(int ac, char **av)
 ** ----------------------------------------------------------------------------
 */
 
-int             main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	if (ac == 1)
-		send_error("usage: ./corewar [-v] [-d <cycle>] [-n <n> champs.cor] champs.cor]\n");
+	{
+		ft_printf("usage: ./corewar [-v] [-d <cycle>]");
+		send_error(" [-n <n> champs.cor] champs.cor]\n");
+	}
 	corewar(--ac, ++av);
 	return (0);
 }

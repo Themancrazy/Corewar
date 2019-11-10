@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   corewar_parser.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/09 00:18:53 by hypark            #+#    #+#             */
+/*   Updated: 2019/11/09 00:20:45 by hypark           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 /*
@@ -28,7 +40,7 @@ static void			parse_dump_number(t_cw *cw, int dump_arg)
 **
 ** {t_cw *} cw - Main structure for corewar.
 ** {int} num - 	Index of argument containing the requested prog_number for
-				next loaded champion.
+**				next loaded champion.
 ** {int} champ_arg - Index of argument the champion to be loaded next.
 ** ----------------------------------------------------------------------------
 */
@@ -41,7 +53,10 @@ static void			parse_prog_number(t_cw *cw, int num, int champ_arg)
 	{
 		prog_num = ft_stoi(AV[num]);
 		if (prog_num > cw->n_players || prog_num <= 0)
-			send_error("Assigning program number must be between 1 and MAX_PLAYERS.\n");
+		{
+			send_error("Assigning program number ");
+			ft_printf("must be between 1 and MAX_PLAYERS.\n");
+		}
 		if (CHAMP(prog_num - 1).manual_assign == 1)
 			send_error("Player has already been assigned to this number.\n");
 		CHAMP(prog_num - 1).manual_assign = 1;
@@ -79,7 +94,7 @@ static void			parse_verbose_number(t_cw *cw, int verbose_arg)
 		send_error("Missing verbose number.\n");
 }
 
-static void        parse_flag(t_cw *cw, int *curr_arg)
+static void			parse_flag(t_cw *cw, int *curr_arg)
 {
 	if (ft_strlen(AV[*curr_arg]) != 2)
 		send_error("Incorrect flag.\n");
@@ -108,9 +123,9 @@ static void        parse_flag(t_cw *cw, int *curr_arg)
 ** ----------------------------------------------------------------------------
 */
 
-void			corewar_parser(t_cw *cw)
+void				corewar_parser(t_cw *cw)
 {
-	int32_t		i;
+	int32_t			i;
 
 	i = -1;
 	while (++i < cw->n_players)

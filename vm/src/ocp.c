@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 21:13:12 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:20:58 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/09 00:07:53 by hypark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_process *} cp - 
-** {uint8_t} ocp - 
-** {uint8_t} trunc - 
+** {t_process *} cp -
+** {uint8_t} ocp -
+** {uint8_t} trunc -
 ** ----------------------------------------------------------------------------
 */
 
@@ -39,7 +39,7 @@ static void		store_info_ocp(t_process *cp, uint8_t ocp, uint8_t trunc)
 	i = -1;
 	while (++i < cp->param_num)
 	{
-		encode = (ocp >> (2 * (3 - i))) & 0x3; // clarification ? Maybe put it as a macro
+		encode = (ocp >> (2 * (3 - i))) & 0x3;
 		if (encode == 1)
 		{
 			cp->param_type[i] = T_REG;
@@ -60,12 +60,14 @@ static void		store_info_ocp(t_process *cp, uint8_t ocp, uint8_t trunc)
 	}
 }
 
-// If it returns 0 then it means no error
-// check the pc next move at here
-// ========================================
-// there is two types of error here
-// 1. 00 is in the parameters
-// 2. the parameter type is does not match the op
+/*
+** If it returns 0 then it means no error
+** check the pc next move at here
+** ========================================
+** there is two types of error here
+** 1. 00 is in the parameters
+** 2. the parameter type is does not match the op
+*/
 
 static int8_t	check_ocp_error(t_process *cp)
 {
@@ -91,8 +93,9 @@ static int8_t	check_ocp_error(t_process *cp)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw -
+** {t_process *} cp -
+** p_n - parsed_n
 ** ----------------------------------------------------------------------------
 */
 
@@ -101,9 +104,9 @@ static void		get_param_value(t_cw *cw, t_process *cp)
 	int8_t		i;
 	int8_t		j;
 	int8_t		*param_byte;
-	uint8_t		parsed_n;
-	
-	parsed_n = 0;
+	uint8_t		p_n;
+
+	p_n = 0;
 	i = -1;
 	while (++i < cp->param_num)
 	{
@@ -112,7 +115,7 @@ static void		get_param_value(t_cw *cw, t_process *cp)
 		j = -1;
 		while (++j < cp->param_size[i])
 		{
-			*param_byte = (int8_t)cw->memory[(cp->pc + 2 + parsed_n) % MEM_SIZE];
+			*param_byte = (int8_t)cw->memory[(cp->pc + 2 + p_n) % MEM_SIZE];
 			param_byte++;
 			parsed_n++;
 		}
@@ -123,11 +126,11 @@ static void		get_param_value(t_cw *cw, t_process *cp)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_process *} cp - 
+** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
 
-static inline int8_t	check_register_error(t_process *cp)
+static int8_t	check_register_error(t_process *cp)
 {
 	int8_t		i;
 
@@ -145,9 +148,9 @@ static inline int8_t	check_register_error(t_process *cp)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
-** {int8_t} trunc - 
+** {t_cw *} cw -
+** {t_process *} cp -
+** {int8_t} trunc -
 ** ----------------------------------------------------------------------------
 */
 
@@ -158,11 +161,9 @@ int8_t			process_ocp(t_cw *cw, t_process *cp, int8_t trunc)
 	cp->ocp = cw->memory[(cp->pc + 1) % MEM_SIZE];
 	cp->param_num = g_op_tab[cp->op].n_param;
 	store_info_ocp(cp, cp->ocp, trunc);
-	// Add 2 because we need to add ocp and one more step to the next op
 	cp->next_pc_distance += 2;
 	if (check_ocp_error(cp))
 		return (1);
-	// Get param value if there is no error
 	get_param_value(cw, cp);
 	i = -1;
 	while (++i < cp->param_num)

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 23:50:19 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:05:19 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/09 00:11:21 by hypark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw -
+** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
 
@@ -39,8 +39,8 @@ void				process_add(t_cw *cw, t_process *cp)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw -
+** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
 
@@ -48,7 +48,6 @@ static t_process	*process_kill(t_cw *cw, t_process *cp)
 {
 	t_process		*pre_node;
 
-	// if the deleting processor is the first one
 	if (cw->process_list == cp)
 	{
 		cw->process_list = cp->next;
@@ -57,7 +56,6 @@ static t_process	*process_kill(t_cw *cw, t_process *cp)
 	}
 	else
 	{
-		// if the deleting processor is the not the first one
 		pre_node = cw->process_list;
 		while (pre_node->next != cp)
 			pre_node = pre_node->next;
@@ -71,13 +69,13 @@ static t_process	*process_kill(t_cw *cw, t_process *cp)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
+** {t_cw *} cw -
 ** ----------------------------------------------------------------------------
 */
 
-void			process_check_live(t_cw *cw)
+void				process_check_live(t_cw *cw)
 {
-	t_process	*cp;
+	t_process		*cp;
 
 	cp = cw->process_list;
 	while (cp)
@@ -87,7 +85,6 @@ void			process_check_live(t_cw *cw)
 		else
 			cp = cp->next;
 	}
-	// if there is no processor live then end the corewar
 	if (cw->process_list == NULL)
 		corewar_end(cw);
 }
@@ -96,13 +93,13 @@ void			process_check_live(t_cw *cw)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
+** {t_cw *} cw -
 ** ----------------------------------------------------------------------------
 */
 
-void       		 process_update(t_cw *cw)
+void				process_update(t_cw *cw)
 {
-	t_process   *cp;
+	t_process		*cp;
 
 	cp = cw->process_list;
 	while (cp)
@@ -126,15 +123,15 @@ void       		 process_update(t_cw *cw)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_champ *} id - 
-** {uint16_t} pc - 
+** {t_cw *} cw -
+** {t_champ *} id -
+** {uint16_t} pc -
 ** ----------------------------------------------------------------------------
 */
 
-t_process       *process_init(t_cw *cw, t_champ *id, uint16_t pc)
+t_process			*process_init(t_cw *cw, t_champ *id, uint16_t pc)
 {
-	t_process   *cp;
+	t_process		*cp;
 
 	if (!(cp = (t_process*)ft_memalloc(sizeof(t_process))))
 		send_error("Error occured at process initializing\n");
