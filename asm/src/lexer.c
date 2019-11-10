@@ -46,8 +46,6 @@ t_error				parse_line(t_vector *instructions,
 	t_instruction	*new_instruction;
 	t_error			err;
 
-	err = NULL;
-	new_label = NULL;
 	new_instruction = NULL;
 	replace(line, TAB, WHITE_SPACE);
 	replace(line, WHITE_SPACE, SEPARATOR_CHAR);
@@ -73,6 +71,7 @@ t_error				parse_line(t_vector *instructions,
 /*
 ** Frees a double char pointer
 */
+
 void				free_double(char **dptr)
 {
 	char		**tmp;

@@ -79,16 +79,15 @@ typedef struct			s_label
 size_t				g_offset;
 
 t_error		assembler(char *filename);
-void		initChamp(t_champ *champ);
 t_error		feed_references(t_vector *, t_vector *);
 t_error		lexer(t_vector *instructions, t_champ *champ);
-t_error		verifyFilename(char *filename);
-t_error		fillChamp(t_champ *champ, int fd);
+t_error		verify_filename(char *filename);
+t_error		fill_champ(t_champ *champ, int fd);
 t_error		parser(t_champ *champ, char *filename);
 t_error		write_file(t_champ *champ, t_vector *instructions);
-t_error		getName(char **dst, int fd);
-t_error		getComment(char **dst, int fd);
-t_error		getContent(char **dst, int fd);
+t_error		get_name(char **dst, int fd);
+t_error		get_comment(char **dst, int fd);
+t_error		get_content(char **dst, int fd);
 
 t_error		get_label(t_label **new_label, char **elem);
 

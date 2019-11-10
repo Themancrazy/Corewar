@@ -3,6 +3,7 @@
 /*
 ** Checks if the label is properly formated with only LABEL_CHARS.
 */
+
 static int	is_invalid_label(char *label, int len)
 {
 	if (len > LABEL_NAME_LENGTH)

@@ -1,8 +1,8 @@
 #include <assembler.h>
 
-void	debug_print_instructions(t_vector *v)
+void			debug_print_instructions(t_vector *v)
 {
-	int		i;
+	int				i;
 	t_instruction	*item;
 
 	i = 0;
@@ -13,9 +13,9 @@ void	debug_print_instructions(t_vector *v)
 	}
 }
 
-void	debug_print_labels(t_vector *v)
+void			debug_print_labels(t_vector *v)
 {
-	int		i;
+	int			i;
 	t_label		*item;
 
 	i = 0;
@@ -26,9 +26,9 @@ void	debug_print_labels(t_vector *v)
 	}
 }
 
-void	debug_print_darray(char **a)
+void			debug_print_darray(char **a)
 {
-	while(a && *a)
+	while (a && *a)
 	{
 		ft_printf("-> %s\n", *a);
 		a++;

@@ -3,6 +3,7 @@
 /*
 ** Parses elem to get the instruction string
 */
+
 char		*get_opstr(char **elem)
 {
 	char	*label_char;
@@ -29,6 +30,7 @@ char		*get_opstr(char **elem)
 ** Once we have op string, we check op array to see if the string is
 ** valid and to get the corresponding opcode and assign to dst.
 */
+
 t_error		get_opcode(t_instruction *instruction, char **elem)
 {
 	char	*opstr;
@@ -58,8 +60,8 @@ t_error		get_opcode(t_instruction *instruction, char **elem)
 
 void		set_encoding_byte(t_instruction *instruction)
 {
+	int			i;
 	uint32_t	args[3];
-	int		i;
 
 	args[0] = 0;
 	args[1] = 0;
@@ -90,12 +92,12 @@ void		set_encoding_byte(t_instruction *instruction)
 
 void		set_size(t_instruction *instruction)
 {
-	int	i;
+	int		i;
 
 	instruction->size = 0;
 	if (!instruction->opcode)
 		return ;
-	instruction->size++; 
+	instruction->size++;
 	if (instruction->encoding_byte)
 		instruction->size++;
 	i = 0;
@@ -113,8 +115,8 @@ void		set_size(t_instruction *instruction)
 
 t_error		get_instruction(t_instruction **dst, char **elem)
 {
+	t_error			err;
 	t_instruction	*new;
-	t_error		err;
 
 	err = NULL;
 	new = malloc(sizeof(t_instruction));

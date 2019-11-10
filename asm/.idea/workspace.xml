@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" buildAllGenerated="true">
     <generated>
-      <config projectName="asm" targetName="asm" />
+      <config projectName="asm" target_name="asm" />
     </generated>
   </component>
   <component name="CMakeSettings">

@@ -32,7 +32,7 @@ t_error				get_reference(int *value, char *ref, t_vector *labels)
 ** label offset. Return an error if the label does not exist.
 */
 
-t_error				feed_references(t_vector *instructions, t_vector *labels)
+t_error				feed_references(t_vector *instr, t_vector *labels)
 {
 	int				i;
 	int				j;
@@ -41,12 +41,12 @@ t_error				feed_references(t_vector *instructions, t_vector *labels)
 	int				value;
 
 	err = NULL;
-	i = 0;
-	while (i < instructions->size)
+	i = -1;
+	while (++i < instr->size)
 	{
-		instruction = (t_instruction *)vector_get(instructions, i);
-		j = 0;
-		while (j < instruction->n_args)
+		instruction = (t_instruction *)vector_get(instr, i);
+		j = -1;
+		while (++j < instruction->n_args)
 		{
 			value = 0;
 			if (ft_strlen(instruction->args[j].label))
@@ -56,10 +56,7 @@ t_error				feed_references(t_vector *instructions, t_vector *labels)
 					return (err);
 				instruction->args[j].value = value - instruction->offset;
 			}
-			j++;
 		}
-		i++;
 	}
 	return (NULL);
 }
-

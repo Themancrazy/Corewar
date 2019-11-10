@@ -4,13 +4,13 @@
 #include "../../libft/includes/libft.h"
 
 /*
- ** Extensive function of fill_args, gets the value of the parameters.
- */
+** Extensive function of fill_args, gets the value of the parameters.
+*/
 
-static t_error		get_value(t_instruction *inst, char *elem, int n)
+static t_error			get_value(t_instruction *inst, char *elem, int n)
 {
-	int		i;
-	int		len;
+	int				i;
+	int				len;
 
 	i = 0;
 	if (inst->args[n].type == REG_CODE)
@@ -36,10 +36,11 @@ static t_error		get_value(t_instruction *inst, char *elem, int n)
 }
 
 /*
- ** Extensive function of fill_args, gets the type and size of the parameters.
- */
+** Extensive function of fill_args, gets the type and size of the parameters.
+*/
 
-static t_error		get_type(t_instruction *inst, char *elem, int count, int n)
+static t_error			get_type(t_instruction *inst, char *elem,\
+						int count, int n)
 {
 	if (!elem)
 		return (ft_strdup(RED"Invalid parameter"RESET));
@@ -62,15 +63,16 @@ static t_error		get_type(t_instruction *inst, char *elem, int count, int n)
 }
 
 /*
- ** Fill inst strcuture for this line, get the size, value and type of
- ** the parameters before writing them into the '.s' file.
- */
+** Fill inst strcuture for this line, get the size, value and type of
+** the parameters before writing them into the '.s' file.
+*/
 
-static t_error		fill_arg(t_instruction *inst, char **elem, int current, int n)
+static t_error			fill_arg(t_instruction *inst, char **elem,\
+						int current, int n)
 {
+	int			count;
+	int			tmp;
 	t_error		err;
-	int		count;
-	int		tmp;
 
 	err = NULL;
 	count = 0;
@@ -92,10 +94,11 @@ static t_error		fill_arg(t_instruction *inst, char **elem, int current, int n)
 }
 
 /*
- ** Dispatches the labels name and sends its id (1 - 17) to fill_arg.
- */
+** Dispatches the labels name and sends its id (1 - 17) to fill_arg.
+*/
 
-static t_error		dispatch_arg(t_instruction *inst, char **elem, int current)
+static t_error			dispatch_arg(t_instruction *inst,\
+						char **elem, int current)
 {
 	t_error		err;
 	int			i;
@@ -116,17 +119,16 @@ static t_error		dispatch_arg(t_instruction *inst, char **elem, int current)
 	return (NULL);
 }
 
-
 /*
- ** Gets the arguments of the instruction. First checks how many arguments are
- ** expected for this opcode, then tries to extract them from elem and verifies
- ** the formating. For each argument, we need to create a corresponding
- ** t_argument struct, and feed the label reference if appropriate, the type, the
- ** compiled size by looking at 'thefuck' in t_op struct and assigning its value
- ** in case it is not a reference.
- */
+** Gets the arguments of the instruction. First checks how many arguments are
+** expected for this opcode, then tries to extract them from elem and verifies
+** the formating. For each argument, we need to create a corresponding
+** t_argument struct, and feed the label reference if appropriate, the type, the
+** compiled size by looking at 'thefuck' in t_op struct and assigning its value
+** in case it is not a reference.
+*/
 
-t_error		get_args(t_instruction *instruction, char **elem)
+t_error					get_args(t_instruction *instruction, char **elem)
 {
 	t_error	err;
 	int		i;
