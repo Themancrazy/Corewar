@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 21:46:23 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:17:58 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/10 12:01:05 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ static inline int32_t		param_1(t_cw *cw, t_process *cp)
 
 	if (cp->param_type[1] == T_REG)
 	{
-		FLAG & FL_VER4 ? ft_printf("r%d ", cp->param_value[1]) : 0;
-		return (cp->registers[cp->param_value[1]]);
+		param = cp->registers[cp->param_value[1]];
+		FLAG & FL_VER4 ? ft_printf("%d ", param) : 0;
+		return (param);
 	}
 	else if (cp->param_type[1] == T_DIR)
 	{

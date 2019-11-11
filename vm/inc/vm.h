@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/08 19:56:14 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/11 12:29:10 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,13 @@
 
 # define MAX_X		192
 # define MAX_Y		64
+# define WIN		50
 
 # define ESC		27
 # define SPACE		32
+# define KEY_D		100
+# define MIN_SPEED	10000
+# define MAX_SPEED	1
 
 /*
 ** ----------------------------------------------------------------------------

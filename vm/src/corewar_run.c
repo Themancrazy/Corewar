@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar_run.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 22:50:18 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 00:15:38 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/11 11:23:35 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 
 void				corewar_end(t_cw *cw)
 {
+	if (GUI)
+		endwin();
+	printf("cycle: %u\n", (uint32_t)CYCLE);
 	ft_printf("Contestant %d", WINNER->prog_number);
 	ft_printf(", \"%s\", has won !\n", WINNER->name);
 	exit(0);
@@ -104,4 +107,8 @@ void				corewar_run(t_cw *cw)
 			dump_memory(cw);
 		++CYCLE;
 	}
+	printf("cycle: %u\n", (uint32_t)CYCLE);
+	if (GUI)
+		endwin();
+	exit(1);
 }

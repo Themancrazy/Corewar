@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 00:37:56 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 12:08:27 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/11 09:25:42 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int16_t			pc_idx_mod(t_process *cp, int16_t offset)
 ** When storing the information based on ocp
 ** check this is right or wrong and if not wrong return 0
 **
-** {t_cw *} cw -
+** {t_cw *} cw - Main structure for corewar.
 ** {t_process *} cp -
 ** -----------------------------------------------------------
 */
@@ -133,7 +133,7 @@ static int8_t	instruction_get_info(t_cw *cw, t_process *cp)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw -
+** {t_cw *} cw - Main structure for corewar.
 ** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
@@ -144,7 +144,7 @@ void			instruction_proceed(t_cw *cw, t_process *cp)
 
 	error = instruction_get_info(cw, cp);
 	if (error == 0)
-		instruction[cp->op](cw, cp);
+		g_instruction[cp->op](cw, cp);
 	if ((cp->op != 8) || cp->carry == 0 || error)
 		cp->pc = (cp->pc + cp->next_pc_distance) % MEM_SIZE;
 	cp->next_pc_distance = 0;

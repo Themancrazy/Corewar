@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 23:50:19 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 00:11:21 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/11 10:01:35 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 /*
 ** ----------------------------------------------------------------------------
-** DESCRITPTION
+** Function called to add new processes to list of processes.
 **
-** {t_cw *} cw -
-** {t_process *} cp -
+** {t_cw *} cw - Main structure for corewar.
+** {t_process *} cp - Process to be added to the list.
 ** ----------------------------------------------------------------------------
 */
 
@@ -37,10 +37,13 @@ void				process_add(t_cw *cw, t_process *cp)
 
 /*
 ** ----------------------------------------------------------------------------
-** DESCRITPTION
+** This function is called whenever a process needs to be 'killed'. To do this
+** since process is a node in a linked list of processes, we attach the node
+** previous to the node we want to kill, to the node after it. Therefore, this
+** process will not be checked any longer.
 **
-** {t_cw *} cw -
-** {t_process *} cp -
+** {t_cw *} cw - Main structure for corewar.
+** {t_process *} cp - Process being killed.
 ** ----------------------------------------------------------------------------
 */
 
@@ -67,9 +70,11 @@ static t_process	*process_kill(t_cw *cw, t_process *cp)
 
 /*
 ** ----------------------------------------------------------------------------
-** DESCRITPTION
+** This function is called at each 'CYCLE_TO_DIE' check. We go through the ll
+** of processes and check for the process who didn't make a 'live' call then
+** kill them.
 **
-** {t_cw *} cw -
+** {t_cw *} cw - Main structure for corewar.
 ** ----------------------------------------------------------------------------
 */
 
@@ -80,10 +85,10 @@ void				process_check_live(t_cw *cw)
 	cp = cw->process_list;
 	while (cp)
 	{
-		if ((cp->live_call >= (CYCLE - KILL_CYCLE)) == 0)
-			cp = process_kill(cw, cp);
-		else
+		if (cp->live_call >= (CYCLE - KILL_CYCLE))
 			cp = cp->next;
+		else
+			cp = process_kill(cw, cp);
 	}
 	if (cw->process_list == NULL)
 		corewar_end(cw);
@@ -91,9 +96,11 @@ void				process_check_live(t_cw *cw)
 
 /*
 ** ----------------------------------------------------------------------------
-** DESCRITPTION
+** This function is called at each cycle of the vm, it goes through all the
+** processes, verifies if the op code is valid, then applies the instruction
+** of this op code if the timing is right.
 **
-** {t_cw *} cw -
+** {t_cw *} cw - Main structure for corewar.
 ** ----------------------------------------------------------------------------
 */
 
@@ -121,11 +128,11 @@ void				process_update(t_cw *cw)
 
 /*
 ** ----------------------------------------------------------------------------
-** DESCRITPTION
+** This function is called to initialise new processes.
 **
-** {t_cw *} cw -
-** {t_champ *} id -
-** {uint16_t} pc -
+** {t_cw *} cw - Main structure for corewar.
+** {t_champ *} id - Id of champion to whom the process being init 'belong' to.
+** {uint16_t} pc - Current position of 'processor reader' in memory.
 ** ----------------------------------------------------------------------------
 */
 

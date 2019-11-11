@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 00:22:28 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 00:27:18 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/10 10:14:45 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void			h_puthex(unsigned char c)
 {
 	static char	*base = "0123456789abcdef";
 
-	ft_printf("%c", base[c / 16]);
-	ft_printf("%c", base[c % 16]);
+	printf("%c", base[c / 16]);
+	printf("%c", base[c % 16]);
 }
 
 /*
@@ -48,15 +48,15 @@ void			print_memory(t_cw *cw)
 		if (i % siz == 0)
 		{
 			if (i)
-				ft_printf("\n");
+				printf("\n");
 			if (i == 0)
-				ft_printf("0x0000 : ");
+				printf("0x0000 : ");
 			else
-				ft_printf("%#06x : ", i);
+				printf("%#06x : ", i);
 		}
 		h_puthex(cw->memory[i]);
-		ft_printf(" ");
+		printf(" ");
 		i++;
 	}
-	ft_printf("\n");
+	printf("\n");
 }

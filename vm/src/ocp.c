@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 21:13:12 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 00:07:53 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/09 23:07:45 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static void		get_param_value(t_cw *cw, t_process *cp)
 		{
 			*param_byte = (int8_t)cw->memory[(cp->pc + 2 + p_n) % MEM_SIZE];
 			param_byte++;
-			parsed_n++;
+			++p_n;
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_live.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 21:46:45 by hypark            #+#    #+#             */
-/*   Updated: 2019/10/26 21:37:30 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/11 09:25:46 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void				ft_live(t_cw *cw, t_process *cp)
 		param_byte++;
 	}
     swap_int32(&prog_num);
-	if (prog_num <= -1 && prog_num >= -4)
+	if (prog_num <= -1 && prog_num >= (MAX_PLAYERS * - 1))
 		cw->winner = &CHAMP((prog_num * -1) - 1);
-	else
-		cw->n_live_call -= 1;
-    cp->live_call = cw->cycle.cycle;
-	FLAG & FL_VER4 ? ft_printf("P%5d | live %d\n", P_I, prog_num) : 0;
+	// else
+		// cw->n_live_call -= 1;
+    cp->live_call = CYCLE;
+	FLAG & FL_VER4 ? printf("P%5d | live %d\n", P_I, prog_num) : 0;
 }
