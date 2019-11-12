@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 23:50:19 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/11 10:01:35 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/11 17:19:57 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static t_process	*process_kill(t_cw *cw, t_process *cp)
 	{
 		cw->process_list = cp->next;
 		free(cp);
+		PRO_DIED = 1;
 		return (cw->process_list);
 	}
 	else
@@ -64,6 +65,7 @@ static t_process	*process_kill(t_cw *cw, t_process *cp)
 			pre_node = pre_node->next;
 		pre_node->next = cp->next;
 		free(cp);
+		PRO_DIED = 1;
 		return (pre_node->next);
 	}
 }

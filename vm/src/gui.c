@@ -20,15 +20,16 @@ static void			fill_map(WINDOW *win)
     }
 }
 
-static void			print_info(t_cw *cw, t_gui *gui)
+static void			print_gui_info(t_cw *cw, t_gui *gui)
 {
     wrefresh(gui->win_info);
     init_pair(9, COLOR_WHITE, COLOR_BLACK);
     wattron(gui->win_info, A_BOLD);
     wattron(gui->win_info, COLOR_PAIR(9));
     mvwprintw(gui->win_info, 1, 1, "Current Cycle: %d", cw->cycle.cycle);
-    mvwprintw(gui->win_info, 3, 1, "Speed: %0.1lf", 5.0 - log10(gui->speed));
+    mvwprintw(gui->win_info, 3, 1, "Speed: %0.1lf", 6.0 - log10(gui->speed));
     mvwprintw(gui->win_info, 5, 1, "Kill cycle: %d", cw->cycle.kill_cycle);
+    mvwprintw(gui->win_info, 7, 1, "                                    ");
     mvwprintw(gui->win_info, 7, 1, "Current winner: %s", cw->winner->name);
     mvwprintw(gui->win_info, 9, 1, "List of commands:");
     mvwprintw(gui->win_info, 10, 4, "- Right Arrow: Increase speed.");
@@ -50,7 +51,9 @@ static WINDOW		*init_screen(WINDOW *win, int max_x, int max_y, int y, int x)
     nodelay(win, true);
     init_pair(17, COLOR_WHITE, COLOR_WHITE);
     wattron(win, COLOR_PAIR(17));
+    wattron(win, A_BOLD);
     box(win, 0, 0);
+    wattroff(win, A_BOLD);
     wattroff(win, COLOR_PAIR(17));
     keypad(win, true);
     if (x == 1)
@@ -78,7 +81,7 @@ static void             pause_game(t_cw *cw, t_gui *gui, WINDOW *win)
             gui->speed = (gui->speed <= MAX_SPEED) ? MIN_SPEED : gui->speed / 10;
         else if (key == KEY_D)
             dump_memory(cw);
-        print_info(cw, &cw->gui);
+        print_gui_info(cw, &cw->gui);
     } 
 }
 
@@ -102,8 +105,8 @@ static void				update_screen(t_cw *cw, t_gui *gui, WINDOW *win)
         dump_memory(cw);
     else if (key == SPACE)
         pause_game(cw, gui, win);
-    print_info(cw, &cw->gui);
-    usleep(10 * gui->speed);
+    print_gui_info(cw, &cw->gui);
+    usleep(1 * gui->speed);
 }
 
 static inline void	pc_highlight(t_cw *cw, t_gui *gui, int *color, int i, int x, int y)
@@ -157,7 +160,7 @@ void			gui_update(t_cw *cw)
 {
     update_screen(cw, &cw->gui, cw->gui.win);
     update_screen(cw, &cw->gui, cw->gui.win_info);
-    print_info(cw, &cw->gui);
+    print_gui_info(cw, &cw->gui);
     memory_gui_update(cw, &cw->gui);
 }
 
@@ -165,5 +168,6 @@ void			gui_init(t_cw *cw)
 {
     cw->gui.win = init_screen(cw->gui.win, MAX_X + 1, MAX_Y + 2, 1, 1);
     cw->gui.win_info = init_screen(cw->gui.win_info, 45, 16, 1, MAX_X + 2);
+    wattron(cw->gui.win, A_BOLD);
     cw->gui.speed = MIN_SPEED / 10;
 }

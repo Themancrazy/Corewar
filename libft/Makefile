@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anjansse <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/29 09:51:04 by anjansse          #+#    #+#              #
-#    Updated: 2019/11/08 19:53:18 by anjansse         ###   ########.fr        #
+#    Updated: 2019/11/11 20:36:35 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,9 @@ CHAR		= ft_tolower.c ft_toupper.c send_error.c
 
 GNL			= get_next_line.c
 
-PRINTF		= ft_printf.c check.c handle.c keys.c main_check.c manage.c\
-			  parse.c manage_dsc.c manage_pf.c manage_uox.c ftoa.c ft_iitoa.c\
-			  ft_itoa_base.c pf_functions.c pf_functions2.c pf_functions3.c
+PRINTF		= base.c color.c decimal.c ft_printf_bfd.c ft_printf_csp.c\
+			  ft_printf_di.c ft_printf_f.c ft_printf_r.c ft_printf_uox.c\
+			  ft_printf.c init.c print.c read_info.c string.c
 
 FUNCTIONS	= $(IS) $(STRUCT) $(MEMORY) $(NUMBER) $(PRINT) $(STRING) $(CHAR)
 

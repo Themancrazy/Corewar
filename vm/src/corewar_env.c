@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 00:17:30 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 00:18:40 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/11 20:19:48 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ void			corewar_env(t_cw *cw, int ac, char **av)
 	cw->parsing.av = av;
 	cw->process_list = NULL;
 	cw->cycle.kill_cycle = CYCLE_TO_DIE;
-	cw->cycle.cycle = 0;
+	PRO_DIED = 0;
+	KC_CHECK = 1;
+	cw->n_live_call = 0;
+	cw->cycle.cycle = 1;
+	cw->cycle.cycle_tmp = 1;
 	cw->parsing.flag = 0;
 	cw->process_index = 1;
 	env_init_champ(cw);

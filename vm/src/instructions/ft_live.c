@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 21:46:45 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/11 09:25:46 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/11 16:55:10 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void				ft_live(t_cw *cw, t_process *cp)
     swap_int32(&prog_num);
 	if (prog_num <= -1 && prog_num >= (MAX_PLAYERS * - 1))
 		cw->winner = &CHAMP((prog_num * -1) - 1);
-	// else
-		// cw->n_live_call -= 1;
     cp->live_call = CYCLE;
 	FLAG & FL_VER4 ? printf("P%5d | live %d\n", P_I, prog_num) : 0;
 }

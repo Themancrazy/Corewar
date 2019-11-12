@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 22:50:18 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/11 11:23:35 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/11 20:19:53 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,20 @@ void				corewar_end(t_cw *cw)
 
 static void			cycle_check(t_cw *cw)
 {
-	if (CYCLE % KILL_CYCLE == 0 && CYCLE)
+	if (CYCLE_TMP == KILL_CYCLE)
 	{
-		if ((cw->n_live_call >= NBR_LIVE) || (KC_CHECK == MAX_CHECKS))
+		// printf("kc: %d\n", KC_CHECK);
+		if ((cw->n_live_call >= NBR_LIVE && PRO_DIED == 0) || (KC_CHECK == MAX_CHECKS))
 		{
 			KILL_CYCLE -= CYCLE_DELTA;
-			KC_CHECK = 0;
+			KC_CHECK = 1;
 		}
 		else
 			KC_CHECK += 1;
 		process_check_live(cw);
 		cw->n_live_call = 0;
+		CYCLE_TMP = 0;
+		PRO_DIED = 0;
 	}
 	if (KILL_CYCLE <= 0)
 		KILL_CYCLE = 1;
@@ -106,6 +109,8 @@ void				corewar_run(t_cw *cw)
 		if (DUMP && CYCLE == DUMP_CYCLE)
 			dump_memory(cw);
 		++CYCLE;
+		++CYCLE_TMP;
+		// printf("cycle: %d\tcycle_todie: %d\n", CYCLE, KILL_CYCLE);
 	}
 	printf("cycle: %u\n", (uint32_t)CYCLE);
 	if (GUI)

@@ -6,7 +6,7 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/11/09 10:26:15 by anjansse         ###   ########.fr        #
+#    Updated: 2019/11/11 20:41:14 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,3 +28,5 @@ fclean:
 	@make -C vm/ fclean
 	@rm asm_exec
 	@rm corewar
+
+re: fclean all

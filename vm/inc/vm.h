@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/11 12:29:10 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/11 16:49:40 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define CYCLE		cw->cycle.cycle
 # define DUMP_CYCLE	cw->cycle.dump_cycle
 # define KILL_CYCLE cw->cycle.kill_cycle
+# define CYCLE_TMP	cw->cycle.cycle_tmp
+# define PRO_DIED	cw->process_died
 # define KC_CHECK	cw->cycle.kc_check
 
 # define P_I		 cp->process_number
@@ -51,7 +53,7 @@
 # define ESC		27
 # define SPACE		32
 # define KEY_D		100
-# define MIN_SPEED	10000
+# define MIN_SPEED	100000
 # define MAX_SPEED	1
 
 /*
@@ -92,6 +94,7 @@ typedef struct      s_parser
 typedef struct		s_cycle
 {
 	int				cycle;
+	int				cycle_tmp;
 	int				dump_cycle;
 	int				kill_cycle;
 	int				kc_check;
@@ -152,6 +155,7 @@ typedef struct      s_cw
 	int				n_players;
 	uint32_t		n_live_call;
 	uint32_t		process_index;
+	char			process_died;
 	t_process		*process_list;
 	uint8_t			memory[MEM_SIZE];
 	int8_t			owner[MEM_SIZE];
