@@ -6,21 +6,12 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 23:48:34 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:05:52 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 09:50:53 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 #include "op.h"
-
-/*
-** ----------------------------------------------------------------------------
-** DESCRITPTION
-**
-** {t_cw *} cw - 
-** {t_process *} cp - 
-** ----------------------------------------------------------------------------
-*/
 
 static t_process	*process_copy(t_cw *cw, t_process *copy_cp, int16_t pc)
 {
@@ -44,6 +35,15 @@ static t_process	*process_copy(t_cw *cw, t_process *copy_cp, int16_t pc)
 	return (cp);
 }
 
+/*
+** ----------------------------------------------------------------------------
+** DESCRITPTION
+**
+** {t_cw *} cw - Main structure of the game.
+** {t_process *} cp - .
+** ----------------------------------------------------------------------------
+*/
+
 void				ft_fork(t_cw *cw, t_process *cp)
 {
 	int16_t			address;
@@ -54,9 +54,9 @@ void				ft_fork(t_cw *cw, t_process *cp)
 	{
 		param_byte = (int8_t *)&param;
 		address = (int16_t)cp->param_value[0];
-		FLAG & FL_VER4 ? ft_printf("P%5d | fork %d ", P_I, address) : 0;
+		FLAG & FL_VER4 ? printf("P%5d | fork %d ", P_I, address) : 0;
 		address = pc_idx_mod(cp, address);
-		FLAG & FL_VER4 ? ft_printf("(%d)\n", address) : 0;
+		FLAG & FL_VER4 ? printf("(%d)\n", address) : 0;
 		process_add(cw, process_copy(cw, cp, address));
 		cw->owner[address % MEM_SIZE] = cp->id->prog_number - 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 23:50:19 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/11 17:19:57 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 11:35:31 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,11 @@ void				process_update(t_cw *cw)
 	cp = cw->process_list;
 	while (cp)
 	{
+		if (cp->op_called == 0)
+		{
+			cp->op = cw->memory[cp->pc] - 1;
+			cp->op_called = 1;
+		}
 		if (cp->op <= 16 && cp->op >= 0)
 		{
 			if (CYCLE - cp->init_cycle == g_op_tab[cp->op].n_cycle)
@@ -121,8 +126,8 @@ void				process_update(t_cw *cw)
 		else
 		{
 			cp->pc = (cp->pc + 1) % MEM_SIZE;
-			cp->op = cw->memory[cp->pc] - 1;
 			cp->init_cycle = CYCLE;
+			cp->op_called = 0;
 		}
 		cp = cp->next;
 	}

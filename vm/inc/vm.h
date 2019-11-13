@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 23:26:46 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/11 16:49:40 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 12:57:00 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@
 # define KEY_D		100
 # define MIN_SPEED	100000
 # define MAX_SPEED	1
+# define SPEED		gui->speed
+# define INFO		gui->win_info
 
 /*
 ** ----------------------------------------------------------------------------
@@ -116,6 +118,7 @@ typedef struct		s_process
 	int				init_cycle;
 	int				carry;
 	int				live_call;
+	int8_t			op_called;
 	uint8_t			op;
 	uint8_t			ocp;
 	uint8_t			param_num;
@@ -141,6 +144,7 @@ typedef struct		s_gui
 {
 	WINDOW      	*win;
 	WINDOW			*win_info;
+	WINDOW			*win_title;
 	uint32_t		speed;
 }					t_gui;
 
@@ -188,6 +192,13 @@ void				corewar_end(t_cw *cw);
 
 void				gui_init(t_cw *cw);
 void				gui_update(t_cw *cw);
+void				print_gui_info(t_cw *cw, t_gui *gui);
+void				print_gui_title(t_cw *cw, t_gui *gui);
+void				memory_gui_update(t_cw *cw, t_gui *gui);
+int					get_color(char n);
+void				fill_map(WINDOW *win);
+void				pc_highlight(t_cw *cw, t_gui *gui, int ixy[3]);
+void				pause_game(t_cw *cw, t_gui *gui, WINDOW *win);
 
 void				dump_memory(t_cw *cw);
 void    			h_rev_bytes(void *ptr, size_t n);

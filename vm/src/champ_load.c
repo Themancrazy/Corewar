@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   champ_load.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 00:27:39 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 00:31:59 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/13 13:43:21 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void				champ_assign(t_cw *cw)
 		process_add(cw, process_init(cw, &CHAMP(i), pc));
 		close(CHAMP(i).fd);
 	}
+	if (cw->n_players < 1)
+		send_error("No champions given as argument. Corewar needs at least 1 program.\n");
 	cw->winner = &CHAMP(i - 1);
 }
 

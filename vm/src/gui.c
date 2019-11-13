@@ -1,173 +1,135 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gui.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/13 12:28:01 by anjansse          #+#    #+#             */
+/*   Updated: 2019/11/13 13:35:51 by anjansse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
-static void			fill_map(WINDOW *win)
+static void				info_print(t_cw *cw, t_gui *gui, char *winner)
 {
-    int x;
-    int y;
-    x = -2;
-    y = 1;
-    while (y != MAX_Y + 1)
-    {
-       if (x == MAX_X - 2)
-        {
-            x = -2;
-            y++;
-        }
-        else {
-        x += 3;
-        mvwprintw(win, y, x, "00");
-        }
-    }
+	mvwprintw(INFO, 12, 1, "Current Cycle: %d", cw->cycle.cycle);
+	mvwprintw(INFO, 14, 1, "Speed: %0.1lf", 6.0 - log10(gui->speed));
+	mvwprintw(INFO,	16, 1, "CYCLE TO DIE: %d", cw->cycle.kill_cycle);
+	mvwprintw(INFO, 18, 1, "CYCLE DELTA: %d", CYCLE_DELTA);
+	mvwprintw(INFO, 20, 1, "                                          ");
+	mvwprintw(INFO, 20, 1, "Current winner: %s", winner);
+	mvwprintw(INFO, 22, 1, "Number of processes: %u",
+	cw->process_index);
+	mvwprintw(INFO, 24, 1, "List of commands:");
+	mvwprintw(INFO, 25, 4, "- Right Arrow: Increase speed.");
+	mvwprintw(INFO, 26, 4, "- Left Arrow: Decrease speed.");
+	mvwprintw(INFO, 27, 4, "- Space: Pause/play VM.");
+	mvwprintw(INFO, 28, 4, "- Escape: Quit game.");
+	mvwprintw(INFO, 29, 4, "- d key: Quit game and dump memory.");	
 }
 
-static void			print_gui_info(t_cw *cw, t_gui *gui)
+void					print_gui_info(t_cw *cw, t_gui *gui)
 {
-    wrefresh(gui->win_info);
-    init_pair(9, COLOR_WHITE, COLOR_BLACK);
-    wattron(gui->win_info, A_BOLD);
-    wattron(gui->win_info, COLOR_PAIR(9));
-    mvwprintw(gui->win_info, 1, 1, "Current Cycle: %d", cw->cycle.cycle);
-    mvwprintw(gui->win_info, 3, 1, "Speed: %0.1lf", 6.0 - log10(gui->speed));
-    mvwprintw(gui->win_info, 5, 1, "Kill cycle: %d", cw->cycle.kill_cycle);
-    mvwprintw(gui->win_info, 7, 1, "                                    ");
-    mvwprintw(gui->win_info, 7, 1, "Current winner: %s", cw->winner->name);
-    mvwprintw(gui->win_info, 9, 1, "List of commands:");
-    mvwprintw(gui->win_info, 10, 4, "- Right Arrow: Increase speed.");
-    mvwprintw(gui->win_info, 11, 4, "- Left Arrow: Decrease speed.");
-    mvwprintw(gui->win_info, 12, 4, "- Space: Pause/play VM.");
-    mvwprintw(gui->win_info, 13, 4, "- Escape: Quit game.");
-    mvwprintw(gui->win_info, 14, 4, "- d key: Quit game and dump memory.");
-    wattroff(gui->win_info, COLOR_PAIR(9));
+	char	*winner;
+
+	winner = (ft_strlen(WINNER->name) > 25) ?
+	ft_strsub(cw->winner->name, 0, 25) : ft_strdup(cw->winner->name);
+	wrefresh(INFO);
+	init_pair(9, COLOR_WHITE, COLOR_BLACK);
+	wattron(INFO, A_BOLD);
+	wattron(INFO, COLOR_PAIR(9));
+	mvwprintw(INFO, 1, 3, " /$$$$$$ /$$   /$$ /$$$$$$$$ /$$$$$$ ");
+	mvwprintw(INFO, 2, 3, "|_  $$_/| $$$ | $$| $$_____//$$__  $$");
+	mvwprintw(INFO, 3, 3, "  | $$  | $$$$| $$| $$     | $$  \\ $$");
+	mvwprintw(INFO, 4, 3, "  | $$  | $$ $$ $$| $$$$$  | $$  | $$");
+	mvwprintw(INFO, 5, 3, "  | $$  | $$  $$$$| $$__/  | $$  | $$");
+	mvwprintw(INFO, 6, 3, "  | $$  | $$\\  $$$| $$     | $$  | $$");
+	mvwprintw(INFO, 7, 3, " /$$$$$$| $$ \\  $$| $$     |  $$$$$$/");
+	mvwprintw(INFO, 8, 3, "|______/|__/  \\__/|__/      \\______/ ");
+	wattron(INFO, COLOR_PAIR(17));
+	mvwprintw(INFO, 10, 1, "-------------------------------------------");
+	mvwprintw(INFO, 11, 1, "-------------------------------------------");
+	wattroff(INFO, COLOR_PAIR(17));
+	info_print(cw, gui, winner);
+	wattroff(INFO, COLOR_PAIR(9));
+	free(winner);
 }
 
-static WINDOW		*init_screen(WINDOW *win, int max_x, int max_y, int y, int x)
+static WINDOW			*init_screen(WINDOW *win, int max_xy[2], int xy[2])
 {
-    initscr();
-    start_color();
-    cbreak();
-    noecho();
-    curs_set(0);
-    win = newwin(max_y, max_x, y, x);
-    nodelay(win, true);
-    init_pair(17, COLOR_WHITE, COLOR_WHITE);
-    wattron(win, COLOR_PAIR(17));
-    wattron(win, A_BOLD);
-    box(win, 0, 0);
-    wattroff(win, A_BOLD);
-    wattroff(win, COLOR_PAIR(17));
-    keypad(win, true);
-    if (x == 1)
-        fill_map(win);
-    return (win);
-}
-
-static void             pause_game(t_cw *cw, t_gui *gui, WINDOW *win)
-{
-    int         key;
-
-   while (1)
-   {
-       key = wgetch(win);
-       if (key == SPACE)
-           return ;
-        else if (key == ESC)
-        {
-            endwin();
-            exit(0);
-        }
-        else if (key == KEY_LEFT)
-            gui->speed = (gui->speed >= MIN_SPEED) ? MAX_SPEED : gui->speed * 10;
-        else if (key == KEY_RIGHT)
-            gui->speed = (gui->speed <= MAX_SPEED) ? MIN_SPEED : gui->speed / 10;
-        else if (key == KEY_D)
-            dump_memory(cw);
-        print_gui_info(cw, &cw->gui);
-    } 
+	initscr();
+	start_color();
+	cbreak();
+	noecho();
+	curs_set(0);
+	win = newwin(max_xy[1], max_xy[0], xy[1], xy[0]);
+	nodelay(win, true);
+	init_pair(17, COLOR_WHITE, COLOR_WHITE);
+	wattron(win, COLOR_PAIR(17));
+	wattron(win, A_BOLD);
+	box(win, 0, 0);
+	wattroff(win, A_BOLD);
+	wattroff(win, COLOR_PAIR(17));
+	keypad(win, true);
+	return (win);
 }
 
 static void				update_screen(t_cw *cw, t_gui *gui, WINDOW *win)
 {
-    int			key;
-    
-    clear();
-    wrefresh(win);
-    key = wgetch(win);
-    if (key == ESC)
-    {
-        endwin();
-        exit(0);
-    }
-    else if (key == KEY_LEFT)
-        gui->speed = (gui->speed >= MIN_SPEED) ? MAX_SPEED : gui->speed * 10;
-    else if (key == KEY_RIGHT)
-        gui->speed = (gui->speed <= MAX_SPEED) ? MIN_SPEED : gui->speed / 10;
-    else if (key == KEY_D)
-        dump_memory(cw);
-    else if (key == SPACE)
-        pause_game(cw, gui, win);
-    print_gui_info(cw, &cw->gui);
-    usleep(1 * gui->speed);
+	int		key;
+
+	clear();
+	wrefresh(win);
+	key = wgetch(win);
+	if (key == ESC)
+	{
+		endwin();
+		exit(0);
+	}
+	else if (key == KEY_LEFT)
+		SPEED = (SPEED >= MIN_SPEED) ? MAX_SPEED : SPEED * 10;
+	else if (key == KEY_RIGHT)
+		SPEED = (SPEED <= MAX_SPEED) ? MIN_SPEED : SPEED / 10;
+	else if (key == KEY_D)
+		dump_memory(cw);
+	else if (key == SPACE)
+		pause_game(cw, gui, win);
+	print_gui_info(cw, &cw->gui);
+	usleep(SPEED);
 }
 
-static inline void	pc_highlight(t_cw *cw, t_gui *gui, int *color, int i, int x, int y)
+void					gui_update(t_cw *cw)
 {
-    t_process *cp;
-    cp = cw->process_list;
-    while (cp)
-    {
-        if (i == cp->pc)
-        {
-            init_pair(15, color[cw->owner[i]], COLOR_WHITE);
-            wattron(gui->win, COLOR_PAIR(15));
-            mvwprintw(gui->win, y, x, "%02x", cw->memory[cp->pc]);
-            wattroff(gui->win, COLOR_PAIR(15));
-        }
-        cp = cp->next;
-    }
+	update_screen(cw, &cw->gui, cw->gui.win);
+	update_screen(cw, &cw->gui, cw->gui.win_info);
+	update_screen(cw, &cw->gui, cw->gui.win_title);
+	print_gui_title(cw, &cw->gui);
+	print_gui_info(cw, &cw->gui);
+	memory_gui_update(cw, &cw->gui);
 }
 
-static void    memory_gui_update(t_cw *cw, t_gui *gui)
+void					gui_init(t_cw *cw)
 {
-    int                 i;
-    int                 x;
-    int                 y;
-    int color[4] = {COLOR_YELLOW, COLOR_GREEN, COLOR_RED, COLOR_MAGENTA};
+	int		max_xy[2];
+	int		xy[2];
 
-    i = 0;
-    x = -2;
-    y = 1;
-    while (i < MEM_SIZE)
-    {
-        if (x == MAX_X - 2)
-        {
-            x = -2;
-            ++y;
-        }
-        x += 3;
-        if (cw->owner[i] != -1)
-        {
-            init_pair(cw->owner[i] + 2, color[cw->owner[i]], COLOR_BLACK);
-            wattron(gui->win, COLOR_PAIR(cw->owner[i] + 2));
-            mvwprintw(gui->win, y, x, "%02x", cw->memory[i]);
-            pc_highlight(cw, gui, color, i, x, y);
-            wattroff(gui->win, COLOR_PAIR(cw->owner[i] + 2));
-        }
-        ++i;
-    }
-}
-
-void			gui_update(t_cw *cw)
-{
-    update_screen(cw, &cw->gui, cw->gui.win);
-    update_screen(cw, &cw->gui, cw->gui.win_info);
-    print_gui_info(cw, &cw->gui);
-    memory_gui_update(cw, &cw->gui);
-}
-
-void			gui_init(t_cw *cw)
-{
-    cw->gui.win = init_screen(cw->gui.win, MAX_X + 1, MAX_Y + 2, 1, 1);
-    cw->gui.win_info = init_screen(cw->gui.win_info, 45, 16, 1, MAX_X + 2);
-    wattron(cw->gui.win, A_BOLD);
-    cw->gui.speed = MIN_SPEED / 10;
+	max_xy[1] = MAX_Y + 2;
+	max_xy[0] = MAX_X + 1;
+	xy[0] = 1;
+	xy[1] = 12;
+	cw->gui.win = init_screen(cw->gui.win, max_xy, xy);
+	max_xy[1] = 31;
+	max_xy[0] = 45;
+	xy[0] = MAX_X + 2;
+	xy[1] = 1;
+	cw->gui.win_info = init_screen(cw->gui.win_info, max_xy, xy);
+	max_xy[1] = 11;
+	max_xy[0] = MAX_X + 1;
+	xy[0] = 1;
+	xy[1] = 1;
+	cw->gui.win_title = init_screen(cw->gui.win_title, max_xy, xy);
+	wattron(cw->gui.win, A_BOLD);
+	cw->gui.speed = MIN_SPEED / 10;
 }

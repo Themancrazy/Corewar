@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 22:50:18 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/11 20:19:53 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 09:49:38 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void			cycle_check(t_cw *cw)
 {
 	if (CYCLE_TMP == KILL_CYCLE)
 	{
-		// printf("kc: %d\n", KC_CHECK);
-		if ((cw->n_live_call >= NBR_LIVE && PRO_DIED == 0) || (KC_CHECK == MAX_CHECKS))
+		if ((cw->n_live_call >= NBR_LIVE && PRO_DIED == 0)
+		|| (KC_CHECK == MAX_CHECKS))
 		{
 			KILL_CYCLE -= CYCLE_DELTA;
 			KC_CHECK = 1;
@@ -110,9 +110,7 @@ void				corewar_run(t_cw *cw)
 			dump_memory(cw);
 		++CYCLE;
 		++CYCLE_TMP;
-		// printf("cycle: %d\tcycle_todie: %d\n", CYCLE, KILL_CYCLE);
 	}
-	printf("cycle: %u\n", (uint32_t)CYCLE);
 	if (GUI)
 		endwin();
 	exit(1);

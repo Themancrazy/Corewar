@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 21:31:25 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:07:50 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 10:05:11 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw -
+** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
 
@@ -54,8 +54,8 @@ static int32_t		param_1(t_cw *cw, t_process *cp)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw -
+** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
 
@@ -93,12 +93,12 @@ void				ft_or(t_cw *cw, t_process *cp)
 	int32_t			param1;
 	int32_t			param2;
 
-	FLAG & FL_VER4 ? ft_printf("P%5d | or ", P_I) : 0;
+	FLAG & FL_VER4 ? printf("P%5d | or ", P_I) : 0;
 	param1 = param_1(cw, cp);
 	param2 = param_2(cw, cp);
 	cp->registers[cp->param_value[2]] = param1 | param2;
 	cp->carry = modify_carry(cp->registers[cp->param_value[2]]);
-	FLAG & FL_VER4 ? ft_printf("%d ", param1) : 0;
-	FLAG & FL_VER4 ? ft_printf("%d ", param2) : 0;
-	FLAG & FL_VER4 ? ft_printf("r%d\n", cp->param_value[2]) : 0;
+	FLAG & FL_VER4 ? printf("%d ", param1) : 0;
+	FLAG & FL_VER4 ? printf("%d ", param2) : 0;
+	FLAG & FL_VER4 ? printf("r%d\n", cp->param_value[2]) : 0;
 }

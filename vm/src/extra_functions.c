@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hypark <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 00:21:12 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/09 00:21:13 by hypark           ###   ########.fr       */
+/*   Updated: 2019/11/12 13:23:06 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void			dump_memory(t_cw *cw)
 	if (GUI)
 		endwin();
 	print_memory(cw);
-	exit(1);
+	exit(0);
 }

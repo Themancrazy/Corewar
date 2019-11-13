@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 01:58:20 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:16:52 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 11:34:36 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw -
+** {t_process *} cp -
 ** ----------------------------------------------------------------------------
 */
 
@@ -44,7 +44,7 @@ static inline t_process	*process_copy(t_cw *cw, t_process *copy_cp, int16_t pc)
 	return (cp);
 }
 
-void				ft_lfork(t_cw *cw, t_process *cp)
+void					ft_lfork(t_cw *cw, t_process *cp)
 {
 	int16_t			address;
 	int32_t			param;
@@ -54,13 +54,13 @@ void				ft_lfork(t_cw *cw, t_process *cp)
 	{
 		param_byte = (int8_t *)&param;
 		address = (int16_t)cp->param_value[0];
-		FLAG & FL_VER4 ? ft_printf("P%5d | lfork %d ", P_I, address) : 0;
+		FLAG & FL_VER4 ? printf("P%5d | lfork %d ", P_I, address) : 0;
 		address += cp->pc;
 		if (address < 0)
 			address += MEM_SIZE;
 		else
 			address %= MEM_SIZE;
-		FLAG & FL_VER4 ? ft_printf("(%d)\n", address) : 0;
+		FLAG & FL_VER4 ? printf("(%d)\n", address) : 0;
 		process_add(cw, process_copy(cw, cp, address));
 		cw->owner[address % MEM_SIZE] = cp->id->prog_number - 1;
 	}

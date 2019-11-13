@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 13:14:58 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/06 22:21:59 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 12:31:06 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw - .
+** {t_process *} cp - .
 ** ----------------------------------------------------------------------------
 */
 
@@ -44,8 +44,8 @@ static inline int32_t		indirect_process(t_cw *cw, t_process *cp, int i)
 ** ----------------------------------------------------------------------------
 ** DESCRITPTION
 **
-** {t_cw *} cw - 
-** {t_process *} cp - 
+** {t_cw *} cw - .
+** {t_process *} cp - .
 ** ----------------------------------------------------------------------------
 */
 
@@ -59,13 +59,13 @@ static inline int32_t		param_1(t_cw *cw, t_process *cp)
 		return (0);
 }
 
-void				ft_ld(t_cw *cw, t_process *cp)
+void						ft_ld(t_cw *cw, t_process *cp)
 {
 	int32_t			copy;
 
 	copy = param_1(cw, cp);
-	cp->registers[cp->param_value[1]] = copy; 
+	cp->registers[cp->param_value[1]] = copy;
 	cp->carry = modify_carry(copy);
-	FLAG & FL_VER4 ? ft_printf("P%5d | ", P_I) : 0;
-	FLAG & FL_VER4 ? ft_printf("ld %d r%d\n", copy, cp->param_value[1]) : 0;
+	FLAG & FL_VER4 ? printf("P%5d | ", P_I) : 0;
+	FLAG & FL_VER4 ? printf("ld %d r%d\n", copy, cp->param_value[1]) : 0;
 }

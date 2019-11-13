@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 00:37:56 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/11 09:25:42 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/13 09:48:21 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static t_instr_hdlr g_instruction[] = {
 
 /*
 ** ----------------------------------------------------------------------------
-** DESCRITPTION
+** Modifies the carry value.
 **
-** {int} value -
+** {int} value - New carry value
 ** ----------------------------------------------------------------------------
 */
 
@@ -142,6 +142,7 @@ void			instruction_proceed(t_cw *cw, t_process *cp)
 {
 	int8_t		error;
 
+	cp->op_called = 0;
 	error = instruction_get_info(cw, cp);
 	if (error == 0)
 		g_instruction[cp->op](cw, cp);
@@ -151,6 +152,5 @@ void			instruction_proceed(t_cw *cw, t_process *cp)
 	bzero(cp->param_type, 3);
 	bzero(cp->param_size, 3);
 	bzero(cp->param_value, 12);
-	cp->op = cw->memory[cp->pc] - 1;
 	cp->init_cycle = CYCLE;
 }
