@@ -6,7 +6,7 @@
 #    By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/28 21:57:22 by anjansse          #+#    #+#              #
-#    Updated: 2019/11/14 09:55:39 by anjansse         ###   ########.fr        #
+#    Updated: 2019/11/17 09:19:32 by anjansse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ DEBUG		= -g -fsanitize=address -fsanitize=undefined
 
 WERROR		= -Wall -Wextra -Werror
 
-CFLAGS		= $(WERROR)
+CFLAGS		= $(WERROR) -g
 
 LLIB		= libft.a
 

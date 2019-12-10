@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 09:20:18 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/14 09:20:20 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:52:56 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,28 @@ void			debug_print_darray(char **a)
 		ft_printf("-> %s\n", *a);
 		a++;
 	}
+}
+
+int				count_arg(char **elem)
+{
+	int count;
+
+	count = 0;
+	while (elem[count])
+	{
+		if (elem[count][0] == '#')
+			return (count);
+		++count;
+	}
+	return (count);
+}
+
+t_error			error_arg_check(int type, char *elem)
+{
+	if (type == REG_CODE && !(ft_isdigit(elem[1])))
+		return (ft_strjoin(elem, "\x1b[91m is invalid.\x1b[0m"));
+	if (type == DIR_CODE && (!(ft_isdigit(elem[1])) &&
+	elem[1] != ':' && elem[1] != '-'))
+		return (ft_strjoin(elem, "\x1b[91m is invalid.\x1b[0m"));
+	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_instruction.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 09:20:57 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/14 09:21:02 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/16 23:42:21 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,15 @@ t_error		get_opcode(t_instruction *instruction, char **elem)
 	opstr = get_opstr(elem);
 	if (!opstr)
 		return (NULL);
-	i = 0;
-	while (g_op_tab[i].name)
+	i = -1;
+	while (++i < 16)
 	{
-		if (!ft_strcmp(g_op_tab[i].name, opstr))
+		if (ft_strequ(g_op_tab[i].name, opstr))
 		{
 			instruction->opcode = g_op_tab[i].opcode;
 			free(opstr);
 			return (NULL);
 		}
-		i++;
 	}
 	return (ft_strjoinfree2(RED"invalid operation: "RESET, opstr));
 }

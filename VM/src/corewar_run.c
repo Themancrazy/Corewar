@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 22:50:18 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/13 22:07:37 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/16 09:28:33 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void				corewar_end(t_cw *cw)
 		endwin();
 	ft_printf("Contestant %d", WINNER->prog_number);
 	ft_printf(", \"%s\", has won !\n", WINNER->name);
-	system("leaks corewar");
 	exit(0);
 }
 

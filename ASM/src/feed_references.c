@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   feed_references.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 09:20:31 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/14 09:20:37 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/14 18:43:16 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ t_error				get_reference(int *value, char *ref, t_vector *labels)
 	int				i;
 	t_label			*label;
 
-	i = 0;
-	while (i < labels->size)
+	i = -1;
+	while (++i < labels->size)
 	{
 		label = (t_label *)vector_get(labels, i);
-		if (!ft_strcmp(ref, label->name))
+		if (ft_strlen(label->name) && !ft_strcmp(ref, label->name))
 		{
 			*value = label->offset;
 			return (NULL);
 		}
-		i++;
 	}
 	return (ft_strjoin("unknown label: ", ref));
 }

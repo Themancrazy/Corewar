@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 00:18:53 by hypark            #+#    #+#             */
-/*   Updated: 2019/11/13 22:07:37 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/15 21:36:55 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ static void			parse_prog_number(t_cw *cw, int num, int champ_arg)
 	{
 		prog_num = ft_stoi(AV[num]);
 		if (prog_num > cw->n_players || prog_num <= 0)
-		{
-			send_error("Assigning program number ");
-			ft_printf("must be between 1 and MAX_PLAYERS.\n");
-		}
+			send_error("Program number must be between 1 and MAX_PLAYERS\n");
 		if (CHAMP(prog_num - 1).manual_assign == 1)
 			send_error("Player has already been assigned to this number.\n");
 		CHAMP(prog_num - 1).manual_assign = 1;

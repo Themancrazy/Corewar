@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 09:20:48 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/14 09:20:50 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/17 09:20:25 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,38 @@
 #include "../include/op.h"
 #include "../../libft/includes/libft.h"
 
+#define TYPE(x)			inst->args[x].type
+#define VALUE(x)		inst->args[x].value
+
 /*
 ** Extensive function of fill_args, gets the value of the parameters.
 */
 
 static t_error			get_value(t_instruction *inst, char *elem, int n)
 {
-	int				i;
 	int				len;
 
-	i = 0;
-	if (inst->args[n].type == REG_CODE)
-		inst->args[n].value = ft_atoi(elem + 1);
-	else if (inst->args[n].type == DIR_CODE)
+	if (TYPE(n) == REG_CODE)
+		VALUE(n) = ft_stoi(elem + 1);
+	else if (TYPE(n) == DIR_CODE || (TYPE(n) == IND_CODE && elem[0] == ':'))
 	{
-		if (elem[1] == ':')
+		if (TYPE(n) == DIR_CODE && elem[1] == ':')
+			elem += 1;
+		if (elem[0] == ':')
 		{
-			len = ft_strlen(elem + 2);
+			len = ft_strlen(elem + 1);
 			if (len > LABEL_NAME_LENGTH)
-				return (ft_strjoin("reference is invalid: ", elem + 2));
-			ft_strncpy(inst->args[n].label, elem + 2, len);
-			inst->args[n].value = 0;
+				return (ft_strjoin("reference is invalid: ", elem + 1));
+			ft_strncpy(inst->args[n].label, elem + 1, len);
+			VALUE(n) = 0;
 		}
 		else if (ft_isdigit(elem[1]) || elem[1] == '-')
-			inst->args[n].value = ft_atoi(elem + 1);
+			VALUE(n) = ft_stoi(elem + 1);
 	}
-	else if (inst->args[n].type == IND_CODE)
-	{
-		inst->args[n].value = ft_atoi(elem);
-	}
+	else if (TYPE(n) == IND_CODE && elem[0] != ':')
+		VALUE(n) = ft_stoi(elem);
+	if (TYPE(n) == REG_CODE && VALUE(n) > REG_NUMBER)
+		return (ft_strdup(RED"Reg number is too big."RESET));
 	return (NULL);
 }
 
@@ -58,20 +61,23 @@ static t_error			get_type(t_instruction *inst, char *elem,\
 		return (ft_strdup(RED"Invalid parameter"RESET));
 	if (elem[0] == 'r')
 	{
-		inst->args[count].type = REG_CODE;
+		TYPE(count) = REG_CODE;
 		inst->args[count].size = 1;
 	}
 	else if (elem[0] == '%')
-		inst->args[count].type = DIR_CODE;
-	else if (ft_isdigit(elem[0]) || (elem[0] == '-' &&
-				ft_isdigit(elem[1])))
-		inst->args[count].type = IND_CODE;
-	if (inst->args[count].type == IND_CODE || (inst->args[count].type ==
+		TYPE(count) = DIR_CODE;
+	else if (ft_isdigit(elem[0]) ||
+	(elem[0] == ':' || (elem[0] == '-' && ft_isdigit(elem[1]))))
+		TYPE(count) = IND_CODE;
+	if (TYPE(count) == IND_CODE || (TYPE(count) ==
 				DIR_CODE && g_op_tab[n].thefuck == 1))
 		inst->args[count].size = 2;
-	else if (inst->args[count].type == DIR_CODE && g_op_tab[n].thefuck == 0)
+	else if (TYPE(count) == DIR_CODE && g_op_tab[n].thefuck == 0)
 		inst->args[count].size = 4;
-	return (NULL);
+	else if (TYPE(count) != REG_CODE && TYPE(count) != DIR_CODE
+	&& TYPE(count) != IND_CODE)
+		return (ft_strjoin(elem, "\x1b[91m is not a valid parameter.\x1b[0m"));
+	return (error_arg_check(TYPE(count), elem));
 }
 
 /*
@@ -89,6 +95,8 @@ static t_error			fill_arg(t_instruction *inst, char **elem,\
 	err = NULL;
 	count = 0;
 	tmp = current;
+	if (count_arg(&elem[current]) > g_op_tab[n].n_param)
+		return (ft_strdup(RED"Number of parameters invalid"RESET));
 	while (current < (tmp + g_op_tab[n].n_param))
 	{
 		err = get_type(inst, elem[current], count, n);
@@ -100,8 +108,6 @@ static t_error			fill_arg(t_instruction *inst, char **elem,\
 		current++;
 		count++;
 	}
-	if (count != g_op_tab[n].n_param)
-		return (ft_strdup(RED"Number of parameters invalid"RESET));
 	return (NULL);
 }
 
@@ -159,5 +165,7 @@ t_error					get_args(t_instruction *instruction, char **elem)
 			break ;
 		}
 	}
+	if (!(elem[0][ft_strlen(elem[0]) - 1] == ':') && !elem[1])
+		return (ft_strjoin(elem[0], "\x1b[91m is invalid.\x1b[0m"));
 	return (NULL);
 }

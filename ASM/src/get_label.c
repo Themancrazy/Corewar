@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_label.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 09:21:13 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/14 09:21:21 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/17 09:21:08 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,20 @@ t_error		get_label(t_label **new_label, char **elem)
 
 	label_char = ft_strchr(elem[0], LABEL_CHAR);
 	if (!label_char)
+	{
+		*new_label = NULL;
 		return (NULL);
+	}
 	new = malloc(sizeof(t_label));
 	if (!new)
 		return (ft_strdup(RED"could not allocate t_label"RESET));
 	new->offset = g_offset;
-	ft_memset(new->name, 0, LABEL_NAME_LENGTH + 1);
+	ft_bzero(new->name, LABEL_NAME_LENGTH + 1);
 	*new_label = new;
 	len = label_char - elem[0];
 	ft_strncpy(new->name, elem[0], len);
+	if (ft_isalpha(elem[0][len + 1]) || ft_isdigit(elem[0][len + 1]))
+		return (ft_strjoin(elem[0], "\x1b[91m is invalid.\x1b[0m"));
 	if (is_invalid_label(new->name, len))
 		return (ft_strjoin(RED"label name is invalid: "RESET, name));
 	return (NULL);

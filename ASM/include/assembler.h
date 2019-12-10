@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assembler.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anjansse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 10:09:37 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/14 10:09:39 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:53:07 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ uint32_t				swap_endian(uint32_t num);
 void					debug_print_instructions(t_vector *v);
 void					debug_print_labels(t_vector *v);
 void					debug_print_darray(char **a);
+int						count_arg(char **elem);
+t_error					error_arg_check(int type, char *elem);
 
 void					free_double(char **dptr);
 

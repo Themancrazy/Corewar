@@ -6,7 +6,7 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 13:54:57 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/08 19:52:48 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:43:17 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void		isnumber(char *n)
 	i = 0;
 	while (n[i])
 	{
-		if (n[i] >= '0' && n[i] <= '9')
+		if ((n[i] >= '0' && n[i] <= '9') || n[i] == '-')
 			++i;
 		else
 			send_error("Invalid input (number contains invalid char).\n");

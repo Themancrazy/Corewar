@@ -6,11 +6,12 @@
 /*   By: anjansse <anjansse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 09:22:27 by anjansse          #+#    #+#             */
-/*   Updated: 2019/11/14 09:24:31 by anjansse         ###   ########.fr       */
+/*   Updated: 2019/11/15 21:28:01 by anjansse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vector.h>
+#include <assembler.h>
 
 static void				vector_resize(t_vector *v, int capacity)
 {
@@ -26,7 +27,7 @@ static void				vector_resize(t_vector *v, int capacity)
 
 void					vector_add(t_vector *v, void *item)
 {
-	if (v->capacity == v->size)
+	if (v->capacity <= v->size)
 		vector_resize(v, v->capacity * 2);
 	v->items[v->size++] = item;
 }
@@ -52,5 +53,12 @@ void					vector_delete(t_vector *v, int index)
 
 void					vector_free(t_vector *v)
 {
+	int	i;
+
+	i = -1;
+	while (++i < v->size)
+	{
+		free(v->items[i]);
+	}
 	free(v->items);
 }
